@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interbeing: AI-Powered Habit Tracking Meets Planetary Impact</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Accent */
+            --primary-accent: #b8afda;
+            --primary-accent-hover: #9f93cd;
+
+            /* Backgrounds */
+            --bg-primary: #ffffff;
+            --bg-secondary: #faf8f2;
+            --bg-inverse: #101010;
+            --bg-accent-primary: #b8afda;
+            --bg-accent-secondary: #c7d9c6;
+
+            /* Text */
+            --text-primary: #101010;
+            --text-secondary: rgba(16,16,16,0.6);
+            --text-inverse: #ffffff;
+            --text-on-accent: #101010;
+
+            /* Borders */
+            --border-primary: rgba(16,16,16,0.1);
+            --border-secondary: rgba(16,16,16,0.2);
+
+            /* Typography */
+            --font-family: 'Lato', sans-serif;
+            --h1-size: 4.21rem;
+            --h2-size: 2.37rem;
+            --h3-size: 1.78rem;
+            --h4-size: 1.33rem;
+            --body-size: 1rem;
+            --text-large: 1.13rem;
+            --text-small: 0.88rem;
+
+            /* Weights */
+            --weight-normal: 400;
+            --weight-bold: 700;
+
+            /* Line Heights */
+            --heading-line-height: 1.04em;
+            --body-line-height: 1.6em;
+
+            /* Spacing */
+            --spacing-xs: 0.5rem;    /* 8px */
+            --spacing-sm: 1rem;      /* 16px */
+            --spacing-md: 1.5rem;    /* 24px */
+            --spacing-lg: 2rem;      /* 32px */
+            --spacing-xl: 3rem;      /* 48px */
+            --spacing-xxl: 4rem;     /* 64px */
+
+            /* Borders & Radius */
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --card-shadow: 0 0 0 1px rgba(16,16,16,0.2) inset, 0 3px 3px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--body-size);
+            line-height: var(--body-line-height);
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .hero {
+            padding: var(--spacing-xxl) 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .hero h1 {
+            font-size: var(--h1-size);
+            font-weight: var(--weight-bold);
+            line-height: var(--heading-line-height);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        .hero .subtitle {
+            font-size: var(--text-large);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-xl) 0;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metric-card {
+            background: var(--bg-primary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: var(--weight-bold);
+            color: var(--primary-accent);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .metric-label {
+            font-size: var(--text-small);
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-image {
+            margin-top: var(--spacing-xl);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: var(--spacing-xl);
+            padding: var(--spacing-xxl) 0;
+        }
+
+        .content {
+            max-width: none;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: var(--spacing-lg);
+            height: fit-content;
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+        }
+
+        .sidebar h3 {
+            font-size: var(--h3-size);
+            font-weight: var(--weight-bold);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        .sidebar-item {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .sidebar-label {
+            font-size: var(--text-small);
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .sidebar-value {
+            font-weight: var(--weight-bold);
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: var(--h2-size);
+            font-weight: var(--weight-bold);
+            line-height: var(--heading-line-height);
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid var(--border-secondary);
+        }
+
+        h3 {
+            font-size: var(--h3-size);
+            font-weight: var(--weight-bold);
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: var(--h4-size);
+            font-weight: var(--weight-bold);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        .section {
+            margin-bottom: var(--spacing-xxl);
+        }
+
+        .challenge-section {
+            background: var(--bg-secondary);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-xxl) 0;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .tech-category {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .tech-category-label {
+            font-weight: var(--weight-bold);
+            color: var(--primary-accent);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .tech-category-items {
+            color: var(--text-primary);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .feature-card {
+            background: var(--bg-accent-primary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-card h4 {
+            color: var(--text-on-accent);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .feature-card p {
+            color: var(--text-on-accent);
+            font-size: var(--text-small);
+        }
+
+        .callout-box {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .validation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+
+        .validation-column h4 {
+            color: var(--primary-accent);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .validation-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .validation-column li {
+            margin-bottom: var(--spacing-sm);
+            padding-left: var(--spacing-sm);
+            position: relative;
+        }
+
+        .validation-column li:before {
+            content: "•";
+            color: var(--primary-accent);
+            position: absolute;
+            left: 0;
+        }
+
+        .process-phase {
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .process-phase h3 {
+            color: var(--primary-accent);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .results-subsection {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .results-subsection h4 {
+            color: var(--primary-accent);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .results-subsection ul {
+            margin-left: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .results-subsection li {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+
+            .sidebar.desktop-only {
+                display: none;
+            }
+
+            .sidebar.mobile-only {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+
+            .validation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 0 var(--spacing-md);
+            }
+
+            .hero {
+                padding: var(--spacing-xl) 0;
+            }
+
+            .section {
+                margin-bottom: var(--spacing-xl);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .sidebar.desktop-only {
+                display: block;
+            }
+
+            .sidebar.mobile-only {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .metric-value {
+                font-size: 2rem;
+            }
+
+            .feature-icon {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Interbeing: AI-Powered Habit Tracking Meets Planetary Impact</h1>
+            <p class="subtitle">Solo Founder, Product Designer & Developer</p>
+            
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">2 weeks</div>
+                    <div class="metric-label">Timeline</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$80</div>
+                    <div class="metric-label">Total budget</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">AI + Impact</div>
+                    <div class="metric-label">Core innovation</div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <!-- REPLACE: Hero Image - App dashboard mockup showing habit tracking interface -->
+                Hero Image Placeholder: App Dashboard Mockup
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content">
+                <!-- Overview Sidebar (Mobile) -->
+                <div class="sidebar mobile-only">
+                    <h3>Project Overview</h3>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Role</div>
+                        <div class="sidebar-value">Solo Founder, Product Designer & Developer</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Timeline</div>
+                        <div class="sidebar-value">2 weeks</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Budget</div>
+                        <div class="sidebar-value">$80 in Replit credits</div>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="sidebar-label">Status</div>
+                        <div class="sidebar-value">Portfolio/Learning Project</div>
+                    </div>
+                </div>
+
+                <!-- The Concept -->
+                <section class="section">
+                    <h2>The Concept</h2>
+                    <p>An AI-powered habit tracker that connects personal behavior change to verified planetary impact—see exactly where your trees are planted, plastic is removed, or bees are protected on a map.</p>
+                </section>
+
+                <!-- The Challenge -->
+                <section class="challenge-section">
+                    <h2>The Challenge</h2>
+                    <p>Traditional habit apps focus only on personal achievement. Users seeking environmental impact can't verify where their contributions go or see tangible results.</p>
+                </section>
+
+                <!-- Technology Stack -->
+                <section class="section">
+                    <h2>Technology Stack</h2>
+                    <div class="tech-stack">
+                        <div class="tech-category">
+                            <div class="tech-category-label">Frontend</div>
+                            <div class="tech-category-items">React SPA, TailwindCSS</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">Backend</div>
+                            <div class="tech-category-items">Express API</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">Database</div>
+                            <div class="tech-category-items">Postgres (Neon serverless), Drizzle ORM</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">Build</div>
+                            <div class="tech-category-items">Vite</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">Authentication</div>
+                            <div class="tech-category-items">ReplitAuth</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">AI</div>
+                            <div class="tech-category-items">OpenAI API with custom RAG system</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">Impact API</div>
+                            <div class="tech-category-items">GreenSpark</div>
+                        </div>
+                        <div class="tech-category">
+                            <div class="tech-category-label">Platform</div>
+                            <div class="tech-category-items">Replit</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Design & Development Process -->
+                <section class="section">
+                    <h2>Design & Development Process</h2>
+                    
+                    <div class="process-phase">
+                        <h3>Phase 1: Brand Development & Product Design (1 day)</h3>
+                        <p>Used ChatGPT for concept generation and Midjourney for visual inspiration. Built brand identity and product specs in Figma, including complete visual identity and color system, mobile-first user flows, core screens (onboarding, habit tracking, impact map, timeline, emotion tracking), and personalized achievement system design.</p>
+                        <!-- REPLACE: Phase 1 Image - Brand identity/color palette showcase -->
+                        <div style="background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin: var(--spacing-md) 0; text-align: center; color: var(--text-secondary); font-style: italic;">
+                            Phase 1 Image: Brand Identity/Color Palette Showcase
+                        </div>
+                    </div>
+
+                    <div class="process-phase">
+                        <h3>Phase 2: AI Coach Development (1 day)</h3>
+                        <p>Built custom GPT clone trained on BJ Fogg's Tiny Habits principles using a simple RAG implementation. The system queries a behavior design knowledge base before generating personalized recommendations.</p>
+                        <p><strong>Challenge:</strong> Integration complexity between RAG system and OpenAI API required significant debugging. Achieved functional AI coach but not as sophisticated as originally envisioned—hit the ceiling of what I could accomplish without deeper engineering expertise.</p>
+                        <!-- REPLACE: Phase 2 Image - AI coach conversation example -->
+                        <div style="background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin: var(--spacing-md) 0; text-align: center; color: var(--text-secondary); font-style: italic;">
+                            Phase 2 Image: AI Coach Conversation Example
+                        </div>
+                    </div>
+
+                    <div class="process-phase">
+                        <h3>Phase 3: Core Feature Development (2-3 days)</h3>
+                        <p>Developed habit tracking with streak visualization, GreenSpark API integration for verified impact, interactive map showing contribution locations, timeline of all impact actions, daily emotion tracking with trend visualization, personalized achievement system using ChatGPT context to generate custom interface elements based on user goals, and dashboard with at-a-glance overview.</p>
+                        <!-- REPLACE: Phase 3 Image - Impact map visualization screenshot -->
+                        <div style="background: var(--bg-secondary); padding: var(--spacing-lg); border-radius: var(--radius-lg); margin: var(--spacing-md) 0; text-align: center; color: var(--text-secondary); font-style: italic;">
+                            Phase 3 Image: Impact Map Visualization Screenshot
+                        </div>
+                    </div>
+
+                    <div class="process-phase">
+                        <h3>Phase 4: Testing & Iteration (1-2 days)</h3>
+                        <p>Personal testing, bug fixes, mobile optimization, and UI refinement based on usability issues.</p>
+                    </div>
+                </section>
+
+                <!-- Key Features -->
+                <section class="section">
+                    <h2>Key Features</h2>
+                    <div class="features">
+                        <div class="feature-card">
+                            <div class="feature-icon">🤖</div>
+                            <h4>AI Behavioral Coaching</h4>
+                            <p>Personalized recommendations grounded in evidence-based Tiny Habits methodology</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🌍</div>
+                            <h4>Verified Planetary Impact</h4>
+                            <p>🌳 Tree planting • 🌊 Plastic rescue • 💧 Clean water • 🐝 Bee protection • 🌿 Kelp planting. See exact locations on map, view timeline, track quantified metrics</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🏆</div>
+                            <h4>Personalized Achievements</h4>
+                            <p>Custom interface elements that adapt to user's specific goals and celebrate milestones uniquely</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💚</div>
+                            <h4>Emotional Wellbeing</h4>
+                            <p>Mood tracking correlated with behavior patterns over time</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Technical Challenges -->
+                <section class="section">
+                    <h2>Technical Challenges</h2>
+                    <div class="callout-box">
+                        <h4>AI Integration Complexity</h4>
+                        <p>The OpenAI integration and RAG system reached a complexity level that made exact outcome achievement difficult without deep code understanding. Required significant time investment to debug integration points. Achieved functional coach but not as sophisticated as envisioned.</p>
+                        
+                        <h4>Feature Complexity Threshold</h4>
+                        <p>As features accumulated, continued development in Replit became increasingly difficult. Learned that no-code/low-code tools are excellent for basic MVPs but hit limitations as complexity grows.</p>
+                        
+                        <h4>API Integration</h4>
+                        <p>Successfully connected to GreenSpark API with proper error handling and fallback UI states.</p>
+                    </div>
+                </section>
+
+                <!-- Results & Learnings -->
+                <section class="section">
+                    <h2>Results & Learnings</h2>
+                    
+                    <div class="results-subsection">
+                        <h4>What Worked</h4>
+                        <ul>
+                            <li><strong>Rapid prototyping:</strong> Concept to functional prototype in 2 weeks</li>
+                            <li><strong>Validated core hypothesis:</strong> Users want verified impact alongside habits</li>
+                            <li><strong>Skill development:</strong> Learned modern dev workflows, AI integration, behavior design principles</li>
+                            <li><strong>AI-assisted development:</strong> Built features beyond my previous technical ability</li>
+                        </ul>
+                    </div>
+
+                    <div class="results-subsection">
+                        <h4>What Didn't Work</h4>
+                        <ul>
+                            <li>Never reached production readiness (no payment integration, demo mode only)</li>
+                            <li>Hit technical complexity ceiling without engineering support</li>
+                            <li>Replit hosting costs ($25/month) unsustainable for demo</li>
+                            <li>No monetization validation</li>
+                        </ul>
+                    </div>
+
+                    <div class="results-subsection">
+                        <h4>Key Insights</h4>
+                        <p><strong>Vibe coding is powerful for MVPs</strong><br>
+                        Tools like Replit enable rapid hypothesis validation, but production applications require professional engineering, proper infrastructure, and scalable hosting.</p>
+                        
+                        <p><strong>Plan for complexity</strong><br>
+                        Should have started with narrower feature scope. Complexity compounds quickly without proper planning.</p>
+                        
+                        <p><strong>Migration path matters</strong><br>
+                        Needed a day-one plan for moving from Replit to production environment.</p>
+                    </div>
+                </section>
+
+                <!-- If I Built This Again -->
+                <section class="section">
+                    <h2>If I Built This Again</h2>
+                    <div class="callout-box">
+                        <h4>Technology:</h4>
+                        <p>Swift native iOS with Cursor/Claude Code</p>
+                        
+                        <h4>Process:</h4>
+                        <ul>
+                            <li>Comprehensive product spec upfront</li>
+                            <li>Strict MVP boundaries (habit tracking + simple impact only in v1)</li>
+                            <li>Plan production architecture from beginning</li>
+                            <li>Bring in senior software engineer as coach for occasional paired programming sessions</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Validation & Impact -->
+                <section class="section">
+                    <h2>Validation & Impact</h2>
+                    <div class="validation-grid">
+                        <div class="validation-column">
+                            <h4>Successfully Proved</h4>
+                            <ul>
+                                <li>Technical feasibility of AI coaching + impact verification</li>
+                                <li>GreenSpark API provides reliable verification</li>
+                                <li>Concept resonates with users seeking meaningful habit tracking</li>
+                                <li>Behavior design principles can be programmatically implemented</li>
+                            </ul>
+                        </div>
+                        <div class="validation-column">
+                            <h4>Did Not Validate</h4>
+                            <ul>
+                                <li>Willingness to pay for impact actions</li>
+                                <li>Long-term retention</li>
+                                <li>Optimal pricing model</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reflections -->
+                <section class="section">
+                    <h2>Reflections</h2>
+                    <p>This project demonstrated that the barrier to building has dramatically lowered—a non-engineer can build a multi-faceted application integrating AI, APIs, and complex user flows in two weeks with $80.</p>
+                    
+                    <p>However, the path from prototype to production remains challenging. Vibe coding tools excel at hypothesis testing and learning, but production deployment requires professional engineering support and proper infrastructure.</p>
+                    
+                    <p>Most importantly: I learned the current state of AI-assisted development firsthand, understanding both its incredible power and real limitations. The democratization of building means anyone can test ideas and solve problems, but sustainable, scalable applications still require professional engineering.</p>
+                </section>
+
+                <!-- Project Status -->
+                <section class="section" style="text-align: center; padding: var(--spacing-xl); background: var(--bg-secondary); border-radius: var(--radius-lg);">
+                    <p><strong>Project Status:</strong> Demo/Portfolio Project</p>
+                    <p><strong>Demo:</strong> Available upon request in Replit environment</p>
+                </section>
+            </div>
+
+            <!-- Desktop Sidebar -->
+            <div class="sidebar desktop-only">
+                <h3>Project Overview</h3>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Role</div>
+                    <div class="sidebar-value">Solo Founder, Product Designer & Developer</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Timeline</div>
+                    <div class="sidebar-value">2 weeks</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Budget</div>
+                    <div class="sidebar-value">$80 in Replit credits</div>
+                </div>
+                <div class="sidebar-item">
+                    <div class="sidebar-label">Status</div>
+                    <div class="sidebar-value">Portfolio/Learning Project</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

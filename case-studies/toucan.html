@@ -1,0 +1,555 @@
+<!-- Case Study: Toucan Protocol — Self-contained, responsive, embed-ready -->
+<div class="cs-wrap" role="region" aria-label="Case study: Toucan Protocol">
+  <style>
+    /* ===== Case Study Inline Styles (Scoped with .cs-*) =====
+       Replace the CSS variables below with your brand colors
+       Example palette uses a clean, modern aesthetic
+    */
+    .cs-wrap {
+      --brand-bg: #FAF8F2;             /* page background */
+      --brand-surface: #FFFFFF;        /* cards/sections */
+      --brand-elev: #FFFFFF;           /* elevated cards */
+      --brand-text: #333333;           /* primary text */
+      --brand-muted: #1010107d;          /* secondary text */
+      --brand-accent: #b8afda;         /* primary accent */
+      --brand-accent-2: #C8DAC7;       /* secondary accent */
+      --brand-border: #8c8e91;         /* borders/dividers */
+
+      --container: 1080px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 10px;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.02) inset;
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.03) inset;
+
+      --space-0: 0;
+      --space-1: 6px;
+      --space-2: 10px;
+      --space-3: 14px;
+      --space-4: 18px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 40px;
+      --space-8: 56px;
+      --space-9: 72px;
+
+      --step--1: 13px;
+      --step-0: 15px;   /* base */
+      --step-1: 18px;
+      --step-2: 22px;
+      --step-3: 28px;
+      --step-4: 36px;
+      --step-5: 48px;
+      --lead: 1.65;
+      --tight: 1.25;
+      --tracking: -0.01em;
+    }
+
+    .cs-wrap {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--brand-text);
+      background: var(--brand-bg);
+      padding: var(--space-8) var(--space-3);
+    }
+    .cs-container {
+      max-width: var(--container);
+      margin: 0 auto;
+    }
+    .cs-section {
+      background: var(--brand-surface);
+      border: 1px solid var(--brand-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-7);
+      margin: var(--space-6) 0;
+    }
+    .cs-section.elev {
+      background: var(--brand-surface);
+      border: 1px solid var(--brand-border);
+      box-shadow: var(--shadow-md);
+    }
+    .cs-title {
+      font-size: var(--step-4);
+      line-height: 1.15;
+      letter-spacing: var(--tracking);
+      margin: 0 0 var(--space-4);
+    }
+    .cs-subtitle {
+      font-size: var(--step-2);
+      line-height: var(--tight);
+      margin: 0 0 var(--space-4);
+      color: var(--brand-muted);
+    }
+    .cs-text {
+      font-size: var(--step-0);
+      line-height: var(--lead);
+      color: var(--brand-text);
+      margin: 0 0 var(--space-4);
+    }
+    .cs-list {
+      margin: var(--space-3) 0;
+      padding-left: 1.1em;
+    }
+    .cs-list li {
+      margin: 0 0 var(--space-0);
+      line-height: var(--lead);
+      color: var(--brand-text);
+    }
+    .cs-grid {
+      display: grid;
+      gap: var(--space-5);
+    }
+    .cs-grid.cols-2 { grid-template-columns: 1fr; }
+    .cs-grid.cols-3 { grid-template-columns: 1fr; }
+    .cs-grid.cols-4 { grid-template-columns: 1fr; }
+    @media (min-width: 720px) {
+      .cs-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+      .cs-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+      .cs-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .eyebrow {
+        margin-bottom: var(--space-0);
+    }
+
+    /* Images */
+    .cs-img-wrap {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(102,224,163,0.08), rgba(93,168,255,0.08));
+      border: 1px dashed rgba(255,255,255,0.14);
+    }
+    .cs-img-wrap.hero {
+      aspect-ratio: 16 / 9; /* 16:9 hero */
+      margin: var(--space-5) 0 var(--space-2);
+    }
+    .cs-img-wrap.standard {
+      aspect-ratio: 4 / 3;
+      margin: var(--space-3) 0 var(--space-2);
+    }
+    .cs-img-wrap.thumb {
+      aspect-ratio: 1 / 1;
+      width: 120px;
+      height: auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid var(--brand-border);
+      background: radial-gradient(120px 120px at 50% 50%, rgba(255,255,255,0.06), rgba(255,255,255,0.0));
+    }
+    .cs-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .cs-img-label {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    /* Cards and chips */
+    .cs-card {
+      background: var(--brand-elev);
+      border: 1px solid var(--brand-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+    }
+    .cs-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .cs-metric .value {
+      font-size: var(--step-4);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--brand-accent);
+    }
+    .cs-metric .label {
+      font-size: var(--step--1);
+      color: var(--brand-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .cs-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .cs-badge {
+      font-size: var(--step--1);
+      color: var(--brand-text);
+      border: 1px solid var(--brand-border);
+      background: rgba(255,255,255,0.03);
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    .cs-hr {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--brand-border), transparent);
+      border: 0;
+      margin: var(--space-6) 0;
+    }
+
+    /* Links and CTA */
+    .cs-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: var(--space-4);
+    }
+    .cs-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      font-size: var(--step-0);
+      border-radius: 10px;
+      border: 1px solid var(--brand-border);
+      text-decoration: none;
+      color: var(--brand-text);
+      background: rgba(255,255,255,0.03);
+      transition: transform 0.15s ease, background 0.2s ease, border-color 0.2s ease;
+      will-change: transform;
+    }
+    .cs-btn.primary {
+      background: linear-gradient(180deg, rgba(102,224,163,0.18), rgba(102,224,163,0.10));
+      border-color: rgba(102,224,163,0.35);
+    }
+    .cs-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    /* Headings rhythm inside sections */
+    .cs-section h3 {
+      font-size: var(--step-2);
+      line-height: var(--tight);
+      margin: 0 0 var(--space-2);
+      letter-spacing: var(--tracking);
+    }
+    .cs-section h4 {
+      font-size: var(--step-1);
+      margin: var(--space-3) 0 var(--space-2);
+      color: var(--brand-muted);
+    }
+
+    /* Responsive tweaks */
+    @media (min-width: 960px) {
+      .cs-hero-flex {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: var(--space-6);
+        align-items: center;
+      }
+    }
+  </style>
+
+  <div class="cs-container">
+    <!-- Hero -->
+    <section class="cs-section elev" aria-labelledby="cs-title">
+      <p class="eyebrow margin-bottom_none">Case Study</p>
+      <h2 class="heading_h2" id="cs-title">Toucan Protocol — Building Growth Foundations in Climate Crypto</h2>
+      <p class="cs-subtitle">Interim Head of Growth • October 2021 – June 2022 (9 months)</p>
+
+      <!-- REPLACE: Hero Image -->
+      <div class="cs-img-wrap hero" aria-label="Hero image">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e513a419f44014a2db5f93_toucan-website.webp" alt="Hero image placeholder showing 16:9 hero for Toucan Protocol case study" />
+      </div>
+
+      <div class="cs-hero-flex">
+        <div>
+          <p class="cs-text">
+            Toucan Protocol launched groundbreaking infrastructure enabling tokenization of carbon credits from the VERA registry, creating liquid on-chain carbon markets. I joined post-launch to establish growth foundations during a period of intense hypergrowth and uncertainty.
+          </p>
+          <div class="cs-badges" role="list">
+            <span class="cs-badge" role="listitem">Stage: Post-launch hypergrowth</span>
+            <span class="cs-badge" role="listitem">Company: Toucan Protocol</span>
+            <span class="cs-badge" role="listitem">Team Size: 36+ employees</span>
+            <span class="cs-badge" role="listitem">Led 6 direct reports</span>
+          </div>
+        </div>
+
+        <div class="cs-card">
+          <div class="cs-grid cols-2">
+            <div class="cs-metric">
+              <div class="value">$4B</div>
+              <div class="label">Trading Volume (6 months)</div>
+            </div>
+            <div class="cs-metric">
+              <div class="value">95%+</div>
+              <div class="label">Digital Carbon Market Share</div>
+            </div>
+            <div class="cs-metric">
+              <div class="value">OKRs</div>
+              <div class="label">Organizational Structure</div>
+            </div>
+            <div class="cs-metric">
+              <div class="value">$500k</div>
+              <div class="label">Builder Grants (with Coinbase)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Overview Stats -->
+    <section class="cs-section" aria-labelledby="cs-overview-title">
+      <div class="eyebrow">Overview</div>
+      <h2 class="heading_h2" id="cs-overview-title">Role & Context</h2>
+      <div class="cs-grid cols-2">
+        <div class="cs-card">
+          <h4 class="heading_h4">Role</h4>
+          <p class="cs-text">Interim Head of Growth</p>
+          <h4 class="heading_h4">Duration</h4>
+          <p class="cs-text">October 2021 – June 2022 (9 months)</p>
+          <h4 class="heading_h4">Company</h4>
+          <p class="cs-text">Toucan Protocol</p>
+        </div>
+        <div class="cs-card">
+          <h4 class="heading_h4">Stage</h4>
+          <p class="cs-text">Post-launch hypergrowth</p>
+          <h4 class="heading_h4">Team Size</h4>
+          <p class="cs-text">Led 6 direct reports within organization of 36+ employees</p>
+          <h4 class="heading_h4">Focus</h4>
+          <p class="cs-text">Growth foundations, org design, content creation, ecosystem scaling</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenge -->
+    <section class="cs-section" aria-labelledby="cs-challenge-title">
+      <div class="eyebrow">The Challenge</div>
+      <h2 class="heading_h2" id="cs-challenge-title">Scaling Novel Market Infrastructure</h2>
+      <p class="cs-text">
+        Despite massive interest post-launch, Toucan lacked a defined growth strategy and organizational structure. The organization was hiring rapidly without clear objectives, roles, and responsibilities. Engineering was a bottleneck with 7 reports to the CTO and no product management. The ecosystem was fragmented across Klima DAO, Web3 communities, traditional carbon players, and regulators—all in uncharted territory at the intersection of carbon markets and blockchain.
+      </p>
+      <p class="cs-text">
+        What Toucan's founders had developed was truly revolutionary: An open source bridge between the traditional carbon market and the new world of carbon finance on-chain. This came with an enormous surge of interest and capital, but the rapid growth created significant challenges.
+      </p>
+
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="Challenge diagram image">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e51665c8bf714dafb75520_How-does-BCT-work.webp" alt="Placeholder for challenge diagram or chart illustrating ecosystem complexity and bottlenecks" />
+      </div>
+      <h3 id="heading_h3">The challenges we faced as a team</h3>
+
+      <ul class="cs-list">
+        <li>No growth strategy post-launch despite market interest</li>
+        <li>Rapid scaling without structure (lack of OKRs, role clarity)</li>
+        <li>Engineering bottlenecks without product management</li>
+        <li>Fragmented ecosystem across DAO, carbon brokers, VCs, and regulators</li>
+        <li>Uncharted regulatory and technical landscape</li>
+      </ul>
+    </section>
+
+    <!-- Role -->
+    <section class="cs-section" aria-labelledby="cs-role-title">
+      <div class="eyebrow">My Role</div>
+      <h2 class="heading_h2" id="cs-role-title">Interim Head of Growth to Build Foundations</h2>
+      <p class="cs-text">
+        Hired by COO Rob Schmidt as the first employee post-launch, I set expectations for a high-intensity interim engagement to rapidly establish durable growth systems while the market window was open.
+      </p>
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="john e at launch">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68c16d887f4b2132c337f9c5_refi-launch-outside-headshot-john-ellison.webp" alt="John Ellison talking on camera" />
+      </div>
+      <h4>Key Responsibilities</h4>
+      <ul class="cs-list">
+        <li>Content strategy and narrative development</li>
+        <li>Community engagement and management</li>
+        <li>Ecosystem growth and builder relations</li>
+        <li>Partnership development and management</li>
+        <li>Organizational structure and process implementation</li>
+        <li>Cross-functional collaboration with engineering and product</li>
+      </ul>
+    </section>
+
+    <!-- What I Did -->
+    <section class="cs-section" aria-labelledby="cs-what-title">
+      <div class="eyebrow">What I Did</div>
+      <h2 class="heading_h2" id="cs-what-title">Built the Engine, Scaled the Team, Brought Structure</h2>
+      
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="Ecosystem map image">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e5190ce200ea72dd34ed19_toucan_2.8_partner_coinbase-giving.webp" alt="Placeholder for ecosystem map showing partnerships and integrations across the carbon and Web3 landscape" />
+      </div>
+      <h3 class="heading_h3">Built the Growth Engine</h3>
+      <ul class="cs-list">
+        <li>Developed a comprehensive content strategy positioning Toucan as climate finance infrastructure</li>
+        <li>Led community engagement across Web3 platforms to build trust in a skeptical market whilte diversifying demand</li>
+        <li>Supported founder John Hoopes in launching the Toucan Builder Program with Coinbase, distributing $500,000 in grants</li>
+        <li>Forged ecosystem partnerships to drive adoption and integrations</li>
+      </ul>
+
+      <hr class="cs-hr" />
+
+     
+      <h3 class="heading_h3">Scaled the Team</h3>
+      <ul class="cs-list">
+        <li>Hired 6 team members across content, community, and partnerships</li>
+        <li>Collaborated closely with co-founders John Hoopes and Rob Schmidt, on ecosystem development and investor relations</li>
+        <li>Managed relationships with carbon market press, partners, and key stakeholders</li>
+      </ul>
+      <hr class="cs-hr" />
+
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="OKRs diagram image">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e519add61947ac83990ee1_okrs.webp" alt="OKR diagram showing objectives and key results in Figma" />
+      </div>
+
+      <h3 class="heading_h3">Brought Structure to Chaos</h3>
+      <ul class="cs-list">
+        <li>Implemented company-wide OKRs for alignment and accountability</li>
+        <li>Restructured engineering into modular product teams with engineering managers, engineers, a product manager and a designer</li>
+        <li>Recruited and hired the first product managers and helped establish roadmaps</li>
+      </ul>
+      <hr class="cs-hr" />
+
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="NCT launch image">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e51cca218558b23f6d8575_nature-carbon-tonne.jpg" alt="Toucan's Nature Carbon Tonne launch logo" />
+      </div>
+      <h3 class="heading_h3">Launched Strategic Products</h3>
+      <ul class="cs-list">
+        <li>Led go to market for NCT (Nature Carbon Tonne), extending beyond BCT to nature-based solutions</li>
+        <li>Setup a new forum and navigated complex community stakeholder dynamics following the founder-led NCT mass rebalancing</li>
+      </ul>
+      <hr class="cs-hr" />
+
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="NCT launch image">
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e51d5b7ef6bb8002b6403d_verra-podcast-je-simar.webp" alt="ReFi Podcast with John, Benoit from Verra and Simar" />
+      </div>
+      <h3 class="heading_h3">Expanded the Movement</h3>
+      <ul class="cs-list">
+        <li>Launched ReFi Podcast to build thought leadership and community</li>
+        <li>Hosted pivotal podcast with Verra following their ban on tokenization of Verra carbon units (VCUs)</li>
+        <li>Co-founded ReFi DAO, supported over 300 founders, hosting 100% and grew into a global network with over 50+ active local nodes</li>
+      </ul>
+    </section>
+
+    <!-- Impact -->
+    <section class="cs-section elev" aria-labelledby="cs-impact-title">
+      <div class="eyebrow">The Impact</div>
+      <h2 class="heading_h2 margin-bottom_small" id="cs-impact-title">Outcomes Across Market, Ecosystem, and Organization</h2>
+
+      <div class="cs-grid cols-3">
+        <div class="cs-card cs-metric">
+          <div class="value">$4B</div>
+          <div class="label">Trading Volume (6 months)</div>
+          <p class="cs-text">Through BCT platform within the first six months post-launch.</p>
+        </div>
+        <div class="cs-card cs-metric">
+          <div class="value">95%+</div>
+          <div class="label">Market Share</div>
+          <p class="cs-text">Of digital carbon credits at peak per Toucan data.</p>
+        </div>
+        <div class="cs-card cs-metric">
+          <div class="value">$1B</div>
+          <div class="label">KlimaDAO Market Cap</div>
+          <p class="cs-text">Achieved within 12 days of launch, emabled by Toucan infra.</p>
+        </div>
+      </div>
+
+      <hr class="cs-hr" />
+
+      <div class="cs-grid cols-2" style="margin-top: var(--space-4);">
+        <div class="cs-card">
+          <h3 class="heading_h3">Ecosystem Development</h3>
+          <ul class="cs-list">
+            <li>$500,000 builder program launched with Coinbase</li>
+            <li>NCT launched to expand nature-based market options</li>
+          </ul>
+        </div>
+        <div class="cs-card">
+          <h3 class="heading_h3">Organizational Maturity</h3>
+          <ul class="cs-list">
+            <li>Company-wide OKRs and role clarity established</li>
+            <li>Engineering restructured to reduce bottlenecks and ship faster</li>
+            <li>Product management function created for tighter alignment</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Context -->
+    <section class="cs-section" aria-labelledby="cs-context-title">
+      <div class="eyebrow">The Context</div>
+      <div class="image_cover image-ratio_auto margin-bottom_medium" aria-label="How Toucan Worked">
+        <h2 class="heading_h2" id="cs-context-title">How it worked</h2>
+        <p class="cs-text">
+            The Toucan Bridge was a one-way bridge from Verra to Toucan (TCO2s) that could be pooled into BCT (Base Carbon Tonne) for exchange with USDC. This revolutionary model made a breakthrough in digital carbon markets but had only one major source of demand and only one source of supply.
+          </p>
+        <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68e520a9068e65b6db0715b9_how-toucan-worked.webp" alt="Toucan's bridge setup with Verra" />
+      </div>
+  
+      <h2 class="heading_h2" id="cs-context-title">Operating at a Pivotal Moment</h2>
+      <p class="cs-text">
+        Toucan, developed in parallel to the pseudo-anonymous KlimaDAO team, launched October 2021 into intense demand for Web3-powered climate solutions. The Toucan Bridge enabled tokenization of VERA-verified credits, with deposits into BCT pools for immediate USD liquidity—a revolutionary model at the time.
+      </p>
+      <p class="cs-text">
+        Regulation remained uncertain despite our best attempts to build trust with Verra and IETA through constant dialogue. Shortly after my interim engagement concluded, VERA changed terms of service, making the bridging mechanism non-compliant and halting volume. This validated our attempt to diversity supply and highlighted risks at the frontier of market infrastructure.
+      </p>
+    </section>
+
+    <!-- Key Learnings -->
+    <section class="cs-section" aria-labelledby="cs-learnings-title">
+      <div class="eyebrow">Key Learnings</div>
+      <h2 class="heading_h2" id="cs-learnings-title">What Lives Beyond the Hype</h2>
+
+      <h3 class="heading_h3">On Timing and Positioning</h3>
+      <p class="cs-text">An interim role maximized impact during the critical launch phase while preserving flexibility amid regulatory risk.</p>
+
+      <h3 class="heading_h3">On Structure and Speed</h3>
+      <p class="cs-text">Hypergrowth without structure creates bottlenecks; early OKRs and org design materially improved velocity.</p>
+
+      <h3 class="heading_h3">On Product-Engineering Alignment</h3>
+      <p class="cs-text">Introducing product management empowered engineering to build the right things with clarity and confidence.</p>
+
+      <h3 class="heading_h3">On Movement Building</h3>
+      <p class="cs-text">Meta-infrastructure like ReFi Podcast and ReFi DAO proved more durable than specific product wins.</p>
+
+      <h3 class="heading_h3">On Diversifying Supply</h3>
+      <p class="cs-text">Our dependence on Verra was a primary risk that we identified and acted on early. Unfortunately, other intermediaries followed Verra's lead in banning the tokenization of carbon credits.</p>
+    </section>
+
+    <!-- What's Next -->
+    <section class="cs-section" aria-labelledby="cs-next-title">
+      <div class="eyebrow">What's Next</div>
+        <h2 class="heading_h2" id="cs-next-title">From Toucan to ReFi DAO</h2>
+      <p class="cs-text">
+        This experience set the stage to found and scale <a href="https://refidao.com">ReFi DAO</a> into a global network of 50+ local regenerative startup communities, supporting 300+ founders at the intersection of climate, technology, and systems change.
+      </p>
+
+      <div class="cs-grid cols-2" style="align-items: center;">
+        <div>
+          <div class="cs-actions">
+            <a class="cs-btn primary" href="https://toucan.earth" target="_blank" rel="noopener">Visit Toucan Protocol →</a>
+            <a class="cs-btn" href="mailto:john@john-ellison.com">Get in touch →</a>
+          </div>
+        </div>
+        <div style="display:flex; gap:16px; align-items:center; justify-content:flex-end;">
+          <!-- REPLACE: Photo / Headshot -->
+          <div class="cs-img-wrap thumb" aria-label="Photo or headshot">
+            <img class="cs-img" src="https://cdn.prod.website-files.com/68b71eb2345eeb5f85b12b13/68d1729efec3292ad1098a05_john-e-at-launch-party.webp" alt="Placeholder for your photo or headshot for the case study author" />
+          </div>
+          <div>
+            <div style="font-weight:600;">John Ellison</div>
+            <div style="color:var(--brand-muted); font-size: var(--step--1);">Interim Head of Growth</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

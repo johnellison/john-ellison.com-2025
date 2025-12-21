@@ -1,0 +1,20 @@
+{
+  "name": "john-ellison-portfolio",
+  "version": "1.0.0",
+  "description": "John Ellison - Portfolio website with case studies",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "npx serve dist"
+  },
+  "devDependencies": {
+    "terser": "^5.44.1",
+    "vite": "^5.4.0"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "web-vitals": "^5.1.0"
+  }
+}
