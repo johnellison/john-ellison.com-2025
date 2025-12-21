@@ -817,6 +817,25 @@
                     <a href="https://opengov.com" target="_blank">OpenGov</a>
                     <a href="#scene4">More Projects</a>
                 </div>
+                <div class="footer-col">
+                    <h4>Subscribe</h4>
+                    <form id="footer-email-form" class="footer-email-form" action="https://formspree.io/p/2897202674636160303/f/email-signup" method="POST">
+                        <input
+                            type="email"
+                            name="email"
+                            class="footer-email-input"
+                            placeholder="Enter your email"
+                            required
+                            autocomplete="email"
+                        >
+                        <button type="submit" class="footer-email-btn">
+                            <i class="fa-solid fa-envelope"></i>
+                            Subscribe
+                        </button>
+                    </form>
+                    <p class="footer-form-caption">Subscribe for updates, no spam.</p>
+                    <div id="footer-form-message" class="footer-form-message"></div>
+                </div>
             </div>
         </div>
         <div class="footer-bottom">
@@ -1134,6 +1153,63 @@
                     });
             });
         }
+    </script>
+
+    <!-- Footer Email Form Script -->
+    <script>
+        const footerEmailForm = document.getElementById('footer-email-form');
+        const footerFormMessage = document.getElementById('footer-form-message');
+
+        async function handleFooterEmailSubmit(event) {
+            event.preventDefault();
+
+            const submitBtn = footerEmailForm.querySelector('.footer-email-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            const data = new FormData(event.target);
+
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Subscribing...';
+            submitBtn.disabled = true;
+            footerFormMessage.style.display = 'none';
+
+            fetch(event.target.action, {
+                method: footerEmailForm.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    // Success
+                    footerFormMessage.textContent = 'Thanks for signing up! Check your inbox to confirm.';
+                    footerFormMessage.className = 'footer-form-message success';
+                    footerFormMessage.style.display = 'block';
+                    footerEmailForm.reset();
+                } else {
+                    // Handle errors from Formspree
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            footerFormMessage.textContent = data["errors"].map(error => error["message"]).join(", ");
+                        } else {
+                            footerFormMessage.textContent = "Oops! There was a problem submitting your form";
+                        }
+                        footerFormMessage.className = 'footer-form-message error';
+                        footerFormMessage.style.display = 'block';
+                    });
+                }
+            }).catch(error => {
+                console.error('Form submission error:', error);
+                footerFormMessage.textContent = "Oops! There was a problem submitting your form";
+                footerFormMessage.className = 'footer-form-message error';
+                footerFormMessage.style.display = 'block';
+            }).finally(() => {
+                // Reset button
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        footerEmailForm.addEventListener('submit', handleFooterEmailSubmit);
     </script>
 </body>
 </html>
