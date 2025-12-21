@@ -5081,7 +5081,7 @@ body.hero-loaded .site-nav {
 .footer-tagline {
     font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.6);
-    margin: 0;
+    margin: 0 0 1.5rem 0;
     max-width: 300px;
 }
 
@@ -5149,7 +5149,7 @@ body.hero-loaded .site-nav {
     align-items: center;
     gap: 6px;
     width: 100%;
-    max-width: 280px;
+    max-width: 300px;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
