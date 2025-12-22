@@ -7,9 +7,11 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "serve": "npx serve dist"
+    "serve": "npx serve dist",
+    "screenshot": "node screenshot.js"
   },
   "devDependencies": {
+    "puppeteer": "^24.34.0",
     "terser": "^5.44.1",
     "vite": "^5.4.0"
   },

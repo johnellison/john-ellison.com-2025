@@ -9,9 +9,9 @@ const CONFIG = {
     CACHE_KEY: 'podcast_episodes_cache',
     CACHE_TTL: 60 * 60 * 1000, // 1 hour
 
-    // Subscribe URLs - UPDATE THESE when your podcast launches
-    SPOTIFY_URL: 'https://open.spotify.com/show/[your-show-id]',
-    APPLE_URL: 'https://podcasts.apple.com/podcast/[your-show-id]',
+    // Subscribe URLs
+    SPOTIFY_URL: 'https://open.spotify.com/show/5RTHF6JVgQL1cgaVfvi7cv?si=05defeccadec4657',
+    APPLE_URL: 'https://podcasts.apple.com/us/podcast/refi-podcast/id1609683147?at=1000lHKX&ct=linktree_http&itsct=lt_p&itscg=30200&ls=1',
     RSS_URL: 'https://anchor.fm/s/73ce3f84/podcast/rss'
 };
 

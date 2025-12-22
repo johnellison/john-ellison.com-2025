@@ -923,12 +923,13 @@ body.hero-loaded .site-nav {
     font-style: italic;
     background: linear-gradient(
         90deg,
-        rgba(255, 200, 200, 1) 0%,
-        rgba(255, 255, 200, 1) 20%,
-        rgba(200, 255, 200, 1) 40%,
-        rgba(200, 220, 255, 1) 60%,
-        rgba(220, 200, 255, 1) 80%,
-        rgba(255, 200, 200, 1) 100%
+        rgba(255, 150, 150, 1) 0%,
+        rgba(255, 200, 100, 1) 16.66%,
+        rgba(200, 255, 200, 1) 33.33%,
+        rgba(100, 200, 255, 1) 50%,
+        rgba(150, 200, 255, 1) 66.66%,
+        rgba(180, 150, 255, 1) 83.33%,
+        rgba(220, 200, 255, 1) 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -949,7 +950,7 @@ body.hero-loaded .site-nav {
 .foreground p {
     font-size: clamp(1.14rem, 2.4vw, 1.44rem);
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.9);
     max-width: 750px;
     line-height: 1.6;
     letter-spacing: 0.01em;
