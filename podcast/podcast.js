@@ -103,13 +103,17 @@ function parseRSS(xmlString) {
         const enclosure = item.querySelector('enclosure');
         const audioUrl = enclosure?.getAttribute('url') || '';
 
-        // Get iTunes image
-        const itunesImage = item.querySelector('image');
+        // Get iTunes image (episode-specific or fallback to channel image)
+        const itunesImage = item.querySelector('itunes\\:image') || item.getElementsByTagNameNS('http://www.itunes.com/dtds/podcast-1.0.dtd', 'image')[0];
+        const channelImage = doc.querySelector('channel itunes\\:image') || doc.querySelector('channel').getElementsByTagNameNS('http://www.itunes.com/dtds/podcast-1.0.dtd', 'image')[0];
         const artworkUrl = itunesImage?.getAttribute('href') ||
-                          doc.querySelector('channel image url')?.textContent || '';
+                          channelImage?.getAttribute('href') ||
+                          '';
 
         // Get duration
-        const itunesDuration = item.querySelector('duration')?.textContent || '';
+        const itunesDuration = item.querySelector('itunes\\:duration')?.textContent ||
+                              item.getElementsByTagNameNS('http://www.itunes.com/dtds/podcast-1.0.dtd', 'duration')[0]?.textContent ||
+                              '';
 
         episodes.push({
             title,
