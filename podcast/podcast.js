@@ -33,7 +33,11 @@ function getCachedEpisodes() {
             return null;
         }
 
-        return data;
+        // Convert pubDate strings back to Date objects
+        return data.map(episode => ({
+            ...episode,
+            pubDate: new Date(episode.pubDate)
+        }));
     } catch (error) {
         console.error('Cache read error:', error);
         return null;
