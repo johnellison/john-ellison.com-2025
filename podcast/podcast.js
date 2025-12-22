@@ -3,8 +3,12 @@
 
 // Configuration
 const CONFIG = {
-    // Testing with ReFi Podcast - swap to your RSS when ready
-    RSS_FEED_URL: 'https://anchor.fm/s/refi-podcast-id/podcast/rss', // TODO: Update with actual ReFi RSS URL
+    // TODO: Update with actual podcast RSS feed URL
+    // Example RSS feeds to test with:
+    // - Spotify: https://anchor.fm/s/[show-id]/podcast/rss
+    // - For ReFi Podcast, find RSS URL from their Spotify/Apple page
+    RSS_FEED_URL: 'https://anchor.fm/s/e8d6e0d4/podcast/rss', // ReFi Podcast (example - verify actual URL)
+    USE_PROXY: true, // Set to true if CORS issues occur
     CACHE_KEY: 'podcast_episodes_cache',
     CACHE_TTL: 60 * 60 * 1000, // 1 hour
 };
@@ -49,10 +53,22 @@ function setCachedEpisodes(data) {
 // RSS Fetching
 async function fetchRSS(url) {
     try {
-        const response = await fetch(url);
+        // Use CORS proxy if enabled
+        const fetchUrl = CONFIG.USE_PROXY
+            ? `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+            : url;
+
+        const response = await fetch(fetchUrl);
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         }
+
+        // Handle proxy response
+        if (CONFIG.USE_PROXY) {
+            const data = await response.json();
+            return data.contents;
+        }
+
         return await response.text();
     } catch (error) {
         console.error('RSS fetch error:', error);
@@ -349,6 +365,15 @@ window.addEventListener('hashchange', () => {
         loadEpisodeBySlug(hash);
     }
 });
+
+// Cache clear function for testing
+function clearCache() {
+    localStorage.removeItem(CONFIG.CACHE_KEY);
+    console.log('Cache cleared');
+}
+
+// Expose for debugging
+window.clearCache = clearCache;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
