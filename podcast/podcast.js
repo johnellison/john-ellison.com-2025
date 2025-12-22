@@ -338,6 +338,41 @@ function renderEpisodes() {
     renderEpisodeGrid(episodes);
 }
 
+// Update meta tags for specific episode
+function updateMetaTags(episode) {
+    if (!episode) return;
+
+    // Update page title
+    document.title = `${episode.title} — The John Ellison Show`;
+
+    // Update OG tags
+    updateMetaTag('og:title', episode.title);
+    updateMetaTag('og:description', stripHTML(episode.description).substring(0, 160));
+    updateMetaTag('og:image', episode.artworkUrl);
+    updateMetaTag('og:url', window.location.href);
+
+    // Update Twitter tags
+    updateMetaTag('twitter:title', episode.title);
+    updateMetaTag('twitter:description', stripHTML(episode.description).substring(0, 160));
+    updateMetaTag('twitter:image', episode.artworkUrl);
+}
+
+function updateMetaTag(property, content) {
+    let tag = document.querySelector(`meta[property="${property}"]`);
+    if (!tag) {
+        tag = document.querySelector(`meta[name="${property}"]`);
+    }
+    if (tag) {
+        tag.setAttribute('content', content);
+    }
+}
+
+function stripHTML(html) {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+}
+
 // Load episode by slug
 function loadEpisodeBySlug(slug) {
     const episode = episodes.find(ep => ep.slug === slug);
@@ -346,6 +381,7 @@ function loadEpisodeBySlug(slug) {
     currentEpisode = episode;
     window.location.hash = slug;
     renderFeaturedEpisode(episode);
+    updateMetaTags(episode);
     scrollToHero();
 }
 
