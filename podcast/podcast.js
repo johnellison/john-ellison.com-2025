@@ -8,6 +8,11 @@ const CONFIG = {
     USE_PROXY: true, // Set to true if CORS issues occur
     CACHE_KEY: 'podcast_episodes_cache',
     CACHE_TTL: 60 * 60 * 1000, // 1 hour
+
+    // Subscribe URLs - UPDATE THESE when your podcast launches
+    SPOTIFY_URL: 'https://open.spotify.com/show/[your-show-id]',
+    APPLE_URL: 'https://podcasts.apple.com/podcast/[your-show-id]',
+    RSS_URL: 'https://anchor.fm/s/73ce3f84/podcast/rss'
 };
 
 // State
@@ -399,6 +404,17 @@ window.addEventListener('hashchange', () => {
     }
 });
 
+// Update subscribe button URLs
+function updateSubscribeButtons() {
+    const spotifyBtn = document.querySelector('.subscribe-btn.spotify');
+    const appleBtn = document.querySelector('.subscribe-btn.apple');
+    const rssBtn = document.querySelector('.subscribe-btn.rss');
+
+    if (spotifyBtn) spotifyBtn.href = CONFIG.SPOTIFY_URL;
+    if (appleBtn) appleBtn.href = CONFIG.APPLE_URL;
+    if (rssBtn) rssBtn.href = CONFIG.RSS_URL;
+}
+
 // Cache clear function for testing
 function clearCache() {
     localStorage.removeItem(CONFIG.CACHE_KEY);
@@ -410,5 +426,6 @@ window.clearCache = clearCache;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+    updateSubscribeButtons();
     loadEpisodes();
 });
