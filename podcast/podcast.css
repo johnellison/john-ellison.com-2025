@@ -423,3 +423,73 @@
         font-size: 2.5rem;
     }
 }
+
+/* Mobile Specific Improvements */
+@media (max-width: 768px) {
+    .podcast-container {
+        padding: 5rem 1rem 2rem;
+    }
+
+    .podcast-branding {
+        margin-bottom: 2rem;
+    }
+
+    .show-title {
+        font-size: 2rem;
+    }
+
+    .show-tagline {
+        font-size: 1rem;
+    }
+
+    .featured-episode {
+        padding: 1.5rem;
+    }
+
+    .featured-content {
+        gap: 1.5rem;
+    }
+
+    .episode-title {
+        font-size: 1.5rem;
+    }
+
+    .episode-actions {
+        flex-direction: column;
+    }
+
+    .subscribe-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .subscribe-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .episode-archive h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+    .podcast-branding {
+        margin-bottom: 1.5rem;
+    }
+
+    .show-title {
+        font-size: 1.75rem;
+    }
+
+    .featured-episode {
+        padding: 1rem;
+    }
+
+    .episode-title {
+        font-size: 1.25rem;
+    }
+}
