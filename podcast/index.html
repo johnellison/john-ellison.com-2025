@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The John Ellison Show — Ancient Wisdom Meets Modern Technology</title>
+    <meta name="description" content="Exploring how we build regenerative futures through AI, Indigenous knowledge, and first principles thinking.">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="podcast.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+    <!-- Navigation (reuse from main site) -->
+    <nav class="site-nav" id="siteNav">
+        <a href="../" class="nav-logo">
+            <img src="../je-logo.webp" alt="JE" width="48" height="48" />
+        </a>
+        <div class="nav-links">
+            <a href="../#scene2">Challenges</a>
+            <a href="../#scene3">Experience</a>
+            <a href="../#scene4">AI Sprints</a>
+            <a href="../#scene5">Regeneration</a>
+            <a href="../#scene7" class="nav-cta">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Cosmic Background -->
+    <div class="cosmos" id="cosmos">
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+    </div>
+
+    <!-- Podcast Container -->
+    <div class="podcast-container">
+        <!-- Hero Section - Featured Episode -->
+        <section class="podcast-hero" id="podcastHero">
+            <div class="podcast-branding">
+                <h1 class="show-title">The John Ellison Show</h1>
+                <p class="show-tagline">Ancient wisdom meets modern technology</p>
+            </div>
+
+            <div id="featuredEpisode" class="featured-episode">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Subscribe CTAs -->
+        <section class="subscribe-section">
+            <h2>Subscribe</h2>
+            <div class="subscribe-buttons">
+                <a href="#" target="_blank" class="subscribe-btn spotify">
+                    <span>Spotify</span>
+                </a>
+                <a href="#" target="_blank" class="subscribe-btn apple">
+                    <span>Apple Podcasts</span>
+                </a>
+                <a href="#" target="_blank" class="subscribe-btn rss">
+                    <span>RSS Feed</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Episode Archive -->
+        <section class="episode-archive">
+            <h2>All Episodes</h2>
+            <div id="episodeGrid" class="episode-grid">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="loading-state">
+        <div class="loading-spinner"></div>
+        <p>Loading episodes...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="error-state" style="display: none;">
+        <p>Unable to load podcast episodes. Please try again later.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p><a href="guest/">Interested in being a guest?</a></p>
+        </div>
+    </footer>
+
+    <script src="podcast.js"></script>
+</body>
+</html>
