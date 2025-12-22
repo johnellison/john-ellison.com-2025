@@ -209,7 +209,7 @@ npm run build
 ## 🔗 Quick Reference
 
 **Current Configuration:**
-- RSS: `https://anchor.fm/s/73ce3f84/podcast/rss` (ReFi Podcast)
+- RSS: `https://anchor.fm/s/be4ca48c/podcast/rss` (ReFi Podcast)
 - Spotify: `https://open.spotify.com/show/5RTHF6JVgQL1cgaVfvi7cv`
 - Apple: `https://podcasts.apple.com/us/podcast/refi-podcast/id1609683147`
 - Booking: `https://calendar.app.google/dDjrorCgNLpf7eiQ8`

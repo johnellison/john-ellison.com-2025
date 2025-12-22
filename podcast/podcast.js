@@ -3,8 +3,8 @@
 
 // Configuration
 const CONFIG = {
-    // ReFi Podcast RSS feed for testing
-    RSS_FEED_URL: 'https://anchor.fm/s/73ce3f84/podcast/rss',
+    // ReFi Podcast RSS feed
+    RSS_FEED_URL: 'https://anchor.fm/s/be4ca48c/podcast/rss',
     USE_PROXY: true, // Set to true if CORS issues occur
     CACHE_KEY: 'podcast_episodes_cache',
     CACHE_TTL: 60 * 60 * 1000, // 1 hour
