@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be a Guest — The John Ellison Show</title>
+    <meta name="description" content="Join The John Ellison Show for a conversation exploring ancient wisdom and modern technology.">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="guest.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="site-nav" id="siteNav">
+        <a href="../../" class="nav-logo">
+            <img src="../../je-logo.webp" alt="JE" width="48" height="48" />
+        </a>
+        <div class="nav-links">
+            <a href="../">← Back to Podcast</a>
+        </div>
+    </nav>
+
+    <!-- Cosmic Background -->
+    <div class="cosmos" id="cosmos">
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+    </div>
+
+    <!-- Guest Page Container -->
+    <div class="guest-container">
+        <!-- Hero -->
+        <section class="guest-hero">
+            <h1>Be a Guest on<br><span class="show-name">The John Ellison Show</span></h1>
+            <p class="guest-tagline">Join me for a conversation exploring how ancient wisdom and modern technology come together to build regenerative futures.</p>
+        </section>
+
+        <!-- About the Show -->
+        <section class="guest-section">
+            <h2>About the Show</h2>
+            <p>The John Ellison Show sits at the intersection of Indigenous knowledge, regenerative technology, and AI ethics. We explore:</p>
+            <ul class="guest-topics">
+                <li>Indigenous data sovereignty + AI ethics</li>
+                <li>Regenerative technology + climate impact</li>
+                <li>Ancient intelligence frameworks applied to modern problems</li>
+                <li>Building sustainable businesses without compromising values</li>
+                <li>The role of consciousness in designing intelligent systems</li>
+                <li>How communities (not corporations) should own their data</li>
+            </ul>
+        </section>
+
+        <!-- Episode Format -->
+        <section class="guest-section">
+            <h2>What to Expect</h2>
+            <div class="format-grid">
+                <div class="format-card">
+                    <div class="format-icon">⏱️</div>
+                    <h3>45-90 Minutes</h3>
+                    <p>Long-form conversational format. No rush, we go deep.</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🎙️</div>
+                    <h3>Conversational</h3>
+                    <p>Not journalistic. Exploratory, vulnerable, honest.</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">🌍</div>
+                    <h3>Remote Friendly</h3>
+                    <p>Record via Zoom/Riverside from anywhere.</p>
+                </div>
+                <div class="format-card">
+                    <div class="format-icon">📝</div>
+                    <h3>Show Notes Included</h3>
+                    <p>We handle all show notes, editing, and promotion.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Previous Guests (when available) -->
+        <section class="guest-section" id="previousGuestsSection" style="display: none;">
+            <h2>Previous Guests</h2>
+            <div class="previous-guests-grid">
+                <!-- Will populate dynamically when episodes exist -->
+            </div>
+        </section>
+
+        <!-- Booking Form -->
+        <section class="guest-section booking-section">
+            <h2>Book Your Episode</h2>
+            <p>Interested in being a guest? Use the calendar below to schedule a recording session.</p>
+
+            <!-- Calendly Embed -->
+            <div class="calendly-container">
+                <!-- Replace with your actual Calendly link -->
+                <div class="calendly-inline-widget"
+                     data-url="https://calendly.com/your-link/podcast-recording?hide_gdpr_banner=1"
+                     style="min-width:320px;height:700px;">
+                </div>
+                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            </div>
+
+            <!-- Alternative: Contact Form if Calendly not set up -->
+            <div class="contact-form" style="display: none;">
+                <form id="guestContactForm">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="organization">Organization / Project</label>
+                        <input type="text" id="organization" name="organization">
+                    </div>
+                    <div class="form-group">
+                        <label for="topic">What would you like to discuss?</label>
+                        <textarea id="topic" name="topic" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Guest Request</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p><a href="../">← Back to all episodes</a></p>
+        </div>
+    </footer>
+</body>
+</html>
