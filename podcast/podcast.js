@@ -5,7 +5,7 @@
 const CONFIG = {
     // ReFi Podcast RSS feed
     RSS_FEED_URL: 'https://anchor.fm/s/be4ca48c/podcast/rss',
-    USE_PROXY: true, // Set to true if CORS issues occur
+    USE_PROXY: false, // Trying direct fetch first
     CACHE_KEY: 'podcast_episodes_cache',
     CACHE_TTL: 60 * 60 * 1000, // 1 hour
 
@@ -55,24 +55,36 @@ function setCachedEpisodes(data) {
 // RSS Fetching
 async function fetchRSS(url) {
     try {
-        // Use CORS proxy if enabled
+        // Use CORS proxy if enabled - using corsproxy.io which works better
         const fetchUrl = CONFIG.USE_PROXY
-            ? `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+            ? `https://corsproxy.io/?${encodeURIComponent(url)}`
             : url;
 
-        const response = await fetch(fetchUrl);
+        console.log('Fetching from:', fetchUrl);
+
+        // Add timeout
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+        const response = await fetch(fetchUrl, {
+            signal: controller.signal,
+            mode: 'cors'
+        });
+        clearTimeout(timeoutId);
+
+        console.log('Response status:', response.status);
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
         }
 
-        // Handle proxy response
-        if (CONFIG.USE_PROXY) {
-            const data = await response.json();
-            return data.contents;
-        }
-
-        return await response.text();
+        const text = await response.text();
+        console.log('Response received, length:', text.length);
+        return text;
     } catch (error) {
+        if (error.name === 'AbortError') {
+            console.error('RSS fetch timeout after 10 seconds');
+        }
         console.error('RSS fetch error:', error);
         throw error;
     }
@@ -156,9 +168,8 @@ async function loadEpisodes() {
     const loadingState = document.getElementById('loadingState');
     const errorState = document.getElementById('errorState');
 
-    // Show skeleton instead of spinner
-    renderSkeleton();
-    loadingState.style.display = 'none';
+    // Show loading spinner
+    loadingState.style.display = 'flex';
     errorState.style.display = 'none';
 
     try {
@@ -168,22 +179,27 @@ async function loadEpisodes() {
             console.log('Using cached episodes');
             episodes = cached;
             renderEpisodes();
+            loadingState.style.display = 'none';
             return;
         }
 
         // Fetch fresh data
         console.log('Fetching RSS feed...');
         const xmlString = await fetchRSS(CONFIG.RSS_FEED_URL);
+        console.log('RSS fetched, parsing...');
         episodes = parseRSS(xmlString);
+        console.log('Parsed episodes:', episodes.length);
 
         // Cache the results
         setCachedEpisodes(episodes);
 
         // Render
         renderEpisodes();
+        loadingState.style.display = 'none';
 
     } catch (error) {
         console.error('Failed to load episodes:', error);
+        loadingState.style.display = 'none';
         errorState.style.display = 'flex';
     }
 }
