@@ -135,13 +135,26 @@ function generateSlug(title) {
         .replace(/^-+|-+$/g, '');
 }
 
+// Render skeleton loading states
+function renderSkeleton() {
+    const featuredContainer = document.getElementById('featuredEpisode');
+    const gridContainer = document.getElementById('episodeGrid');
+
+    featuredContainer.innerHTML = '<div class="skeleton skeleton-featured"></div>';
+
+    gridContainer.innerHTML = Array(6).fill(0).map(() =>
+        '<div class="skeleton skeleton-card"></div>'
+    ).join('');
+}
+
 // Main Load Function
 async function loadEpisodes() {
     const loadingState = document.getElementById('loadingState');
     const errorState = document.getElementById('errorState');
 
-    // Show loading
-    loadingState.style.display = 'flex';
+    // Show skeleton instead of spinner
+    renderSkeleton();
+    loadingState.style.display = 'none';
     errorState.style.display = 'none';
 
     try {
@@ -151,7 +164,6 @@ async function loadEpisodes() {
             console.log('Using cached episodes');
             episodes = cached;
             renderEpisodes();
-            loadingState.style.display = 'none';
             return;
         }
 
@@ -165,11 +177,9 @@ async function loadEpisodes() {
 
         // Render
         renderEpisodes();
-        loadingState.style.display = 'none';
 
     } catch (error) {
         console.error('Failed to load episodes:', error);
-        loadingState.style.display = 'none';
         errorState.style.display = 'flex';
     }
 }

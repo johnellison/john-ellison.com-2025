@@ -493,3 +493,30 @@
         font-size: 1.25rem;
     }
 }
+
+/* Skeleton Loading States */
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.02) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.02) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s ease-in-out infinite;
+    border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-featured {
+    height: 400px;
+    margin-bottom: 3rem;
+}
+
+.skeleton-card {
+    height: 400px;
+}
