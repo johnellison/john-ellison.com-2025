@@ -3,11 +3,8 @@
 
 // Configuration
 const CONFIG = {
-    // TODO: Update with actual podcast RSS feed URL
-    // Example RSS feeds to test with:
-    // - Spotify: https://anchor.fm/s/[show-id]/podcast/rss
-    // - For ReFi Podcast, find RSS URL from their Spotify/Apple page
-    RSS_FEED_URL: 'https://anchor.fm/s/e8d6e0d4/podcast/rss', // ReFi Podcast (example - verify actual URL)
+    // ReFi Podcast RSS feed for testing
+    RSS_FEED_URL: 'https://anchor.fm/s/73ce3f84/podcast/rss',
     USE_PROXY: true, // Set to true if CORS issues occur
     CACHE_KEY: 'podcast_episodes_cache',
     CACHE_TTL: 60 * 60 * 1000, // 1 hour
