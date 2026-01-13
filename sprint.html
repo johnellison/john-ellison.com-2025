@@ -98,6 +98,77 @@
             pointer-events: none;
         }
 
+        /* Standalone CTA button with rainbow border */
+        .sprint-cta {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            letter-spacing: var(--tracking-wide);
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            background: rgba(8, 8, 12, 0.9);
+            transition: all 0.4s ease;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Rainbow border gradient */
+        .sprint-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 150, 150, 0.9),
+                rgba(255, 200, 100, 0.9),
+                rgba(100, 255, 150, 0.9),
+                rgba(100, 200, 255, 0.9),
+                rgba(180, 100, 255, 0.9),
+                rgba(255, 150, 150, 0.9)
+            );
+            border-radius: 6px;
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 1;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Inner background */
+        .sprint-cta::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: rgba(8, 8, 12, 0.95);
+            border-radius: 4px;
+            z-index: -1;
+            transition: background 0.3s ease;
+        }
+
+        .sprint-cta:hover {
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow:
+                0 10px 40px rgba(180, 100, 255, 0.25),
+                0 0 60px rgba(100, 200, 255, 0.15);
+        }
+
+        .sprint-cta svg {
+            width: 18px;
+            height: 18px;
+        }
+
         /* Hero Section */
         .sprint-hero {
             min-height: 100vh;
@@ -855,7 +926,7 @@
                 <span class="proof-item">70-95% of failures are human factors</span>
                 <span class="proof-item">We address both</span>
             </div>
-            <a href="#cta" class="nav-cta reveal reveal-delay-4">
+            <a href="#cta" class="sprint-cta reveal reveal-delay-4">
                 Book a Strategy Call
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -1057,7 +1128,7 @@
                             <li>Production deployment</li>
                             <li>1-week post-launch support</li>
                         </ul>
-                        <a href="#cta" class="nav-cta" style="text-align: center;">Get Started</a>
+                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Get Started</a>
                     </div>
 
                     <div class="pricing-card featured reveal reveal-delay-2">
@@ -1072,7 +1143,7 @@
                             <li>Technical roadmap</li>
                             <li>30-day post-launch support</li>
                         </ul>
-                        <a href="#cta" class="nav-cta" style="text-align: center;">Most Popular</a>
+                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Most Popular</a>
                     </div>
 
                     <div class="pricing-card reveal reveal-delay-3">
@@ -1088,7 +1159,7 @@
                             <li>Change management</li>
                             <li>90-day integration support</li>
                         </ul>
-                        <a href="#cta" class="nav-cta" style="text-align: center;">Full Package</a>
+                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Full Package</a>
                     </div>
                 </div>
             </div>
@@ -1150,7 +1221,7 @@
             <p class="reveal reveal-delay-1">Book a 30-minute strategy call. No sales pitch—just a conversation about what you're trying to build.</p>
             <div class="cta-buttons reveal reveal-delay-2">
                 <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2v5Y-uxwxQJfXbp3qJf3Xx1CWGDLZxnzXpT1ixJKy3NjFxP8qM1Vz9mP-Yx_F7jN8uR3kG1wQoZpLa"
-                    target="_blank" class="nav-cta">
+                    target="_blank" class="sprint-cta">
                     Book a Strategy Call
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14M12 5l7 7-7 7" />
