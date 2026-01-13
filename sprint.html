@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Primary Meta Tags -->
+    <title>AI Product Sprint — Ship AI Products Your Team Will Actually Use</title>
+    <meta name="title" content="AI Product Sprint — Ship AI Products Your Team Will Actually Use">
+    <meta name="description"
+        content="70% of AI projects fail. Ours don't. We combine rapid AI product development with organizational psychology—so you ship products that get used, not shelved. 1 week to shipped product.">
+    <meta name="keywords"
+        content="AI sprint, AI product development, AI adoption, organizational change, AI consulting, rapid prototyping, design sprint">
+    <meta name="author" content="John Ellison & Fatma Ghadira">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0c0c10">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://john-ellison.com/sprint.html">
+    <meta property="og:title" content="AI Product Sprint — Ship AI Products Your Team Will Actually Use">
+    <meta property="og:description"
+        content="70% of AI projects fail. Ours don't. We combine rapid AI product development with organizational psychology—so you ship products that get used, not shelved.">
+    <meta property="og:image" content="https://john-ellison.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://john-ellison.com/sprint.html">
+    <meta property="twitter:title" content="AI Product Sprint — Ship AI Products Your Team Will Actually Use">
+    <meta property="twitter:description"
+        content="70% of AI projects fail. Ours don't. We combine rapid AI product development with organizational psychology.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://john-ellison.com/sprint.html">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- GSAP for smooth animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "AI Product Sprint",
+        "description": "Rapid AI product development combined with organizational adoption support. Ship AI products in 1-4 weeks that your team will actually use.",
+        "provider": {
+            "@type": "Person",
+            "name": "John Ellison",
+            "url": "https://john-ellison.com"
+        },
+        "areaServed": "Worldwide",
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "AI Sprint Packages",
+            "itemListElement": [
+                {
+                    "@type": "Offer",
+                    "name": "Sprint Lite",
+                    "price": "25000",
+                    "priceCurrency": "USD"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Sprint Pro",
+                    "price": "45000",
+                    "priceCurrency": "USD"
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Sprint + Adoption",
+                    "price": "60000",
+                    "priceCurrency": "USD"
+                }
+            ]
+        }
+    }
+    </script>
+
+    <style>
+        /* Sprint-specific styles */
+        .sprint-wrap {
+            --sprint-accent: #7c3aed;
+            --sprint-accent-light: #a78bfa;
+        }
+
+        /* Fix: Allow clicks through the cosmos background */
+        .sprint-wrap .cosmos {
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .sprint-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+
+        .sprint-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-headline {
+            font-family: var(--font-display);
+            font-size: var(--text-3xl);
+            font-weight: 600;
+            line-height: var(--leading-tight);
+            color: #fff;
+            max-width: 16ch;
+            margin: 0 auto 0.5rem;
+        }
+
+        .hero-headline .rainbow-text {
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #ff9ff3 75%, #54a0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 400;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 auto 2rem;
+        }
+
+        .hero-subheadline {
+            font-size: var(--text-lg);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 48ch;
+            margin: 0 auto 2rem;
+            line-height: var(--leading-relaxed);
+        }
+
+        .hero-proof {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .proof-item {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.55);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .proof-item::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--sprint-accent-light);
+            border-radius: 50%;
+        }
+
+        /* Scene Styles */
+        .sprint-scene {
+            min-height: 100vh;
+            padding: 6rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .sprint-scene::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 60%;
+            background: radial-gradient(ellipse, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .scene-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .sprint-label {
+            font-family: var(--font-body);
+            font-size: var(--text-xs);
+            font-weight: 500;
+            letter-spacing: var(--tracking-widest);
+            text-transform: uppercase;
+            color: var(--sprint-accent-light);
+            margin-bottom: 1rem;
+        }
+
+        .sprint-title {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 500;
+            line-height: var(--leading-tight);
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+
+        .sprint-text {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.7);
+            line-height: var(--leading-relaxed);
+            max-width: 65ch;
+        }
+
+        /* Problem Cards - Fixed visibility */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .sprint-wrap .problem-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+            /* Override global styles.css blur and pill styling */
+            filter: none !important;
+            min-height: auto;
+            cursor: default;
+        }
+
+        .sprint-wrap .problem-card.reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .sprint-wrap .problem-card.reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .problem-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .problem-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .problem-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-card p {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+            line-height: var(--leading-relaxed);
+            margin-bottom: 1rem;
+        }
+
+        .problem-stat {
+            font-size: var(--text-xs);
+            color: var(--sprint-accent-light);
+            font-weight: 500;
+        }
+
+        /* Solution Section */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .solution-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .solution-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--card-gradient-start, #7c3aed), var(--card-gradient-end, #6366f1));
+        }
+
+        .solution-card.technical {
+            --card-gradient-start: #3b82f6;
+            --card-gradient-end: #06b6d4;
+        }
+
+        .solution-card.organizational {
+            --card-gradient-start: #f59e0b;
+            --card-gradient-end: #ef4444;
+        }
+
+        .solution-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .solution-lead {
+            font-size: var(--text-sm);
+            color: var(--sprint-accent-light);
+            margin-bottom: 1rem;
+        }
+
+        .solution-card p {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.7);
+            line-height: var(--leading-relaxed);
+            margin-bottom: 1rem;
+        }
+
+        .solution-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .solution-list li {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0.25rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .solution-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--sprint-accent-light);
+            border-radius: 50%;
+        }
+
+        /* Combined Offering */
+        .combined-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(99, 102, 241, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .combined-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .combined-card p {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 50ch;
+            margin: 0 auto;
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (min-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .team-photo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .team-role {
+            font-size: var(--text-sm);
+            color: var(--sprint-accent-light);
+            font-weight: 500;
+        }
+
+        .team-bio {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+            line-height: var(--leading-relaxed);
+        }
+
+        .team-quote {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.8);
+            font-style: italic;
+            padding-left: 1rem;
+            border-left: 2px solid var(--sprint-accent);
+            margin-top: auto;
+        }
+
+        /* Case Studies */
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (min-width: 900px) {
+            .case-studies-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .case-study-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .case-study-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .case-study-card .case-study-badge,
+        .case-study-card h3,
+        .case-study-card p,
+        .case-study-card .case-study-results {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        .case-study-card .case-study-badge {
+            margin-top: 1.5rem;
+        }
+
+        .case-study-card .case-study-results {
+            padding-bottom: 1.5rem;
+        }
+
+        .case-study-badge {
+            display: inline-block;
+            font-size: var(--text-xs);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+            color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            align-self: flex-start;
+        }
+
+        .case-study-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .case-study-card p {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+            line-height: var(--leading-relaxed);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .case-study-results {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .result-item {
+            text-align: center;
+        }
+
+        .result-value {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-label {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: var(--tracking-wide);
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (min-width: 900px) {
+            .pricing-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--sprint-accent);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(99, 102, 241, 0.04));
+        }
+
+        .pricing-tier {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-duration {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-description {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+            line-height: var(--leading-relaxed);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem;
+            flex-grow: 1;
+        }
+
+        .pricing-features li {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.35rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--sprint-accent-light);
+        }
+
+        /* FAQ Accordion */
+        .faq-list {
+            margin-top: 3rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .faq-item:first-child {
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .faq-question {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: 500;
+            color: #fff;
+            padding: 1.5rem 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.2s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--sprint-accent-light);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            color: var(--sprint-accent-light);
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.6);
+            line-height: var(--leading-relaxed);
+            max-width: 70ch;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding-bottom: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-bottom: 1.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .cta-section p {
+            font-size: var(--text-lg);
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* Counter Animation */
+        .counter-value {
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sprint-wrap">
+        <!-- Background -->
+        <div class="cosmos" id="cosmos">
+            <div class="nebula nebula-1"></div>
+            <div class="nebula nebula-2"></div>
+        </div>
+
+        <!-- Navigation - matches home page -->
+        <nav class="site-nav" id="siteNav">
+            <a href="/" class="nav-logo">
+                <img src="/je-logo.webp" alt="John Ellison" width="48" height="48">
+            </a>
+            <nav class="nav-links" id="desktopNav" aria-label="Sprint page navigation">
+                <a href="/">Home</a>
+                <a href="#problem">The Problem</a>
+                <a href="#solution">Solution</a>
+                <a href="#case-studies">Work</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#cta" class="nav-cta">Book a Call</a>
+            </nav>
+            <div class="nav-socials" id="desktopSocials">
+                <a href="https://twitter.com/iamjohnellison" target="_blank" title="X">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/iamjohnellison" target="_blank" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="https://github.com/johnellison" target="_blank" title="GitHub">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle mobile menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <!-- Mobile Navigation Overlay -->
+        <div class="nav-mobile-overlay" id="navMobileOverlay" aria-hidden="true">
+            <div class="nav-mobile-content">
+                <div class="nav-mobile-links">
+                    <a href="/">Home</a>
+                    <a href="#problem">The Problem</a>
+                    <a href="#solution">Solution</a>
+                    <a href="#case-studies">Work</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#cta" class="nav-cta">Book a Call</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="sprint-hero" id="hero">
+            <h1 class="hero-headline reveal">
+                <span class="rainbow-text">70% of AI projects fail.</span>
+            </h1>
+            <p class="hero-tagline reveal reveal-delay-1">Yours doesn't have to.</p>
+            <p class="hero-subheadline reveal reveal-delay-2">We combine rapid AI product development with behavior science and organizational psychology—so you ship products that get used, not shelved.</p>
+            <div class="hero-proof reveal reveal-delay-3">
+                <span class="proof-item">Ship in 1 week</span>
+                <span class="proof-item">70-95% of failures are human factors</span>
+                <span class="proof-item">We address both</span>
+            </div>
+            <a href="#cta" class="nav-cta reveal reveal-delay-4">
+                Book a Strategy Call
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
+        </section>
+
+        <!-- Problem Section -->
+        <section class="sprint-scene" id="problem">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">The Problem</span>
+                <h2 class="sprint-title reveal reveal-delay-1">Three Ways AI Projects Die</h2>
+                <p class="sprint-text reveal reveal-delay-2">Most AI initiatives don't fail because of technology. They fail because organizations aren't ready to receive what gets built.</p>
+
+                <div class="problem-grid">
+                    <div class="problem-card reveal reveal-delay-1">
+                        <div class="problem-icon">🔬</div>
+                        <h3>The Pilot Trap</h3>
+                        <p>You've done AI pilots. They worked in demos. Nothing shipped to production. Your team is stuck in an endless cycle of proofs-of-concept.</p>
+                        <span class="problem-stat">Only 20% of orgs effectively track AI KPIs</span>
+                    </div>
+
+                    <div class="problem-card reveal reveal-delay-2">
+                        <div class="problem-icon">📉</div>
+                        <h3>The Adoption Gap</h3>
+                        <p>You shipped an AI tool. 90 days later, usage is at 12%. The technology works—but your team doesn't trust it, wasn't trained on it, or doesn't see the value.</p>
+                        <span class="problem-stat">72% distrust unfamiliar tools • 36% lack training</span>
+                    </div>
+
+                    <div class="problem-card reveal reveal-delay-3">
+                        <div class="problem-icon">🚧</div>
+                        <h3>The Resistance Wall</h3>
+                        <p>Your CTO built something amazing. The team sees it as a threat. Fast implementation without stakeholder alignment creates internal tension—even when the product is great.</p>
+                        <span class="problem-stat">63% of AI failures are people issues, not technology</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="sprint-scene" id="solution">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">The Solution</span>
+                <h2 class="sprint-title reveal reveal-delay-1">Technical Execution + Organizational Adoption</h2>
+                <p class="sprint-text reveal reveal-delay-2">"Building products is 20-30% of the real work of implementation." We've learned that lesson. Now we offer both.</p>
+
+                <div class="solution-grid">
+                    <div class="solution-card technical reveal reveal-delay-1">
+                        <h3>The AI Product Sprint</h3>
+                        <span class="solution-lead">Led by John Ellison</span>
+                        <p>In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your team uses every day.</p>
+                        <ul class="solution-list">
+                            <li>Design Sprint methodology</li>
+                            <li>Vibe Coding for rapid iteration</li>
+                            <li>Daily standups and demos</li>
+                            <li>Production-ready deployment</li>
+                            <li>Full documentation and handover</li>
+                        </ul>
+                    </div>
+
+                    <div class="solution-card organizational reveal reveal-delay-2">
+                        <h3>Adoption Integration</h3>
+                        <span class="solution-lead">Led by Fatma Ghadira</span>
+                        <p>Before we build, we align. During the build, we coach. After we ship, we integrate.</p>
+                        <ul class="solution-list">
+                            <li>Stakeholder mapping and alignment</li>
+                            <li>Fear and resistance addressed proactively</li>
+                            <li>Role clarity in human-AI workflows</li>
+                            <li>Executive coaching and support</li>
+                            <li>Change management integration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="combined-card reveal">
+                    <h3>Full Transformation, Not Just Tooling</h3>
+                    <p>When you combine rapid development with organizational psychology, you don't just ship products—you transform how your team works with AI.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="sprint-scene" id="team">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">The Team</span>
+                <h2 class="sprint-title reveal reveal-delay-1">Two Experts. One Integrated Approach.</h2>
+
+                <div class="team-grid">
+                    <div class="team-card reveal reveal-delay-1">
+                        <img src="https://placehold.co/160x160/1a1a2e/a78bfa?text=JE" alt="John Ellison" class="team-photo">
+                        <h3>John Ellison</h3>
+                        <span class="team-role">Principal Product Lead</span>
+                        <p class="team-bio">16 years building products. 300+ founders supported. $18M+ raised. Former design lead at major tech companies. Creator of the "Vibe Coding" methodology that enables rapid AI product development.</p>
+                        <p class="team-quote">"I build AI products that work technically."</p>
+                    </div>
+
+                    <div class="team-card reveal reveal-delay-2">
+                        <img src="https://placehold.co/160x160/1a1a2e/f59e0b?text=FG" alt="Fatma Ghadira" class="team-photo">
+                        <h3>Fatma Ghadira</h3>
+                        <span class="team-role">Organizational Integration Lead</span>
+                        <p class="team-bio">Organizational Psychologist and Executive Coach. Group Dynamics Facilitator with deep expertise in human-AI relationship dynamics and Action Learning methodology.</p>
+                        <p class="team-quote">"I ensure those products get adopted."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Studies Section -->
+        <section class="sprint-scene" id="case-studies">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">Recent Work</span>
+                <h2 class="sprint-title reveal reveal-delay-1">Products Shipped in 5 Days</h2>
+                <p class="sprint-text reveal reveal-delay-2">Real AI products built and deployed in a single sprint. Results speak for themselves.</p>
+
+                <div class="case-studies-grid">
+                    <div class="case-study-card reveal reveal-delay-1">
+                        <img src="https://placehold.co/600x300/1a1a2e/3b82f6?text=AI+Quality+Coach" alt="AI Quality Coach" class="case-study-image">
+                        <span class="case-study-badge">Client Project</span>
+                        <h3>AI Quality Coach</h3>
+                        <p>AI-powered call quality and compliance analysis. Transcribes calls, scores against 13 dimensions, provides real-time coaching recommendations. Moved from manual QA on less than 2% of calls to 100% coverage.</p>
+                        <div class="case-study-results">
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="5">0</div>
+                                <div class="result-label">Days</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="100" data-suffix="%">0</div>
+                                <div class="result-label">Coverage</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="23" data-suffix="x">0</div>
+                                <div class="result-label">Cheaper</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-card reveal reveal-delay-2">
+                        <img src="https://placehold.co/600x300/1a1a2e/10b981?text=Knowledge+Hub" alt="Self-Improving Knowledge Hub" class="case-study-image">
+                        <span class="case-study-badge">Client Project</span>
+                        <h3>Self-Improving Knowledge Hub</h3>
+                        <p>AI-powered knowledge platform with 1,400+ searchable FAQs. Solves knowledge fragmentation—agents finding information in seconds instead of 3-5 minutes per call. Includes AI chatbot for customers.</p>
+                        <div class="case-study-results">
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="5">0</div>
+                                <div class="result-label">Days</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="1400" data-suffix="+">0</div>
+                                <div class="result-label">FAQs</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="90" data-suffix="%">0</div>
+                                <div class="result-label">Time Saved</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="case-study-card reveal reveal-delay-3">
+                        <img src="https://placehold.co/600x300/1a1a2e/f59e0b?text=Partner+Insights" alt="Partner Insights Portal" class="case-study-image">
+                        <span class="case-study-badge">Client Project</span>
+                        <h3>Partner Insights Portal</h3>
+                        <p>Full-stack analytics dashboard with 100,000 records. From manual spreadsheets to AI-powered competitive intelligence. Risk scoring, benchmarking, and automated business case generation.</p>
+                        <div class="case-study-results">
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="5">0</div>
+                                <div class="result-label">Days</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="100" data-suffix="K">0</div>
+                                <div class="result-label">Records</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-value counter-value" data-target="38" data-suffix="x">0</div>
+                                <div class="result-label">Faster</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section class="sprint-scene" id="pricing">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">Investment</span>
+                <h2 class="sprint-title reveal reveal-delay-1">Choose Your Path</h2>
+                <p class="sprint-text reveal reveal-delay-2">Every engagement is tailored to your organization's needs. Here's our starting framework.</p>
+
+                <div class="pricing-grid">
+                    <div class="pricing-card reveal reveal-delay-1">
+                        <span class="pricing-tier">Sprint Lite</span>
+                        <span class="pricing-price">$25,000</span>
+                        <span class="pricing-duration">1 week • John only</span>
+                        <p class="pricing-description">Clear scope, small team. Get a shipped AI product fast.</p>
+                        <ul class="pricing-features">
+                            <li>Working AI product</li>
+                            <li>Full documentation</li>
+                            <li>Daily standups</li>
+                            <li>Production deployment</li>
+                            <li>1-week post-launch support</li>
+                        </ul>
+                        <a href="#cta" class="nav-cta" style="text-align: center;">Get Started</a>
+                    </div>
+
+                    <div class="pricing-card featured reveal reveal-delay-2">
+                        <span class="pricing-tier">Sprint Pro</span>
+                        <span class="pricing-price">$45,000</span>
+                        <span class="pricing-duration">2-3 weeks • John + Fatma</span>
+                        <p class="pricing-description">Complex product with stakeholder alignment. Production-ready with training.</p>
+                        <ul class="pricing-features">
+                            <li>Everything in Sprint Lite</li>
+                            <li>Stakeholder alignment sessions</li>
+                            <li>Team training sessions</li>
+                            <li>Technical roadmap</li>
+                            <li>30-day post-launch support</li>
+                        </ul>
+                        <a href="#cta" class="nav-cta" style="text-align: center;">Most Popular</a>
+                    </div>
+
+                    <div class="pricing-card reveal reveal-delay-3">
+                        <span class="pricing-tier">Sprint + Adoption</span>
+                        <span class="pricing-price">$60-75k</span>
+                        <span class="pricing-duration">4-6 weeks • John + Fatma + Researcher</span>
+                        <p class="pricing-description">Org-wide rollout with user testing. Full transformation.</p>
+                        <ul class="pricing-features">
+                            <li>Everything in Sprint Pro</li>
+                            <li>Research & discovery phase</li>
+                            <li>User testing & iteration</li>
+                            <li>Executive coaching</li>
+                            <li>Change management</li>
+                            <li>90-day integration support</li>
+                        </ul>
+                        <a href="#cta" class="nav-cta" style="text-align: center;">Full Package</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="sprint-scene" id="faq">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">FAQ</span>
+                <h2 class="sprint-title reveal reveal-delay-1">Common Questions</h2>
+
+                <div class="faq-list">
+                    <div class="faq-item reveal">
+                        <div class="faq-question">
+                            What if our team is resistant to AI?
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">That's exactly why Fatma exists in this process. We spend Week 0 on stakeholder alignment—identifying fears, building trust, and framing AI as an enabler, not a replacement. By the time we start building, your team is ready to receive what we create.</div>
+                    </div>
+
+                    <div class="faq-item reveal">
+                        <div class="faq-question">
+                            How do you handle the politics of AI implementation?
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">We've learned from experience: building too fast without alignment creates tension (even when the product is great). Our process includes stakeholder coaching, transparent communication, and a "learning organization" framing that protects existing leadership while enabling new capabilities.</div>
+                    </div>
+
+                    <div class="faq-item reveal">
+                        <div class="faq-question">
+                            What happens if the product is too disruptive?
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">We design for integration, not disruption. Before we build, we ask: "Who will use this? How will it change their work? Who might feel threatened?" Then we build in partnership with those stakeholders, not around them.</div>
+                    </div>
+
+                    <div class="faq-item reveal">
+                        <div class="faq-question">
+                            How is this different from hiring an agency?
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">Agencies build for you, then leave. We build with you, transfer knowledge, and ensure adoption. You don't just get a product—you get the capability to maintain and extend it. Plus, we're significantly faster: 1-4 weeks vs. the typical 5+ months.</div>
+                    </div>
+
+                    <div class="faq-item reveal">
+                        <div class="faq-question">
+                            What kind of AI products do you build?
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">Internal tools, customer-facing applications, workflow automation, document processing, conversational interfaces—anything that leverages AI to solve real business problems. We focus on products that create immediate, measurable value.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section" id="cta">
+            <h2 class="reveal">Are You Ready to Harness the Power of Superintelligence?</h2>
+            <p class="reveal reveal-delay-1">Book a 30-minute strategy call. No sales pitch—just a conversation about what you're trying to build.</p>
+            <div class="cta-buttons reveal reveal-delay-2">
+                <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2v5Y-uxwxQJfXbp3qJf3Xx1CWGDLZxnzXpT1ixJKy3NjFxP8qM1Vz9mP-Yx_F7jN8uR3kG1wQoZpLa"
+                    target="_blank" class="nav-cta">
+                    Book a Strategy Call
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer - matches home page -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <a href="/" class="footer-logo">
+                        <img src="/je-logo.webp" alt="JE" width="48" height="48">
+                    </a>
+                    <h3>John Ellison</h3>
+                    <p class="footer-tagline">Innovation for a regenerative future</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Connect</h4>
+                        <a href="mailto:john@john-ellison.com">Email</a>
+                        <a href="https://twitter.com/iamjohnellison" target="_blank">X (Twitter)</a>
+                        <a href="https://www.linkedin.com/in/iamjohnellison" target="_blank">LinkedIn</a>
+                        <a href="https://github.com/johnellison" target="_blank">GitHub</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Work</h4>
+                        <a href="https://pravos.xyz" target="_blank">Pravos</a>
+                        <a href="https://vibrana.ai" target="_blank">Vibrana</a>
+                        <a href="https://refidao.com" target="_blank">ReFi DAO</a>
+                        <a href="https://toucan.earth" target="_blank">Toucan Protocol</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Pravos LLC. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll reveal
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            reveals.forEach(el => observer.observe(el));
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    // Close mobile nav if open
+                    document.getElementById('navMobileOverlay')?.classList.remove('active');
+                    document.getElementById('navToggle')?.classList.remove('active');
+                });
+            });
+
+            // Mobile nav toggle
+            const navToggle = document.getElementById('navToggle');
+            const navOverlay = document.getElementById('navMobileOverlay');
+            if (navToggle && navOverlay) {
+                navToggle.addEventListener('click', () => {
+                    navToggle.classList.toggle('active');
+                    navOverlay.classList.toggle('active');
+                });
+            }
+
+            // FAQ Accordion
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    const wasActive = item.classList.contains('active');
+
+                    // Close all
+                    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                    // Open clicked if it wasn't active
+                    if (!wasActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // Counter Animation
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = parseInt(counter.dataset.target);
+                        const suffix = counter.dataset.suffix || '';
+                        const duration = 1500;
+                        const startTime = performance.now();
+
+                        const animate = (currentTime) => {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+
+                            // Ease out cubic
+                            const easeOut = 1 - Math.pow(1 - progress, 3);
+                            const current = Math.floor(easeOut * target);
+
+                            counter.textContent = current + suffix;
+
+                            if (progress < 1) {
+                                requestAnimationFrame(animate);
+                            } else {
+                                counter.textContent = target + suffix;
+                            }
+                        };
+
+                        requestAnimationFrame(animate);
+                        counterObserver.unobserve(counter);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.counter-value').forEach(counter => {
+                counterObserver.observe(counter);
+            });
+        });
+    </script>
+</body>
+
+</html>
