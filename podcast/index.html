@@ -55,7 +55,12 @@
         <section class="podcast-hero" id="podcastHero">
             <div class="podcast-branding">
                 <h1 class="show-title">The John Ellison Show</h1>
-                <p class="show-tagline">Ancient wisdom meets modern technology</p>
+                <p class="show-tagline">Where ancient wisdom meets modern technology for a regenerative future</p>
+                <div class="show-stats">
+                    <span class="stat-item" id="episodeCount">— Episodes</span>
+                    <span class="stat-divider">/</span>
+                    <span class="stat-item" id="listenerCount">— Reflections</span>
+                </div>
             </div>
 
             <div id="featuredEpisode" class="featured-episode">
@@ -81,8 +86,30 @@
 
         <!-- Episode Archive -->
         <section class="episode-archive">
-            <h2>All Episodes</h2>
-            <div id="episodeGrid" class="episode-grid">
+            <div class="archive-header">
+                <div class="archive-title-group">
+                    <h2>All Episodes</h2>
+                    <p class="archive-subtitle">Conversations at the edge of wisdom and technology</p>
+                </div>
+                <div class="view-controls">
+                    <button class="view-btn active" data-view="grid" aria-label="Grid view">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                    <button class="view-btn" data-view="list" aria-label="List view">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div id="episodeGrid" class="episode-grid view-grid">
                 <!-- Populated by JS -->
             </div>
         </section>

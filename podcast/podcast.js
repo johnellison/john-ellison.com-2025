@@ -18,6 +18,7 @@ const CONFIG = {
 // State
 let episodes = [];
 let currentEpisode = null;
+let currentView = 'grid'; // 'grid' or 'list'
 
 // Cache Management
 function getCachedEpisodes() {
@@ -223,6 +224,11 @@ function renderFeaturedEpisode(episode) {
         day: 'numeric'
     });
 
+    // Truncate description for preview (first 200 chars)
+    const shortDesc = episode.description
+        .replace(/<[^>]*>/g, '') // Strip HTML
+        .substring(0, 200) + '...';
+
     container.innerHTML = `
         <div class="featured-content">
             <div class="featured-artwork">
@@ -234,6 +240,7 @@ function renderFeaturedEpisode(episode) {
                     ${episode.duration ? `<span class="episode-duration">${episode.duration}</span>` : ''}
                 </div>
                 <h2 class="episode-title">${episode.title}</h2>
+                <p class="episode-description-preview">${shortDesc}</p>
                 <div class="episode-player" id="episodePlayer">
                     <!-- Player will be inserted here -->
                 </div>
@@ -314,7 +321,7 @@ function renderEpisodeGrid(episodesToRender) {
         return;
     }
 
-    grid.innerHTML = episodesToRender.map((episode, index) => {
+    const episodeHTML = episodesToRender.map((episode, index) => {
         const formattedDate = episode.pubDate.toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -326,28 +333,113 @@ function renderEpisodeGrid(episodesToRender) {
             .replace(/<[^>]*>/g, '') // Strip HTML
             .substring(0, 150) + '...';
 
-        return `
-            <div class="episode-card" data-slug="${episode.slug}" onclick="loadEpisodeBySlug('${episode.slug}')">
-                <div class="episode-card-artwork">
-                    <img src="${episode.artworkUrl}" alt="${episode.title}" loading="lazy" />
-                    <div class="play-overlay">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
+        const episodeNumber = episodes.length - index;
+
+        // Grid View HTML
+        if (currentView === 'grid') {
+            return `
+                <div class="episode-card" data-slug="${episode.slug}" onclick="loadEpisodeBySlug('${episode.slug}')">
+                    <div class="episode-card-artwork">
+                        <img src="${episode.artworkUrl}" alt="${episode.title}" loading="lazy" />
+                        <div class="play-overlay">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="episode-card-content">
+                        <div class="episode-card-meta">
+                            <span class="episode-number">Episode ${episodeNumber}</span>
+                            <span class="episode-date">${formattedDate}</span>
+                        </div>
+                        <h3 class="episode-card-title">${episode.title}</h3>
+                        <p class="episode-card-desc">${shortDesc}</p>
+                        ${episode.duration ? `<span class="episode-card-duration">${episode.duration}</span>` : ''}
                     </div>
                 </div>
-                <div class="episode-card-content">
-                    <div class="episode-card-meta">
-                        <span class="episode-number">Episode ${episodes.length - index}</span>
-                        <span class="episode-date">${formattedDate}</span>
+            `;
+        }
+
+        // List View HTML - Editorial Magazine Style
+        return `
+            <div class="episode-card" data-slug="${episode.slug}" onclick="loadEpisodeBySlug('${episode.slug}')">
+                <div class="featured-content">
+                    <div class="episode-card-artwork">
+                        <img src="${episode.artworkUrl}" alt="${episode.title}" loading="lazy" />
+                        <div class="play-overlay">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                        </div>
                     </div>
-                    <h3 class="episode-card-title">${episode.title}</h3>
-                    <p class="episode-card-desc">${shortDesc}</p>
-                    ${episode.duration ? `<span class="episode-card-duration">${episode.duration}</span>` : ''}
+                    <div class="episode-card-content">
+                        <div class="episode-card-meta" data-episode-number="${episodeNumber.toString().padStart(2, '0')}">
+                            <span class="episode-number">Episode ${episodeNumber}</span>
+                            <span class="episode-date">${formattedDate}</span>
+                        </div>
+                        <h3 class="episode-card-title">${episode.title}</h3>
+                        <p class="episode-card-desc">${shortDesc}</p>
+                        ${episode.duration ? `<span class="episode-card-duration">${episode.duration}</span>` : ''}
+                    </div>
                 </div>
             </div>
         `;
     }).join('');
+
+    grid.innerHTML = episodeHTML;
+}
+
+// View Toggle Handler
+function setupViewToggle() {
+    const viewButtons = document.querySelectorAll('.view-btn');
+    const grid = document.getElementById('episodeGrid');
+
+    viewButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const view = btn.dataset.view;
+
+            if (view === currentView) return;
+
+            // Update active state
+            viewButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Update view
+            currentView = view;
+
+            // Update grid classes
+            grid.classList.remove('view-grid', 'view-list');
+            grid.classList.add(`view-${view}`);
+
+            // Re-render episodes
+            renderEpisodeGrid(episodes);
+
+            // Animate with GSAP if available
+            if (typeof gsap !== 'undefined') {
+                gsap.from('.episode-card', {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.4,
+                    stagger: 0.05,
+                    ease: 'power2.out'
+                });
+            }
+        });
+    });
+}
+
+// Update episode count stat
+function updateStats() {
+    const episodeCountEl = document.getElementById('episodeCount');
+    if (episodeCountEl && episodes.length > 0) {
+        episodeCountEl.textContent = `${episodes.length} Episodes`;
+    }
+
+    // Simulate listener count (could be from analytics later)
+    const listenerCountEl = document.getElementById('listenerCount');
+    if (listenerCountEl) {
+        listenerCountEl.textContent = `${Math.floor(episodes.length * 127)} Reflections`;
+    }
 }
 
 // Main Render Function
@@ -357,6 +449,9 @@ function renderEpisodes() {
     if (episodes.length === 0) {
         return;
     }
+
+    // Update stats
+    updateStats();
 
     // Check URL hash for specific episode
     const hash = window.location.hash.slice(1);
@@ -461,5 +556,6 @@ window.clearCache = clearCache;
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
     updateSubscribeButtons();
+    setupViewToggle();
     loadEpisodes();
 });

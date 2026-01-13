@@ -297,22 +297,22 @@
          TOP NAVIGATION
          ======================================== -->
     <nav class="site-nav" id="siteNav">
-        <a href="#" class="nav-logo">
-            <img src="/je-logo.webp"
-                 srcset="/je-logo.webp 1x, /je-logo.webp 2x, /je-logo.webp 3x"
-                 alt="JE"
-                 width="48"
-                 height="48" />
-        </a>
-        <div class="nav-links">
-            <a href="#scene2">Challenges</a>
-            <a href="#scene3">Experience</a>
-            <a href="#sceneSabbatical">Sabbatical</a>
-            <a href="#scene4">AI Sprints</a>
-            <a href="#scene5">Regeneration</a>
-            <a href="#scene7" class="nav-cta">Contact</a>
-        </div>
-        <div class="nav-socials">
+         <a href="#" class="nav-logo">
+             <img src="/je-logo.webp"
+                  srcset="/je-logo.webp 1x, /je-logo.webp 2x, /je-logo.webp 3x"
+                  alt="JE"
+                  width="48"
+                  height="48" />
+         </a>
+         <nav class="nav-links" id="desktopNav" aria-label="Desktop navigation">
+             <a href="#scene2">Challenges</a>
+             <a href="#scene3">Experience</a>
+             <a href="#scenePodcast">Podcast</a>
+             <a href="#scene4">AI Sprints</a>
+             <a href="#scene5">Regeneration</a>
+             <a href="#scene7" class="nav-cta">Contact</a>
+         </nav>
+         <div class="nav-socials" id="desktopSocials" aria-hidden="false">
             <a href="https://twitter.com/iamjohnellison" target="_blank" title="X">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
@@ -326,23 +326,23 @@
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             </a>
         </div>
-        <!-- Mobile Menu Toggle -->
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-            <div class="nav-toggle-inner">
-                <span class="nav-toggle-line"></span>
-                <span class="nav-toggle-line"></span>
-                <span class="nav-toggle-line"></span>
-            </div>
-        </button>
-    </nav>
+         <!-- Mobile Menu Toggle -->
+         <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMobileOverlay">
+             <div class="nav-toggle-inner">
+                 <span class="nav-toggle-line"></span>
+                 <span class="nav-toggle-line"></span>
+                 <span class="nav-toggle-line"></span>
+             </div>
+         </button>
+     </nav>
 
-    <!-- Mobile Navigation Overlay -->
-    <div class="nav-mobile-overlay" id="navMobileOverlay">
-        <div class="nav-mobile-content">
+     <!-- Mobile Navigation Overlay -->
+     <div class="nav-mobile-overlay" id="navMobileOverlay" aria-label="Mobile navigation menu" aria-hidden="true">
+         <div class="nav-mobile-content">
             <div class="nav-mobile-links">
                 <a href="#scene2">Challenges</a>
                 <a href="#scene3">Experience</a>
-                <a href="#sceneSabbatical">Sabbatical</a>
+                <a href="#scenePodcast">Podcast</a>
                 <a href="#scene4">AI Sprints</a>
                 <a href="#scene5">Regeneration</a>
                 <a href="#scene7" class="nav-cta">Contact</a>
@@ -552,7 +552,7 @@
             <div class="prism-waves-container" id="prismWavesContainer"></div>
             <div class="film-grain"></div>
             <p class="scene-label">2024 Sabbatical</p>
-            <h2>In 2024, I stepped away from startups to explore <span class="word-glow word-glow-1">creativity</span>, <span class="word-glow word-glow-2">presence</span>, and <span class="word-glow word-glow-3">purpose</span>.</h2>
+            <h2>In 2024, I stepped away from startups to explore <span class="text-gradient-1">music</span>, <span class="text-gradient-2">filmmaking</span>, and <span class="text-gradient-3">indigenous wisdom</span>.</h2>
 
             <!-- Sabbatical Masonry Grid -->
             <div class="sabbatical-grid">
@@ -652,6 +652,46 @@
                 <button class="sab-modal-nav sab-modal-next" aria-label="Next">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
+            </div>
+        </section>
+
+        <section class="scene scene-podcast" id="scenePodcast">
+            <div class="light-stage-glow center-glow"></div>
+            <p class="scene-label">My New Podcast</p>
+            <h2>Exploring how we build <span class="text-gradient-1">regenerative futures</span> with <span class="text-gradient-2">AI</span>, <span class="text-gradient-3">web3</span> and <span class="text-gradient-4">ancient wisdom</span>.</h2>
+
+            <div class="podcast-preview">
+                <div class="podcast-episodes" id="homePodcastEpisodes">
+                    <!-- Episodes will be loaded here by JavaScript -->
+                    <div class="podcast-loading">
+                        <div class="loading-spinner"></div>
+                        <p>Loading latest episodes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="podcast-actions">
+                <div class="podcast-subscribe">
+                    <span class="subscribe-label">Listen on</span>
+                    <div class="podcast-subscribe-buttons">
+                        <a href="https://open.spotify.com/show/5RTHF6JVgQL1cgaVfvi7cv?si=05defeccadec4657" target="_blank" class="podcast-icon-btn spotify-btn" title="Spotify">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                            </svg>
+                        </a>
+                        <a href="https://podcasts.apple.com/us/podcast/refi-podcast/id1609683147?at=1000lHKX&ct=linktree_http&itsct=lt_p&itscg=30200&ls=1" target="_blank" class="podcast-icon-btn apple-btn" title="Apple Podcasts">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                            </svg>
+                        </a>
+                        <a href="https://anchor.fm/s/73ce3f84/podcast/rss" target="_blank" class="podcast-icon-btn rss-btn" title="RSS Feed">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19 7.38 20 6.18 20C5 20 4 19 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44m0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <a href="/podcast/" class="podcast-view-more">View All Episodes</a>
             </div>
         </section>
 
@@ -872,20 +912,79 @@
             const navMobileLinks = document.querySelectorAll('.nav-mobile-links a');
 
             function toggleMobileNav() {
-                navToggle.classList.toggle('active');
-                navMobileOverlay.classList.toggle('active');
+                const isOpen = !navMobileOverlay.classList.contains('active');
+
+                navToggle.classList.toggle('active', isOpen);
+                navMobileOverlay.classList.toggle('active', isOpen);
+
+                // Update ARIA attributes
+                navToggle.setAttribute('aria-expanded', isOpen);
+                navMobileOverlay.setAttribute('aria-hidden', !isOpen);
+                document.getElementById('desktopNav').setAttribute('aria-hidden', isOpen);
+                document.getElementById('desktopSocials').setAttribute('aria-hidden', isOpen);
+
                 // Prevent body scroll when menu is open
-                document.body.style.overflow = navMobileOverlay.classList.contains('active') ? 'hidden' : '';
+                document.body.style.overflow = isOpen ? 'hidden' : '';
+
+                // Focus trap management
+                if (isOpen) {
+                    // Save focus to return later
+                    navToggle.dataset.previousFocus = document.activeElement?.toString();
+                    // Focus first link in mobile menu
+                    const firstLink = navMobileOverlay.querySelector('.nav-mobile-links a');
+                    firstLink?.focus();
+                } else {
+                    // Return focus to toggle button
+                    navToggle.focus();
+                }
             }
 
             function closeMobileNav() {
                 navToggle.classList.remove('active');
                 navMobileOverlay.classList.remove('active');
+
+                // Reset ARIA attributes
+                navToggle.setAttribute('aria-expanded', 'false');
+                navMobileOverlay.setAttribute('aria-hidden', 'true');
+                document.getElementById('desktopNav').setAttribute('aria-hidden', 'false');
+                document.getElementById('desktopSocials').setAttribute('aria-hidden', 'false');
+
                 document.body.style.overflow = '';
+
+                // Return focus to previous element
+                navToggle.focus();
             }
 
             // Toggle button click
             navToggle?.addEventListener('click', toggleMobileNav);
+
+            // Focus trap for mobile menu
+            navMobileOverlay?.addEventListener('keydown', (e) => {
+                if (!navMobileOverlay.classList.contains('active')) return;
+
+                const focusableElements = navMobileOverlay.querySelectorAll(
+                    'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+                );
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                // Tab key
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        // Shift+Tab
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        // Tab
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                }
+            });
 
             // Close when clicking a link
             navMobileLinks.forEach(link => {
@@ -1152,6 +1251,128 @@
                     });
             });
         }
+    </script>
+
+    <!-- Home Podcast Preview Script -->
+    <script>
+        (function() {
+            'use strict';
+
+            // Fetch and display 3 latest podcast episodes on home page
+            async function loadHomePodcastEpisodes() {
+                const container = document.getElementById('homePodcastEpisodes');
+                if (!container) return; // Safety check
+
+                const RSS_FEED_URL = 'https://corsproxy.io/?https://anchor.fm/s/be4ca48c/podcast/rss';
+
+                try {
+                    // Add timeout to prevent hanging
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+                    const response = await fetch(RSS_FEED_URL, {
+                        signal: controller.signal,
+                        mode: 'cors',
+                        headers: { 'Accept': 'application/xml, text/xml' }
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (!response.ok) throw new Error('Network response was not ok');
+
+                    const text = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/xml');
+
+                    // Check for parse errors
+                    if (doc.querySelector('parsererror')) {
+                        throw new Error('XML parse error');
+                    }
+
+                    const items = doc.querySelectorAll('item');
+                    if (!items || items.length === 0) {
+                        throw new Error('No episodes found');
+                    }
+
+                    const episodes = Array.from(items).slice(0, 3).map((item) => {
+                        const title = item.querySelector('title')?.textContent || 'Untitled';
+                        const description = item.querySelector('description')?.textContent || '';
+                        const pubDate = item.querySelector('pubDate')?.textContent || '';
+                        const link = item.querySelector('link')?.textContent || '/podcast/';
+
+                        // Get artwork
+                        const itunesImage = item.querySelector('itunes\\:image') ||
+                                           item.getElementsByTagNameNS('http://www.itunes.com/dtds/podcast-1.0.dtd', 'image')[0];
+                        const channelImage = doc.querySelector('channel itunes\\:image') ||
+                                            doc.querySelector('channel')?.getElementsByTagNameNS('http://www.itunes.com/dtds/podcast-1.0.dtd', 'image')[0];
+                        const artworkUrl = itunesImage?.getAttribute('href') ||
+                                          channelImage?.getAttribute('href') || '';
+
+                        return {
+                            title,
+                            description: description.replace(/<[^>]*>/g, '').substring(0, 120) + '...',
+                            pubDate: pubDate ? new Date(pubDate) : new Date(),
+                            link,
+                            artworkUrl
+                        };
+                    });
+
+                    // Render episodes
+                    const episodesHTML = episodes.map(ep => {
+                        const formattedDate = ep.pubDate.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                        });
+
+                        return `
+                            <div class="home-podcast-card">
+                                <a href="${ep.link}" target="_blank" class="podcast-card-link">
+                                    <div class="podcast-card-artwork">
+                                        <img src="${ep.artworkUrl}" alt="${ep.title}" loading="lazy" />
+                                        <div class="play-overlay">
+                                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="podcast-card-content">
+                                        <span class="podcast-card-date">${formattedDate}</span>
+                                        <h3 class="podcast-card-title">${ep.title}</h3>
+                                        <p class="podcast-card-desc">${ep.description}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                    }).join('');
+
+                    container.innerHTML = episodesHTML;
+
+                } catch (error) {
+                    console.error('Failed to load podcast episodes:', error);
+                    if (container) {
+                        container.innerHTML = '<p class="podcast-error">Latest episodes coming soon. <a href="/podcast/">View full podcast →</a></p>';
+                    }
+                }
+            }
+
+            // Load episodes safely without blocking page load
+            function initPodcast() {
+                try {
+                    loadHomePodcastEpisodes();
+                } catch (error) {
+                    console.error('Error initializing podcast:', error);
+                }
+            }
+
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initPodcast);
+            } else {
+                // DOM already loaded, wait a bit to not block other scripts
+                setTimeout(initPodcast, 100);
+            }
+        })();
     </script>
 
     <!-- Footer Email Form Script -->
