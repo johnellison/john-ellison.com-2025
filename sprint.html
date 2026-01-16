@@ -12,7 +12,7 @@
         content="70% of AI projects fail. Ours don't. We combine rapid AI product development with organizational psychology—so you ship products that get used, not shelved. 1 week to shipped product.">
     <meta name="keywords"
         content="AI sprint, AI product development, AI adoption, organizational change, AI consulting, rapid prototyping, design sprint">
-    <meta name="author" content="John Ellison & Fatma Ghadira">
+    <meta name="author" content="John Ellison & Fatma Ghedira">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0c0c10">
 
@@ -93,6 +93,12 @@
             --sprint-accent-light: #a78bfa;
         }
 
+        /* Fix: Navigation visibility */
+        .site-nav {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
         /* Fix: Allow clicks through the cosmos background */
         .sprint-wrap .cosmos {
             pointer-events: none;
@@ -120,7 +126,7 @@
             z-index: 1;
         }
 
-        /* Rainbow border gradient */
+        /* Rainbow border gradient - hidden by default */
         .sprint-cta::before {
             content: '';
             position: absolute;
@@ -141,7 +147,7 @@
                 linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
-            opacity: 1;
+            opacity: 0;
             transition: opacity 0.4s ease;
         }
 
@@ -162,6 +168,10 @@
             box-shadow:
                 0 10px 40px rgba(180, 100, 255, 0.25),
                 0 0 60px rgba(100, 200, 255, 0.15);
+        }
+
+        .sprint-cta:hover::before {
+            opacity: 1;
         }
 
         .sprint-cta svg {
@@ -199,7 +209,7 @@
             line-height: var(--leading-tight);
             color: #fff;
             max-width: 16ch;
-            margin: 0 auto 0.5rem;
+            margin: 0 auto 0;
         }
 
         .hero-headline .rainbow-text {
@@ -390,9 +400,11 @@
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
-            padding: 2rem;
+            padding: 0;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
         .solution-card::before {
@@ -403,6 +415,19 @@
             right: 0;
             height: 3px;
             background: linear-gradient(90deg, var(--card-gradient-start, #7c3aed), var(--card-gradient-end, #6366f1));
+        }
+
+        .solution-card-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            object-position: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .solution-card-content {
+            padding: 2rem;
         }
 
         .solution-card.technical {
@@ -573,8 +598,10 @@
 
         .case-study-image {
             width: 100%;
-            height: 160px;
-            object-fit: cover;
+            aspect-ratio: 16 / 9;
+            object-fit: contain;
+            object-position: center;
+            background: rgba(0, 0, 0, 0.3);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
@@ -663,6 +690,71 @@
             .pricing-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
+        }
+
+        /* Assessment Section */
+        .assessment-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (min-width: 900px) {
+            .assessment-section {
+                grid-template-columns: 1fr 400px;
+                gap: 3rem;
+            }
+        }
+
+        .assessment-content h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-xl);
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .assessment-content p {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.7);
+            line-height: var(--leading-relaxed);
+            margin-bottom: 1rem;
+        }
+
+        .assessment-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+
+        .assessment-content li {
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .assessment-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--sprint-accent-light);
+        }
+
+        .assessment-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
         }
 
         .pricing-card {
@@ -799,6 +891,11 @@
             text-align: center;
             padding: 8rem 2rem;
             position: relative;
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .cta-section::before {
@@ -820,6 +917,9 @@
             color: #fff;
             margin-bottom: 1rem;
             position: relative;
+            max-width: 70%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .cta-section p {
@@ -827,6 +927,16 @@
             color: rgba(255, 255, 255, 0.6);
             margin-bottom: 2rem;
             position: relative;
+            max-width: 70%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .cta-section h2,
+            .cta-section p {
+                max-width: 100%;
+            }
         }
 
         .cta-buttons {
@@ -837,22 +947,94 @@
             position: relative;
         }
 
-        /* Scroll Reveal */
+        /* Scroll Reveal - Breath-like Animation Framework */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
         }
 
         .reveal.visible {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
+        /* Stagger internal card elements */
+        .reveal .problem-icon,
+        .reveal .case-study-image,
+        .reveal .solution-card-image,
+        .reveal .team-photo,
+        .reveal .pricing-tier {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible .problem-icon,
+        .reveal.visible .case-study-image,
+        .reveal.visible .solution-card-image,
+        .reveal.visible .team-photo,
+        .reveal.visible .pricing-tier {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition-delay: 0.15s;
+        }
+
+        .reveal h3,
+        .reveal .case-study-badge,
+        .reveal .team-role,
+        .reveal .pricing-price {
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible h3,
+        .reveal.visible .case-study-badge,
+        .reveal.visible .team-role,
+        .reveal.visible .pricing-price {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.25s;
+        }
+
+        .reveal p,
+        .reveal .solution-list,
+        .reveal .pricing-features,
+        .reveal .case-study-results {
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible p,
+        .reveal.visible .solution-list,
+        .reveal.visible .pricing-features,
+        .reveal.visible .case-study-results {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.35s;
+        }
+
+        .reveal .sprint-cta,
+        .reveal .problem-stat {
+            opacity: 0;
+            transform: translateY(5px);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible .sprint-cta,
+        .reveal.visible .problem-stat {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.45s;
+        }
 
         /* Counter Animation */
         .counter-value {
@@ -879,6 +1061,7 @@
                 <a href="#problem">The Problem</a>
                 <a href="#solution">Solution</a>
                 <a href="#case-studies">Work</a>
+                <a href="#assessment">Assessment</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#cta" class="nav-cta">Book a Call</a>
             </nav>
@@ -908,6 +1091,7 @@
                     <a href="#problem">The Problem</a>
                     <a href="#solution">Solution</a>
                     <a href="#case-studies">Work</a>
+                    <a href="#assessment">Assessment</a>
                     <a href="#pricing">Pricing</a>
                     <a href="#cta" class="nav-cta">Book a Call</a>
                 </div>
@@ -919,14 +1103,14 @@
             <h1 class="hero-headline reveal">
                 <span class="rainbow-text">70% of AI projects fail.</span>
             </h1>
-            <p class="hero-tagline reveal reveal-delay-1">Yours doesn't have to.</p>
-            <p class="hero-subheadline reveal reveal-delay-2">We combine rapid AI product development with behavior science and organizational psychology—so you ship products that get used, not shelved.</p>
-            <div class="hero-proof reveal reveal-delay-3">
+            <p class="hero-tagline reveal">Yours doesn't have to.</p>
+            <p class="hero-subheadline reveal">We combine rapid AI product development with behavior science and organizational psychology—so you ship products that get used, not shelved.</p>
+            <div class="hero-proof reveal">
                 <span class="proof-item">Ship in 1 week</span>
                 <span class="proof-item">70-95% of failures are human factors</span>
                 <span class="proof-item">We address both</span>
             </div>
-            <a href="#cta" class="sprint-cta reveal reveal-delay-4">
+            <a href="#cta" class="sprint-cta reveal">
                 Book a Strategy Call
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M5 12h14M12 5l7 7-7 7" />
@@ -938,25 +1122,25 @@
         <section class="sprint-scene" id="problem">
             <div class="scene-inner">
                 <span class="sprint-label reveal">The Problem</span>
-                <h2 class="sprint-title reveal reveal-delay-1">Three Ways AI Projects Die</h2>
-                <p class="sprint-text reveal reveal-delay-2">Most AI initiatives don't fail because of technology. They fail because organizations aren't ready to receive what gets built.</p>
+                <h2 class="sprint-title reveal">Three Ways AI Projects Die</h2>
+                <p class="sprint-text reveal">Most AI initiatives don't fail because of technology. They fail because organizations aren't ready to receive what gets built.</p>
 
                 <div class="problem-grid">
-                    <div class="problem-card reveal reveal-delay-1">
+                    <div class="problem-card reveal">
                         <div class="problem-icon">🔬</div>
                         <h3>The Pilot Trap</h3>
                         <p>You've done AI pilots. They worked in demos. Nothing shipped to production. Your team is stuck in an endless cycle of proofs-of-concept.</p>
                         <span class="problem-stat">Only 20% of orgs effectively track AI KPIs</span>
                     </div>
 
-                    <div class="problem-card reveal reveal-delay-2">
+                    <div class="problem-card reveal">
                         <div class="problem-icon">📉</div>
                         <h3>The Adoption Gap</h3>
                         <p>You shipped an AI tool. 90 days later, usage is at 12%. The technology works—but your team doesn't trust it, wasn't trained on it, or doesn't see the value.</p>
                         <span class="problem-stat">72% distrust unfamiliar tools • 36% lack training</span>
                     </div>
 
-                    <div class="problem-card reveal reveal-delay-3">
+                    <div class="problem-card reveal">
                         <div class="problem-icon">🚧</div>
                         <h3>The Resistance Wall</h3>
                         <p>Your CTO built something amazing. The team sees it as a threat. Fast implementation without stakeholder alignment creates internal tension—even when the product is great.</p>
@@ -970,34 +1154,40 @@
         <section class="sprint-scene" id="solution">
             <div class="scene-inner">
                 <span class="sprint-label reveal">The Solution</span>
-                <h2 class="sprint-title reveal reveal-delay-1">Technical Execution + Organizational Adoption</h2>
-                <p class="sprint-text reveal reveal-delay-2">"Building products is 20-30% of the real work of implementation." We've learned that lesson. Now we offer both.</p>
+                <h2 class="sprint-title reveal">Technical Execution + Organizational Adoption</h2>
+                <p class="sprint-text reveal">"Building products is 20-30% of the real work of implementation." We've learned that lesson. Now we offer both.</p>
 
                 <div class="solution-grid">
-                    <div class="solution-card technical reveal reveal-delay-1">
-                        <h3>The AI Product Sprint</h3>
-                        <span class="solution-lead">Led by John Ellison</span>
-                        <p>In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your team uses every day.</p>
-                        <ul class="solution-list">
-                            <li>Design Sprint methodology</li>
-                            <li>Vibe Coding for rapid iteration</li>
-                            <li>Daily standups and demos</li>
-                            <li>Production-ready deployment</li>
-                            <li>Full documentation and handover</li>
-                        </ul>
+                    <div class="solution-card technical reveal">
+                        <img src="/john-ai-sprint-session.webp" alt="John Ellison leading an AI Product Sprint" class="solution-card-image">
+                        <div class="solution-card-content">
+                            <h3>The AI Product Sprint</h3>
+                            <span class="solution-lead">Led by John Ellison</span>
+                            <p>In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your team uses every day.</p>
+                            <ul class="solution-list">
+                                <li>Design Sprint methodology</li>
+                                <li>Vibe Coding for rapid iteration</li>
+                                <li>Daily standups and demos</li>
+                                <li>Production-ready deployment</li>
+                                <li>Full documentation and handover</li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="solution-card organizational reveal reveal-delay-2">
-                        <h3>Adoption Integration</h3>
-                        <span class="solution-lead">Led by Fatma Ghadira</span>
-                        <p>Before we build, we align. During the build, we coach. After we ship, we integrate.</p>
-                        <ul class="solution-list">
-                            <li>Stakeholder mapping and alignment</li>
-                            <li>Fear and resistance addressed proactively</li>
-                            <li>Role clarity in human-AI workflows</li>
-                            <li>Executive coaching and support</li>
-                            <li>Change management integration</li>
-                        </ul>
+                    <div class="solution-card organizational reveal">
+                        <img src="/fatma-workshop-circle.webp" alt="Fatma Ghedira facilitating an adoption workshop" class="solution-card-image">
+                        <div class="solution-card-content">
+                            <h3>AI Adoption & Integration</h3>
+                            <span class="solution-lead">Led by Fatma Ghedira</span>
+                            <p>Before we build, we align. During the build, we coach. After we ship, we integrate.</p>
+                            <ul class="solution-list">
+                                <li>Stakeholder mapping and alignment</li>
+                                <li>Fear and resistance addressed proactively</li>
+                                <li>Role clarity in human-AI workflows</li>
+                                <li>Executive coaching and support</li>
+                                <li>Change management integration</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -1012,20 +1202,20 @@
         <section class="sprint-scene" id="team">
             <div class="scene-inner">
                 <span class="sprint-label reveal">The Team</span>
-                <h2 class="sprint-title reveal reveal-delay-1">Two Experts. One Integrated Approach.</h2>
+                <h2 class="sprint-title reveal">Two Experts. One Integrated Approach.</h2>
 
                 <div class="team-grid">
-                    <div class="team-card reveal reveal-delay-1">
-                        <img src="https://placehold.co/160x160/1a1a2e/a78bfa?text=JE" alt="John Ellison" class="team-photo">
+                    <div class="team-card reveal">
+                        <img src="/john-e-wedding-headshot.webp" alt="John Ellison" class="team-photo">
                         <h3>John Ellison</h3>
                         <span class="team-role">Principal Product Lead</span>
                         <p class="team-bio">16 years building products. 300+ founders supported. $18M+ raised. Former design lead at major tech companies. Creator of the "Vibe Coding" methodology that enables rapid AI product development.</p>
                         <p class="team-quote">"I build AI products that work technically."</p>
                     </div>
 
-                    <div class="team-card reveal reveal-delay-2">
-                        <img src="https://placehold.co/160x160/1a1a2e/f59e0b?text=FG" alt="Fatma Ghadira" class="team-photo">
-                        <h3>Fatma Ghadira</h3>
+                    <div class="team-card reveal">
+                        <img src="/fatma-headshot.jpeg" alt="Fatma Ghedira" class="team-photo">
+                        <h3>Fatma Ghedira</h3>
                         <span class="team-role">Organizational Integration Lead</span>
                         <p class="team-bio">Organizational Psychologist and Executive Coach. Group Dynamics Facilitator with deep expertise in human-AI relationship dynamics and Action Learning methodology.</p>
                         <p class="team-quote">"I ensure those products get adopted."</p>
@@ -1038,14 +1228,14 @@
         <section class="sprint-scene" id="case-studies">
             <div class="scene-inner">
                 <span class="sprint-label reveal">Recent Work</span>
-                <h2 class="sprint-title reveal reveal-delay-1">Products Shipped in 5 Days</h2>
-                <p class="sprint-text reveal reveal-delay-2">Real AI products built and deployed in a single sprint. Results speak for themselves.</p>
+                <h2 class="sprint-title reveal">Products Shipped in 5 Days</h2>
+                <p class="sprint-text reveal">Real AI products built and deployed in a single sprint. Results speak for themselves.</p>
 
                 <div class="case-studies-grid">
-                    <div class="case-study-card reveal reveal-delay-1">
-                        <img src="https://placehold.co/600x300/1a1a2e/3b82f6?text=AI+Quality+Coach" alt="AI Quality Coach" class="case-study-image">
+                    <div class="case-study-card reveal">
+                        <img src="https://placehold.co/600x300/1a1a2e/3b82f6?text=Call+Center+AI" alt="Call Center AI" class="case-study-image">
                         <span class="case-study-badge">Client Project</span>
-                        <h3>AI Quality Coach</h3>
+                        <h3>Call Center AI</h3>
                         <p>AI-powered call quality and compliance analysis. Transcribes calls, scores against 13 dimensions, provides real-time coaching recommendations. Moved from manual QA on less than 2% of calls to 100% coverage.</p>
                         <div class="case-study-results">
                             <div class="result-item">
@@ -1063,7 +1253,7 @@
                         </div>
                     </div>
 
-                    <div class="case-study-card reveal reveal-delay-2">
+                    <div class="case-study-card reveal">
                         <img src="https://placehold.co/600x300/1a1a2e/10b981?text=Knowledge+Hub" alt="Self-Improving Knowledge Hub" class="case-study-image">
                         <span class="case-study-badge">Client Project</span>
                         <h3>Self-Improving Knowledge Hub</h3>
@@ -1084,7 +1274,7 @@
                         </div>
                     </div>
 
-                    <div class="case-study-card reveal reveal-delay-3">
+                    <div class="case-study-card reveal">
                         <img src="https://placehold.co/600x300/1a1a2e/f59e0b?text=Partner+Insights" alt="Partner Insights Portal" class="case-study-image">
                         <span class="case-study-badge">Client Project</span>
                         <h3>Partner Insights Portal</h3>
@@ -1108,15 +1298,56 @@
             </div>
         </section>
 
+        <!-- AI Readiness Assessment Section -->
+        <section class="sprint-scene" id="assessment">
+            <div class="scene-inner">
+                <span class="sprint-label reveal">Before You Build</span>
+                <h2 class="sprint-title reveal">Not Getting Full ROI from Your AI Investments?</h2>
+                <p class="sprint-text reveal">Most organizations face the same barriers: unclear strategy, resistance to change, lack of governance, and misaligned expectations. If you've already deployed AI tools but aren't seeing the results you expected—or if you're just getting started—an assessment gives you clarity.</p>
+
+                <div class="assessment-section reveal">
+                    <div class="assessment-content">
+                        <h3>Common Barriers to AI Success</h3>
+                        <ul>
+                            <li>Teams aren't using the tools you've already bought</li>
+                            <li>No clear ROI measurement or success metrics</li>
+                            <li>Lack of governance, security policies, or training</li>
+                            <li>Leadership pushing AI without organizational buy-in</li>
+                            <li>Too many pilots, not enough production deployments</li>
+                            <li>Unclear which AI opportunities have the highest impact</li>
+                        </ul>
+                        <p style="margin-top: 1.5rem; color: rgba(255, 255, 255, 0.8);">An <strong>AI Readiness Assessment</strong> helps you diagnose what's working, what's not, and where to focus next—before you spend another dollar on implementation.</p>
+                    </div>
+
+                    <div class="assessment-card">
+                        <span class="pricing-tier">AI Readiness Assessment</span>
+                        <span class="pricing-price">$10,000</span>
+                        <span class="pricing-duration">1-2 weeks • Discovery</span>
+                        <p class="pricing-description">Understand where you are before you build. Perfect for organizations exploring AI.</p>
+                        <ul class="pricing-features">
+                            <li>Comprehensive organizational evaluation</li>
+                            <li>Current tool & workflow assessment</li>
+                            <li>AI opportunity mapping</li>
+                            <li>Policy & governance framework</li>
+                            <li>Prioritized roadmap with ROI analysis</li>
+                            <li>Stakeholder readiness report</li>
+                        </ul>
+                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center; margin-top: auto;">Start Here</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Pricing Section -->
         <section class="sprint-scene" id="pricing">
             <div class="scene-inner">
-                <span class="sprint-label reveal">Investment</span>
-                <h2 class="sprint-title reveal reveal-delay-1">Choose Your Path</h2>
-                <p class="sprint-text reveal reveal-delay-2">Every engagement is tailored to your organization's needs. Here's our starting framework.</p>
+                <span class="sprint-label reveal">AI Product Sprints</span>
+                <h2 class="sprint-title reveal">Build & Deploy Custom AI Products</h2>
+                <p class="sprint-text reveal">Ready to ship? These packages are for organizations that want to build and deploy custom AI products—fast—with full adoption support.</p>
 
                 <div class="pricing-grid">
-                    <div class="pricing-card reveal reveal-delay-1">
+
+                    <div class="pricing-card reveal">
                         <span class="pricing-tier">Sprint Lite</span>
                         <span class="pricing-price">$25,000</span>
                         <span class="pricing-duration">1 week • John only</span>
@@ -1131,7 +1362,7 @@
                         <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Get Started</a>
                     </div>
 
-                    <div class="pricing-card featured reveal reveal-delay-2">
+                    <div class="pricing-card featured reveal">
                         <span class="pricing-tier">Sprint Pro</span>
                         <span class="pricing-price">$45,000</span>
                         <span class="pricing-duration">2-3 weeks • John + Fatma</span>
@@ -1146,7 +1377,7 @@
                         <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Most Popular</a>
                     </div>
 
-                    <div class="pricing-card reveal reveal-delay-3">
+                    <div class="pricing-card reveal">
                         <span class="pricing-tier">Sprint + Adoption</span>
                         <span class="pricing-price">$60-75k</span>
                         <span class="pricing-duration">4-6 weeks • John + Fatma + Researcher</span>
@@ -1169,7 +1400,7 @@
         <section class="sprint-scene" id="faq">
             <div class="scene-inner">
                 <span class="sprint-label reveal">FAQ</span>
-                <h2 class="sprint-title reveal reveal-delay-1">Common Questions</h2>
+                <h2 class="sprint-title reveal">Common Questions</h2>
 
                 <div class="faq-list">
                     <div class="faq-item reveal">
@@ -1218,8 +1449,8 @@
         <!-- CTA Section -->
         <section class="cta-section" id="cta">
             <h2 class="reveal">Are You Ready to Harness the Power of Superintelligence?</h2>
-            <p class="reveal reveal-delay-1">Book a 30-minute strategy call. No sales pitch—just a conversation about what you're trying to build.</p>
-            <div class="cta-buttons reveal reveal-delay-2">
+            <p class="reveal">Book a 30-minute strategy call. No sales pitch—just a conversation about what you're trying to build.</p>
+            <div class="cta-buttons reveal">
                 <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2v5Y-uxwxQJfXbp3qJf3Xx1CWGDLZxnzXpT1ixJKy3NjFxP8qM1Vz9mP-Yx_F7jN8uR3kG1wQoZpLa"
                     target="_blank" class="sprint-cta">
                     Book a Strategy Call
@@ -1266,17 +1497,64 @@
     <!-- Scripts -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Scroll reveal
+            // Sophisticated Staggered Reveal System
+            // Group elements by their parent container for intelligent staggering
+            const revealGroups = new Map();
             const reveals = document.querySelectorAll('.reveal');
+
+            // Group reveal elements by their parent grid/container
+            reveals.forEach(el => {
+                const parent = el.parentElement;
+                if (!revealGroups.has(parent)) {
+                    revealGroups.set(parent, []);
+                }
+                revealGroups.get(parent).push(el);
+            });
+
+            // Calculate stagger delays based on position (left to right, top to bottom)
+            revealGroups.forEach((elements, parent) => {
+                // Sort elements by their position (left to right, then top to bottom)
+                const sortedElements = elements.map(el => {
+                    const rect = el.getBoundingClientRect();
+                    return {
+                        element: el,
+                        x: rect.left,
+                        y: rect.top
+                    };
+                }).sort((a, b) => {
+                    // Sort by row first (with 100px tolerance), then by column
+                    const rowDiff = Math.abs(a.y - b.y);
+                    if (rowDiff < 100) {
+                        return a.x - b.x; // Same row, sort left to right
+                    }
+                    return a.y - b.y; // Different rows, sort top to bottom
+                });
+
+                // Apply stagger delays with breath-like timing
+                sortedElements.forEach(({ element }, index) => {
+                    // Gentle stagger: 120ms between cards with exponential easing
+                    const baseDelay = index * 120;
+                    // Add slight randomness for organic feel (±20ms)
+                    const variance = (Math.random() - 0.5) * 40;
+                    const delay = baseDelay + variance;
+
+                    element.style.transitionDelay = `${delay}ms`;
+                });
+            });
+
+            // Observe elements and trigger animations
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
+                        // Add a small initial delay for smoother start
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, 50);
                     }
                 });
             }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
+                threshold: 0.08,
+                rootMargin: '0px 0px -80px 0px'
             });
             reveals.forEach(el => observer.observe(el));
 
