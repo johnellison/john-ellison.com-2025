@@ -132,15 +132,13 @@
             position: absolute;
             inset: 0;
             padding: 2px;
-            background: linear-gradient(
-                135deg,
-                rgba(255, 150, 150, 0.9),
-                rgba(255, 200, 100, 0.9),
-                rgba(100, 255, 150, 0.9),
-                rgba(100, 200, 255, 0.9),
-                rgba(180, 100, 255, 0.9),
-                rgba(255, 150, 150, 0.9)
-            );
+            background: linear-gradient(135deg,
+                    rgba(255, 150, 150, 0.9),
+                    rgba(255, 200, 100, 0.9),
+                    rgba(100, 255, 150, 0.9),
+                    rgba(100, 200, 255, 0.9),
+                    rgba(180, 100, 255, 0.9),
+                    rgba(255, 150, 150, 0.9));
             border-radius: 6px;
             -webkit-mask:
                 linear-gradient(#fff 0 0) content-box,
@@ -1011,6 +1009,7 @@
         }
 
         @media (max-width: 768px) {
+
             .cta-section h2,
             .cta-section p {
                 max-width: 100%;
@@ -1030,7 +1029,7 @@
             opacity: 0;
             transform: translateY(20px) scale(0.98);
             transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
 
@@ -1049,7 +1048,7 @@
             opacity: 0;
             transform: translateY(10px) scale(0.95);
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal.visible .problem-icon,
@@ -1070,7 +1069,7 @@
             opacity: 0;
             transform: translateY(8px);
             transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal.visible h3,
@@ -1089,7 +1088,7 @@
             opacity: 0;
             transform: translateY(6px);
             transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal.visible p,
@@ -1106,7 +1105,7 @@
             opacity: 0;
             transform: translateY(5px);
             transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .reveal.visible .sprint-cta,
@@ -1143,17 +1142,26 @@
                 <a href="#case-studies">Work</a>
                 <a href="#assessment">Assessment</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#cta" class="nav-cta">Book a Call</a>
+                <a href="/contact.html" class="nav-cta">Book a Call</a>
             </nav>
             <div class="nav-socials" id="desktopSocials">
                 <a href="https://twitter.com/iamjohnellison" target="_blank" title="X">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                    </svg>
                 </a>
                 <a href="https://www.linkedin.com/in/iamjohnellison" target="_blank" title="LinkedIn">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                    </svg>
                 </a>
                 <a href="https://github.com/johnellison" target="_blank" title="GitHub">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                    </svg>
                 </a>
             </div>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle mobile menu">
@@ -1173,7 +1181,7 @@
                     <a href="#case-studies">Work</a>
                     <a href="#assessment">Assessment</a>
                     <a href="#pricing">Pricing</a>
-                    <a href="#cta" class="nav-cta">Book a Call</a>
+                    <a href="/contact.html" class="nav-cta">Book a Call</a>
                 </div>
             </div>
         </div>
@@ -1183,7 +1191,8 @@
             <!-- Video Container -->
             <div class="hero-video-container reveal">
                 <div class="hero-video-placeholder">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
                         <polygon points="5 3 19 12 5 21 5 3"></polygon>
                     </svg>
                     <span>9:16 Video Placeholder</span>
@@ -1194,16 +1203,19 @@
             <!-- Hero Content -->
             <div class="hero-content">
                 <h1 class="hero-headline reveal">
-                    <span class="rainbow-text">70% of AI projects fail.</span>
+                    <span class="rainbow-text">Build AI-powered products in weeks instead of months.</span>
                 </h1>
-                <p class="hero-tagline reveal">Yours doesn't have to.</p>
-                <p class="hero-subheadline reveal">We combine rapid AI product development with behavior science and organizational psychology—so you ship products that get used, not shelved.</p>
+                <p class="hero-subheadline reveal">
+                    We combine the 5-day Google Ventures Design Sprint with the latest AI-assisted development to not
+                    only build products faster, but to transform organizations—creating better workflows and cultivating
+                    a culture of AI fluency.
+                </p>
                 <div class="hero-proof reveal">
                     <span class="proof-item">Ship in 1 week</span>
-                    <span class="proof-item">70-95% of failures are human factors</span>
-                    <span class="proof-item">We address both</span>
+                    <span class="proof-item">Transform your culture</span>
+                    <span class="proof-item">Master AI workflows</span>
                 </div>
-                <a href="#cta" class="sprint-cta reveal">
+                <a href="/contact.html" class="sprint-cta reveal">
                     Book a Strategy Call
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14M12 5l7 7-7 7" />
@@ -1215,29 +1227,41 @@
         <!-- Problem Section -->
         <section class="sprint-scene" id="problem">
             <div class="scene-inner">
+                <!-- Moved from Hero -->
+                <div style="text-align: center; margin-bottom: 5rem;" class="reveal">
+                    <h2 class="hero-headline" style="font-size: var(--text-3xl); margin-bottom: 1rem;">
+                        <span style="color: #ef4444;">70% of AI projects fail.</span>
+                    </h2>
+                    <p class="hero-tagline" style="color: #fff; margin: 0;">Yours doesn't have to.</p>
+                </div>
+
                 <span class="sprint-label reveal">The Problem</span>
                 <h2 class="sprint-title reveal">Three Ways AI Projects Die</h2>
-                <p class="sprint-text reveal">Most AI initiatives don't fail because of technology. They fail because organizations aren't ready to receive what gets built.</p>
+                <p class="sprint-text reveal">Most AI initiatives don't fail because of technology. They fail because
+                    organizations aren't ready to receive what gets built.</p>
 
                 <div class="problem-grid">
                     <div class="problem-card reveal">
                         <div class="problem-icon">🔬</div>
                         <h3>The Pilot Trap</h3>
-                        <p>You've done AI pilots. They worked in demos. Nothing shipped to production. Your team is stuck in an endless cycle of proofs-of-concept.</p>
+                        <p>You've done AI pilots. They worked in demos. Nothing shipped to production. Your team is
+                            stuck in an endless cycle of proofs-of-concept.</p>
                         <span class="problem-stat">Only 20% of orgs effectively track AI KPIs</span>
                     </div>
 
                     <div class="problem-card reveal">
                         <div class="problem-icon">📉</div>
                         <h3>The Adoption Gap</h3>
-                        <p>You shipped an AI tool. 90 days later, usage is at 12%. The technology works—but your team doesn't trust it, wasn't trained on it, or doesn't see the value.</p>
+                        <p>You shipped an AI tool. 90 days later, usage is at 12%. The technology works—but your team
+                            doesn't trust it, wasn't trained on it, or doesn't see the value.</p>
                         <span class="problem-stat">72% distrust unfamiliar tools • 36% lack training</span>
                     </div>
 
                     <div class="problem-card reveal">
                         <div class="problem-icon">🚧</div>
                         <h3>The Resistance Wall</h3>
-                        <p>Your CTO built something amazing. The team sees it as a threat. Fast implementation without stakeholder alignment creates internal tension—even when the product is great.</p>
+                        <p>Your CTO built something amazing. The team sees it as a threat. Fast implementation without
+                            stakeholder alignment creates internal tension—even when the product is great.</p>
                         <span class="problem-stat">63% of AI failures are people issues, not technology</span>
                     </div>
                 </div>
@@ -1249,15 +1273,18 @@
             <div class="scene-inner">
                 <span class="sprint-label reveal">The Solution</span>
                 <h2 class="sprint-title reveal">Technical Execution + Organizational Adoption</h2>
-                <p class="sprint-text reveal">"Building products is 20-30% of the real work of implementation." We've learned that lesson. Now we offer both.</p>
+                <p class="sprint-text reveal">"Building products is 20-30% of the real work of implementation." We've
+                    learned that lesson. Now we offer both.</p>
 
                 <div class="solution-grid">
                     <div class="solution-card technical reveal">
-                        <img src="/john-ai-sprint-session.webp" alt="John Ellison leading an AI Product Sprint" class="solution-card-image">
+                        <img src="/john-ai-sprint-session.webp" alt="John Ellison leading an AI Product Sprint"
+                            class="solution-card-image">
                         <div class="solution-card-content">
                             <h3>The AI Product Sprint</h3>
                             <span class="solution-lead">Led by John Ellison</span>
-                            <p>In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your team uses every day.</p>
+                            <p>In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your
+                                team uses every day.</p>
                             <ul class="solution-list">
                                 <li>Design Sprint methodology</li>
                                 <li>Vibe Coding for rapid iteration</li>
@@ -1269,7 +1296,8 @@
                     </div>
 
                     <div class="solution-card organizational reveal">
-                        <img src="/fatma-workshop-circle.webp" alt="Fatma Ghedira facilitating an adoption workshop" class="solution-card-image">
+                        <img src="/fatma-workshop-circle.webp" alt="Fatma Ghedira facilitating an adoption workshop"
+                            class="solution-card-image">
                         <div class="solution-card-content">
                             <h3>AI Adoption & Integration</h3>
                             <span class="solution-lead">Led by Fatma Ghedira</span>
@@ -1287,7 +1315,8 @@
 
                 <div class="combined-card reveal">
                     <h3>Full Transformation, Not Just Tooling</h3>
-                    <p>When you combine rapid development with organizational psychology, you don't just ship products—you transform how your team works with AI.</p>
+                    <p>When you combine rapid development with organizational psychology, you don't just ship
+                        products—you transform how your team works with AI.</p>
                 </div>
             </div>
         </section>
@@ -1303,7 +1332,9 @@
                         <img src="/john-e-wedding-headshot.webp" alt="John Ellison" class="team-photo">
                         <h3>John Ellison</h3>
                         <span class="team-role">Principal Product Lead</span>
-                        <p class="team-bio">16 years building products. 300+ founders supported. $18M+ raised. Former design lead at major tech companies. Creator of the "Vibe Coding" methodology that enables rapid AI product development.</p>
+                        <p class="team-bio">16 years building products. 300+ founders supported. $18M+ raised. Former
+                            design lead at major tech companies. Creator of the "Vibe Coding" methodology that enables
+                            rapid AI product development.</p>
                         <p class="team-quote">"I build AI products that work technically."</p>
                     </div>
 
@@ -1311,7 +1342,8 @@
                         <img src="/fatma-headshot.jpeg" alt="Fatma Ghedira" class="team-photo">
                         <h3>Fatma Ghedira</h3>
                         <span class="team-role">Organizational Integration Lead</span>
-                        <p class="team-bio">Organizational Psychologist and Executive Coach. Group Dynamics Facilitator with deep expertise in human-AI relationship dynamics and Action Learning methodology.</p>
+                        <p class="team-bio">Organizational Psychologist and Executive Coach. Group Dynamics Facilitator
+                            with deep expertise in human-AI relationship dynamics and Action Learning methodology.</p>
                         <p class="team-quote">"I ensure those products get adopted."</p>
                     </div>
                 </div>
@@ -1323,14 +1355,18 @@
             <div class="scene-inner">
                 <span class="sprint-label reveal">Recent Work</span>
                 <h2 class="sprint-title reveal">Products Shipped in 5 Days</h2>
-                <p class="sprint-text reveal">Real AI products built and deployed in a single sprint. Results speak for themselves.</p>
+                <p class="sprint-text reveal">Real AI products built and deployed in a single sprint. Results speak for
+                    themselves.</p>
 
                 <div class="case-studies-grid">
                     <div class="case-study-card reveal">
-                        <img src="https://placehold.co/600x300/1a1a2e/3b82f6?text=Call+Center+AI" alt="Call Center AI" class="case-study-image">
+                        <img src="https://placehold.co/600x300/1a1a2e/3b82f6?text=Call+Center+AI" alt="Call Center AI"
+                            class="case-study-image">
                         <span class="case-study-badge">Client Project</span>
                         <h3>Call Center AI</h3>
-                        <p>AI-powered call quality and compliance analysis. Transcribes calls, scores against 13 dimensions, provides real-time coaching recommendations. Moved from manual QA on less than 2% of calls to 100% coverage.</p>
+                        <p>AI-powered call quality and compliance analysis. Transcribes calls, scores against 13
+                            dimensions, provides real-time coaching recommendations. Moved from manual QA on less than
+                            2% of calls to 100% coverage.</p>
                         <div class="case-study-results">
                             <div class="result-item">
                                 <div class="result-value counter-value" data-target="5">0</div>
@@ -1348,10 +1384,13 @@
                     </div>
 
                     <div class="case-study-card reveal">
-                        <img src="https://placehold.co/600x300/1a1a2e/10b981?text=Knowledge+Hub" alt="Self-Improving Knowledge Hub" class="case-study-image">
+                        <img src="https://placehold.co/600x300/1a1a2e/10b981?text=Knowledge+Hub"
+                            alt="Self-Improving Knowledge Hub" class="case-study-image">
                         <span class="case-study-badge">Client Project</span>
                         <h3>Self-Improving Knowledge Hub</h3>
-                        <p>AI-powered knowledge platform with 1,400+ searchable FAQs. Solves knowledge fragmentation—agents finding information in seconds instead of 3-5 minutes per call. Includes AI chatbot for customers.</p>
+                        <p>AI-powered knowledge platform with 1,400+ searchable FAQs. Solves knowledge
+                            fragmentation—agents finding information in seconds instead of 3-5 minutes per call.
+                            Includes AI chatbot for customers.</p>
                         <div class="case-study-results">
                             <div class="result-item">
                                 <div class="result-value counter-value" data-target="5">0</div>
@@ -1369,10 +1408,13 @@
                     </div>
 
                     <div class="case-study-card reveal">
-                        <img src="https://placehold.co/600x300/1a1a2e/f59e0b?text=Partner+Insights" alt="Partner Insights Portal" class="case-study-image">
+                        <img src="https://placehold.co/600x300/1a1a2e/f59e0b?text=Partner+Insights"
+                            alt="Partner Insights Portal" class="case-study-image">
                         <span class="case-study-badge">Client Project</span>
                         <h3>Partner Insights Portal</h3>
-                        <p>Full-stack analytics dashboard with 100,000 records. From manual spreadsheets to AI-powered competitive intelligence. Risk scoring, benchmarking, and automated business case generation.</p>
+                        <p>Full-stack analytics dashboard with 100,000 records. From manual spreadsheets to AI-powered
+                            competitive intelligence. Risk scoring, benchmarking, and automated business case
+                            generation.</p>
                         <div class="case-study-results">
                             <div class="result-item">
                                 <div class="result-value counter-value" data-target="5">0</div>
@@ -1397,7 +1439,10 @@
             <div class="scene-inner">
                 <span class="sprint-label reveal">Before You Build</span>
                 <h2 class="sprint-title reveal">Not Getting Full ROI from Your AI Investments?</h2>
-                <p class="sprint-text reveal">Most organizations face the same barriers: unclear strategy, resistance to change, lack of governance, and misaligned expectations. If you've already deployed AI tools but aren't seeing the results you expected—or if you're just getting started—an assessment gives you clarity.</p>
+                <p class="sprint-text reveal">Most organizations face the same barriers: unclear strategy, resistance to
+                    change, lack of governance, and misaligned expectations. If you've already deployed AI tools but
+                    aren't seeing the results you expected—or if you're just getting started—an assessment gives you
+                    clarity.</p>
 
                 <div class="assessment-section reveal">
                     <div class="assessment-content">
@@ -1410,14 +1455,17 @@
                             <li>Too many pilots, not enough production deployments</li>
                             <li>Unclear which AI opportunities have the highest impact</li>
                         </ul>
-                        <p style="margin-top: 1.5rem; color: rgba(255, 255, 255, 0.8);">An <strong>AI Readiness Assessment</strong> helps you diagnose what's working, what's not, and where to focus next—before you spend another dollar on implementation.</p>
+                        <p style="margin-top: 1.5rem; color: rgba(255, 255, 255, 0.8);">An <strong>AI Readiness
+                                Assessment</strong> helps you diagnose what's working, what's not, and where to focus
+                            next—before you spend another dollar on implementation.</p>
                     </div>
 
                     <div class="assessment-card">
                         <span class="pricing-tier">AI Readiness Assessment</span>
                         <span class="pricing-price">$10,000</span>
                         <span class="pricing-duration">1-2 weeks • Discovery</span>
-                        <p class="pricing-description">Understand where you are before you build. Perfect for organizations exploring AI.</p>
+                        <p class="pricing-description">Understand where you are before you build. Perfect for
+                            organizations exploring AI.</p>
                         <ul class="pricing-features">
                             <li>Comprehensive organizational evaluation</li>
                             <li>Current tool & workflow assessment</li>
@@ -1426,7 +1474,9 @@
                             <li>Prioritized roadmap with ROI analysis</li>
                             <li>Stakeholder readiness report</li>
                         </ul>
-                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center; margin-top: auto;">Start Here</a>
+                        <a href="/contact.html" class="sprint-cta"
+                            style="text-align: center; width: 100%; justify-content: center; margin-top: auto;">Start
+                            Here</a>
                     </div>
                 </div>
             </div>
@@ -1437,7 +1487,8 @@
             <div class="scene-inner">
                 <span class="sprint-label reveal">AI Product Sprints</span>
                 <h2 class="sprint-title reveal">Build & Deploy Custom AI Products</h2>
-                <p class="sprint-text reveal">Ready to ship? These packages are for organizations that want to build and deploy custom AI products—fast—with full adoption support.</p>
+                <p class="sprint-text reveal">Ready to ship? These packages are for organizations that want to build and
+                    deploy custom AI products—fast—with full adoption support.</p>
 
                 <div class="pricing-grid">
 
@@ -1453,14 +1504,16 @@
                             <li>Production deployment</li>
                             <li>1-week post-launch support</li>
                         </ul>
-                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Get Started</a>
+                        <a href="/contact.html" class="sprint-cta"
+                            style="text-align: center; width: 100%; justify-content: center;">Get Started</a>
                     </div>
 
                     <div class="pricing-card featured reveal">
                         <span class="pricing-tier">Sprint Pro</span>
                         <span class="pricing-price">$45,000</span>
                         <span class="pricing-duration">2-3 weeks • John + Fatma</span>
-                        <p class="pricing-description">Complex product with stakeholder alignment. Production-ready with training.</p>
+                        <p class="pricing-description">Complex product with stakeholder alignment. Production-ready with
+                            training.</p>
                         <ul class="pricing-features">
                             <li>Everything in Sprint Lite</li>
                             <li>Stakeholder alignment sessions</li>
@@ -1468,7 +1521,8 @@
                             <li>Technical roadmap</li>
                             <li>30-day post-launch support</li>
                         </ul>
-                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Most Popular</a>
+                        <a href="/contact.html" class="sprint-cta"
+                            style="text-align: center; width: 100%; justify-content: center;">Most Popular</a>
                     </div>
 
                     <div class="pricing-card reveal">
@@ -1484,7 +1538,8 @@
                             <li>Change management</li>
                             <li>90-day integration support</li>
                         </ul>
-                        <a href="#cta" class="sprint-cta" style="text-align: center; width: 100%; justify-content: center;">Full Package</a>
+                        <a href="/contact.html" class="sprint-cta"
+                            style="text-align: center; width: 100%; justify-content: center;">Full Package</a>
                     </div>
                 </div>
             </div>
@@ -1502,7 +1557,10 @@
                             What if our team is resistant to AI?
                             <span class="faq-icon">+</span>
                         </div>
-                        <div class="faq-answer">That's exactly why Fatma exists in this process. We spend Week 0 on stakeholder alignment—identifying fears, building trust, and framing AI as an enabler, not a replacement. By the time we start building, your team is ready to receive what we create.</div>
+                        <div class="faq-answer">That's exactly why Fatma exists in this process. We spend Week 0 on
+                            stakeholder alignment—identifying fears, building trust, and framing AI as an enabler, not a
+                            replacement. By the time we start building, your team is ready to receive what we create.
+                        </div>
                     </div>
 
                     <div class="faq-item reveal">
@@ -1510,7 +1568,10 @@
                             How do you handle the politics of AI implementation?
                             <span class="faq-icon">+</span>
                         </div>
-                        <div class="faq-answer">We've learned from experience: building too fast without alignment creates tension (even when the product is great). Our process includes stakeholder coaching, transparent communication, and a "learning organization" framing that protects existing leadership while enabling new capabilities.</div>
+                        <div class="faq-answer">We've learned from experience: building too fast without alignment
+                            creates tension (even when the product is great). Our process includes stakeholder coaching,
+                            transparent communication, and a "learning organization" framing that protects existing
+                            leadership while enabling new capabilities.</div>
                     </div>
 
                     <div class="faq-item reveal">
@@ -1518,7 +1579,9 @@
                             What happens if the product is too disruptive?
                             <span class="faq-icon">+</span>
                         </div>
-                        <div class="faq-answer">We design for integration, not disruption. Before we build, we ask: "Who will use this? How will it change their work? Who might feel threatened?" Then we build in partnership with those stakeholders, not around them.</div>
+                        <div class="faq-answer">We design for integration, not disruption. Before we build, we ask: "Who
+                            will use this? How will it change their work? Who might feel threatened?" Then we build in
+                            partnership with those stakeholders, not around them.</div>
                     </div>
 
                     <div class="faq-item reveal">
@@ -1526,7 +1589,10 @@
                             How is this different from hiring an agency?
                             <span class="faq-icon">+</span>
                         </div>
-                        <div class="faq-answer">Agencies build for you, then leave. We build with you, transfer knowledge, and ensure adoption. You don't just get a product—you get the capability to maintain and extend it. Plus, we're significantly faster: 1-4 weeks vs. the typical 5+ months.</div>
+                        <div class="faq-answer">Agencies build for you, then leave. We build with you, transfer
+                            knowledge, and ensure adoption. You don't just get a product—you get the capability to
+                            maintain and extend it. Plus, we're significantly faster: 1-4 weeks vs. the typical 5+
+                            months.</div>
                     </div>
 
                     <div class="faq-item reveal">
@@ -1534,7 +1600,9 @@
                             What kind of AI products do you build?
                             <span class="faq-icon">+</span>
                         </div>
-                        <div class="faq-answer">Internal tools, customer-facing applications, workflow automation, document processing, conversational interfaces—anything that leverages AI to solve real business problems. We focus on products that create immediate, measurable value.</div>
+                        <div class="faq-answer">Internal tools, customer-facing applications, workflow automation,
+                            document processing, conversational interfaces—anything that leverages AI to solve real
+                            business problems. We focus on products that create immediate, measurable value.</div>
                     </div>
                 </div>
             </div>
@@ -1543,10 +1611,10 @@
         <!-- CTA Section -->
         <section class="cta-section" id="cta">
             <h2 class="reveal">Are You Ready to Harness the Power of Superintelligence?</h2>
-            <p class="reveal">Book a 30-minute strategy call. No sales pitch—just a conversation about what you're trying to build.</p>
+            <p class="reveal">Book a 30-minute strategy call. No sales pitch—just a conversation about what you're
+                trying to build.</p>
             <div class="cta-buttons reveal">
-                <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ2v5Y-uxwxQJfXbp3qJf3Xx1CWGDLZxnzXpT1ixJKy3NjFxP8qM1Vz9mP-Yx_F7jN8uR3kG1wQoZpLa"
-                    target="_blank" class="sprint-cta">
+                <a href="/contact.html" class="sprint-cta">
                     Book a Strategy Call
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14M12 5l7 7-7 7" />
