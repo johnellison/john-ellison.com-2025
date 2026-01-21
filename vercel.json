@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/ai-readiness",
+      "destination": "https://ai-transformation-app.vercel.app/ai-readiness"
+    },
+    {
+      "source": "/ai-readiness/:path*",
+      "destination": "https://ai-transformation-app.vercel.app/ai-readiness/:path*"
+    }
+  ]
+}

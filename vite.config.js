@@ -29,7 +29,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        sprint: resolve(__dirname, 'sprint.html'),
+        transformation: resolve(__dirname, 'ai-transformation.html'),
         toucan: resolve(__dirname, 'case-studies/toucan.html'),
         interbeing: resolve(__dirname, 'case-studies/interbeing-case-study.html'),
       },
