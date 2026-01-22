@@ -65,12 +65,12 @@ export function CTASection() {
         }}
       />
 
-      <h2 className="cta-heading relative text-2xl md:text-3xl lg:text-4xl font-medium text-white mb-4 max-w-[70%] md:max-w-none">
+      <h2 className="cta-heading relative heading-section text-white mb-4 max-w-[70%] md:max-w-none">
         Ready to Move Past{' '}
         <span className="text-gradient-prism">AI Experimentation</span>?
       </h2>
 
-      <p className="cta-description relative text-lg text-white/60 mb-8 max-w-[60ch] mx-auto">
+      <p className="cta-description relative type-lg text-white/60 mb-8 max-w-[60ch] mx-auto leading-relaxed">
         Take the readiness assessment or book a strategy call. No sales pitch—a
         direct conversation about whether we can help.
       </p>

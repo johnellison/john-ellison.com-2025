@@ -109,7 +109,7 @@ function CounterAnimation({
   }, [triggerRef, animateCounter]);
 
   return (
-    <span ref={counterRef} className="text-3xl font-bold">
+    <span ref={counterRef} className="type-xl font-bold">
       0{suffix}
     </span>
   );
@@ -179,13 +179,13 @@ export function CaseStudiesSection() {
   return (
     <section ref={sectionRef as any} id="work" className="py-24 px-6 bg-gray-950/50">
       <div className="max-w-6xl mx-auto">
-        <span className="case-studies-label inline-block text-sm font-medium tracking-widest text-gray-400 uppercase mb-4">
+        <span className="case-studies-label inline-block type-sm font-medium tracking-widest text-gray-400 uppercase mb-4">
           Recent Work
         </span>
-        <h2 className="case-studies-title text-3xl md:text-5xl font-bold mb-4">
+        <h2 className="case-studies-title heading-section mb-4">
           <span className="text-gradient-prism">Deployed Systems</span>. Measurable Outcomes.
         </h2>
-        <p className="case-studies-text text-lg text-gray-400 max-w-2xl mb-16">
+        <p className="case-studies-text type-lg text-gray-400 max-w-2xl mb-16 leading-relaxed">
           Real AI systems built and deployed. These are not prototypes—they are production tools in
           daily use.
         </p>

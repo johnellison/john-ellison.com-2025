@@ -68,16 +68,41 @@
   }
 
   /* Base Typography */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
     font-weight: 600;
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
   }
 
-  h1 { font-size: var(--text-4xl); }
-  h2 { font-size: var(--text-2xl); }
-  h3 { font-size: var(--text-xl); }
+  h1 {
+    font-size: var(--text-4xl);
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  h3 {
+    font-size: var(--text-xl);
+  }
+
+  h4 {
+    font-size: var(--text-lg);
+  }
+
+  h5 {
+    font-size: var(--text-base);
+  }
+
+  h6 {
+    font-size: var(--text-sm);
+  }
 
   p {
     font-size: var(--text-base);
@@ -87,25 +112,104 @@
   small {
     font-size: var(--text-sm);
   }
+}
 
-  /* Utility: Gradient Text */
-  .text-gradient-prism {
-    background: var(--gradient-prism);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    display: inline-block;
-  }
+/* ============================================
+   TYPOGRAPHY UTILITY CLASSES
+   Maps to design system variables for consistent use in components
+   ============================================ */
 
-  .text-gradient-warm {
-    background: var(--gradient-warm);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    display: inline-block;
-  }
+/* Font Sizes - matches CSS custom property scale */
+.type-xs {
+  font-size: var(--text-xs);
+}
+
+.type-sm {
+  font-size: var(--text-sm);
+}
+
+.type-base {
+  font-size: var(--text-base);
+}
+
+.type-lg {
+  font-size: var(--text-lg);
+}
+
+.type-xl {
+  font-size: var(--text-xl);
+}
+
+.type-2xl {
+  font-size: var(--text-2xl);
+}
+
+.type-3xl {
+  font-size: var(--text-3xl);
+}
+
+.type-4xl {
+  font-size: var(--text-4xl);
+}
+
+/* Line Heights */
+.leading-tight {
+  line-height: var(--leading-tight);
+}
+
+.leading-snug {
+  line-height: var(--leading-snug);
+}
+
+.leading-normal {
+  line-height: var(--leading-normal);
+}
+
+.leading-relaxed {
+  line-height: var(--leading-relaxed);
+}
+
+/* Common heading patterns */
+.heading-section {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading-card {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading-subsection {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: var(--leading-snug);
+}
+
+/* Utility: Gradient Text */
+.text-gradient-prism {
+  background: var(--gradient-prism);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
+}
+
+.text-gradient-warm {
+  background: var(--gradient-warm);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
 }
 
 /* ============================================
@@ -139,12 +243,12 @@
   inset: 0;
   padding: 2px;
   background: linear-gradient(135deg,
-    rgba(255, 150, 150, 0.9),
-    rgba(255, 200, 100, 0.9),
-    rgba(100, 255, 150, 0.9),
-    rgba(100, 200, 255, 0.9),
-    rgba(180, 100, 255, 0.9),
-    rgba(255, 150, 150, 0.9));
+      rgba(255, 150, 150, 0.9),
+      rgba(255, 200, 100, 0.9),
+      rgba(100, 255, 150, 0.9),
+      rgba(100, 200, 255, 0.9),
+      rgba(180, 100, 255, 0.9),
+      rgba(255, 150, 150, 0.9));
   background-size: 300% 300%;
   border-radius: inherit;
   -webkit-mask:
@@ -231,9 +335,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }

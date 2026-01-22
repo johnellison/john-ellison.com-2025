@@ -618,18 +618,18 @@ export default function AITransformationPage() {
     return (
       <div className="form-step active">
         <div className="form-step-header mb-5">
-          <span className="block text-xs text-purple-400/80 uppercase tracking-wider mb-1">Let's Get Started</span>
-          <h2 className="text-lg font-semibold text-white m-0">{STEPS[0].title}</h2>
-          <p className="text-sm text-white/60 mt-2">
+          <span className="block type-xs text-purple-400/80 uppercase tracking-wider mb-1">Let's Get Started</span>
+          <h2 className="heading-subsection text-white m-0">{STEPS[0].title}</h2>
+          <p className="type-sm text-white/60 mt-2 leading-relaxed">
             Enter your work email and we'll automatically analyze your company's AI readiness.
           </p>
         </div>
 
         <div className="form-group mb-5">
-          <label className="form-label block text-sm font-medium text-white/90 mb-2">Work Email *</label>
+          <label className="form-label block type-sm font-medium text-white/90 mb-2">Work Email *</label>
           <input
             type="email"
-            className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white type-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
             value={companyData.email}
             onChange={(e) => setCompanyData((prev) => ({ ...prev, email: e.target.value }))}
             placeholder="you@yourcompany.com"
@@ -640,14 +640,14 @@ export default function AITransformationPage() {
         {/* Auto-detected fields */}
         {(companyData.name || companyData.website) && (
           <div className="p-4 bg-white/[0.02] border border-white/[0.06] rounded-lg mb-5">
-            <p className="text-xs text-white/50 uppercase tracking-wider mb-3">Auto-detected from your email</p>
+            <p className="type-xs text-white/50 uppercase tracking-wider mb-3">Auto-detected from your email</p>
 
             {companyData.name && (
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-white/70">Company</span>
+                <span className="type-sm text-white/70">Company</span>
                 <input
                   type="text"
-                  className="bg-transparent text-sm text-white text-right border-none focus:outline-none focus:ring-0 w-auto"
+                  className="bg-transparent type-sm text-white text-right border-none focus:outline-none focus:ring-0 w-auto"
                   value={companyData.name}
                   onChange={(e) => {
                     setManuallyEdited((prev) => ({ ...prev, name: true }));
@@ -659,10 +659,10 @@ export default function AITransformationPage() {
 
             {companyData.website && (
               <div className="flex items-center justify-between">
-                <span className="text-sm text-white/70">Website</span>
+                <span className="type-sm text-white/70">Website</span>
                 <input
                   type="text"
-                  className="bg-transparent text-sm text-white text-right border-none focus:outline-none focus:ring-0 w-auto max-w-[200px]"
+                  className="bg-transparent type-sm text-white text-right border-none focus:outline-none focus:ring-0 w-auto max-w-[200px]"
                   value={companyData.website}
                   onChange={(e) => {
                     setManuallyEdited((prev) => ({ ...prev, website: true }));
@@ -674,7 +674,7 @@ export default function AITransformationPage() {
           </div>
         )}
 
-        <p className="text-xs text-white/50 mt-4">
+        <p className="type-xs text-white/50 mt-4">
           We'll analyze your website to understand your company's current AI maturity and provide personalized recommendations.
         </p>
       </div>
@@ -705,16 +705,16 @@ export default function AITransformationPage() {
       {/* Stats Header */}
       <div className="assessment-stats flex justify-center gap-6 md:gap-10 mb-8 pb-6 border-b border-white/10">
         <div className="stat-item text-center">
-          <div className="stat-value text-xl font-bold text-white">40</div>
-          <div className="stat-label text-xs uppercase tracking-wider text-gray-500">Questions</div>
+          <div className="stat-value type-lg font-bold text-white">40</div>
+          <div className="stat-label type-xs uppercase tracking-wider text-gray-500">Questions</div>
         </div>
         <div className="stat-item text-center">
-          <div className="stat-value text-xl font-bold text-white">6</div>
-          <div className="stat-label text-xs uppercase tracking-wider text-gray-500">Dimensions</div>
+          <div className="stat-value type-lg font-bold text-white">6</div>
+          <div className="stat-label type-xs uppercase tracking-wider text-gray-500">Dimensions</div>
         </div>
         <div className="stat-item text-center">
-          <div className="stat-value text-xl font-bold text-white">10</div>
-          <div className="stat-label text-xs uppercase tracking-wider text-gray-500">Minutes</div>
+          <div className="stat-value type-lg font-bold text-white">10</div>
+          <div className="stat-label type-xs uppercase tracking-wider text-gray-500">Minutes</div>
         </div>
       </div>
 

@@ -27,8 +27,19 @@ interface FlowAssessmentProps {
 type FlowState =
   | { type: 'section-intro'; dimensionIndex: number }
   | { type: 'question'; dimensionIndex: number; questionIndex: number }
-  | { type: 'section-complete'; dimensionIndex: number }
   | { type: 'complete' };
+
+// Helper to check if a gap message is valid/useful
+function isValidGap(gap: unknown): gap is string {
+  if (!gap || typeof gap !== "string" || gap.length < 5) return false;
+  const lower = gap.toLowerCase();
+  return !lower.includes("no content") &&
+    !lower.includes("not available") &&
+    !lower.includes("unable to") &&
+    !lower.includes("could not") &&
+    !lower.includes("cannot analyze");
+}
+
 
 export default function FlowAssessment({
   dimensions,
@@ -97,7 +108,7 @@ export default function FlowAssessment({
     }, 300);
   }, [flowState, getCurrentInfo, onAnswer]);
 
-  // Advance to next state
+  // Advance to next state - skip section-complete, go directly to next section
   const advance = useCallback(() => {
     setDirection('forward');
     setIsTransitioning(true);
@@ -111,12 +122,10 @@ export default function FlowAssessment({
         if (prev.type === 'question') {
           const dim = dimensions[prev.dimensionIndex];
           if (prev.questionIndex < dim.questions.length - 1) {
+            // More questions in this section
             return { type: 'question', dimensionIndex: prev.dimensionIndex, questionIndex: prev.questionIndex + 1 };
           }
-          return { type: 'section-complete', dimensionIndex: prev.dimensionIndex };
-        }
-
-        if (prev.type === 'section-complete') {
+          // Last question - go directly to next section intro or complete
           if (prev.dimensionIndex < dimensions.length - 1) {
             return { type: 'section-intro', dimensionIndex: prev.dimensionIndex + 1 };
           }
@@ -138,7 +147,9 @@ export default function FlowAssessment({
     setTimeout(() => {
       setFlowState(prev => {
         if (prev.type === 'section-intro' && prev.dimensionIndex > 0) {
-          return { type: 'section-complete', dimensionIndex: prev.dimensionIndex - 1 };
+          // Go to last question of previous section
+          const prevDim = dimensions[prev.dimensionIndex - 1];
+          return { type: 'question', dimensionIndex: prev.dimensionIndex - 1, questionIndex: prevDim.questions.length - 1 };
         }
 
         if (prev.type === 'question') {
@@ -148,13 +159,10 @@ export default function FlowAssessment({
           return { type: 'section-intro', dimensionIndex: prev.dimensionIndex };
         }
 
-        if (prev.type === 'section-complete') {
-          const dim = dimensions[prev.dimensionIndex];
-          return { type: 'question', dimensionIndex: prev.dimensionIndex, questionIndex: dim.questions.length - 1 };
-        }
-
         if (prev.type === 'complete') {
-          return { type: 'section-complete', dimensionIndex: dimensions.length - 1 };
+          // Go to last question of last section
+          const lastDim = dimensions[dimensions.length - 1];
+          return { type: 'question', dimensionIndex: dimensions.length - 1, questionIndex: lastDim.questions.length - 1 };
         }
 
         return prev;
@@ -180,14 +188,14 @@ export default function FlowAssessment({
         }
       }
 
-      // Enter to advance on intro/complete screens
-      if (e.key === 'Enter' && (flowState.type === 'section-intro' || flowState.type === 'section-complete')) {
+      // Enter to advance on intro screens
+      if (e.key === 'Enter' && flowState.type === 'section-intro') {
         advance();
       }
 
       // Backspace/Escape to go back
-      if ((e.key === 'Backspace' || e.key === 'Escape') && flowState.type !== 'section-intro') {
-        if (flowState.type !== 'section-intro' || (flowState as any).dimensionIndex > 0) {
+      if (e.key === 'Backspace' || e.key === 'Escape') {
+        if (flowState.type !== 'section-intro' || flowState.dimensionIndex > 0) {
           goBack();
         }
       }
@@ -214,23 +222,28 @@ export default function FlowAssessment({
       ? 'opacity-0 translate-y-4'
       : 'opacity-0 -translate-y-4';
   };
+  // Check if we have valid company insights to display
+  const hasValidInsights = companyInsights && typeof companyInsights.ai_maturity?.score === "number";
+  const validGap = hasValidInsights && isValidGap(companyInsights.readiness_clues?.gaps?.[0])
+    ? companyInsights.readiness_clues.gaps[0]
+    : null;
+
+
 
   return (
     <div ref={containerRef} className="flow-assessment min-h-[400px] flex flex-col">
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-xs text-white/50 uppercase tracking-wider">
+          <span className="type-xs text-white/50 uppercase tracking-wider">
             {flowState.type === 'question' && currentInfo
               ? `${currentInfo.dimension.title}`
               : flowState.type === 'section-intro'
               ? dimensions[flowState.dimensionIndex].title
-              : flowState.type === 'section-complete'
-              ? `${dimensions[flowState.dimensionIndex].title} Complete`
               : 'Assessment Complete'
             }
           </span>
-          <span className="text-xs text-white/50">
+          <span className="type-xs text-white/50">
             {progress.answered} of {progress.total} questions
           </span>
         </div>
@@ -242,8 +255,8 @@ export default function FlowAssessment({
             const dimProgress = (dimAnswered / dim.questions.length) * 100;
             const isActive = flowState.type === 'section-intro'
               ? dimIdx === flowState.dimensionIndex
-              : flowState.type === 'question' || flowState.type === 'section-complete'
-              ? dimIdx === (flowState as any).dimensionIndex
+              : flowState.type === 'question'
+              ? dimIdx === flowState.dimensionIndex
               : false;
 
             return (
@@ -272,16 +285,16 @@ export default function FlowAssessment({
           {flowState.type === 'section-intro' && (
             <div className="text-center py-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4">
-                <span className="text-[10px] font-medium text-purple-400 uppercase tracking-wider">
+                <span className="type-xs font-medium text-purple-400 uppercase tracking-wider">
                   Section {flowState.dimensionIndex + 1} of {dimensions.length}
                 </span>
               </div>
 
-              <h2 className="text-xl md:text-2xl font-bold text-white mb-3">
+              <h2 className="heading-subsection text-white mb-2">
                 {dimensions[flowState.dimensionIndex].title}
               </h2>
 
-              <p className="text-sm text-white/60 mb-6 max-w-md mx-auto">
+              <p className="type-sm text-white/60 mb-6 max-w-md mx-auto leading-relaxed">
                 {dimensions[flowState.dimensionIndex].questions.length} questions about your organization's {dimensions[flowState.dimensionIndex].title.toLowerCase()}.
               </p>
 
@@ -292,7 +305,7 @@ export default function FlowAssessment({
                 Begin Section
               </button>
 
-              <p className="text-xs text-white/40 mt-4">
+              <p className="type-xs text-white/40 mt-4">
                 Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">Enter</kbd> to continue
               </p>
             </div>
@@ -302,12 +315,12 @@ export default function FlowAssessment({
           {flowState.type === 'question' && currentInfo && (
             <div className="py-4">
               <div className="mb-6">
-                <span className="text-xs text-white/40 uppercase tracking-wider">
+                <span className="type-xs text-white/40 uppercase tracking-wider">
                   Question {currentInfo.questionNumberInDimension} of {currentInfo.totalInDimension}
                 </span>
               </div>
 
-              <h2 className="text-base md:text-lg font-medium text-white mb-6 leading-relaxed">
+              <h2 className="type-lg font-medium text-white mb-5 leading-relaxed">
                 {currentInfo.question.question}
               </h2>
 
@@ -329,7 +342,7 @@ export default function FlowAssessment({
                       `}
                     >
                       <span className={`
-                        w-6 h-6 rounded flex items-center justify-center text-xs font-medium
+                        w-6 h-6 rounded flex items-center justify-center type-xs font-medium
                         transition-colors shrink-0
                         ${isSelected
                           ? 'bg-purple-500 text-white'
@@ -338,7 +351,7 @@ export default function FlowAssessment({
                       `}>
                         {idx + 1}
                       </span>
-                      <span className={`flex-1 text-sm ${isSelected ? 'text-white' : 'text-white/80'}`}>
+                      <span className={`flex-1 type-sm ${isSelected ? 'text-white' : 'text-white/80'}`}>
                         {option.label}
                       </span>
                       {isSelected && (
@@ -351,57 +364,12 @@ export default function FlowAssessment({
                 })}
               </div>
 
-              <p className="text-xs text-white/40 mt-6 text-center">
+              <p className="type-xs text-white/40 mt-6 text-center">
                 Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">1</kbd>-<kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">4</kbd> to select
               </p>
             </div>
           )}
 
-          {/* Section Complete */}
-          {flowState.type === 'section-complete' && (
-            <div className="text-center py-6">
-              <div className="w-12 h-12 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-4">
-                <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-
-              <h2 className="text-lg font-semibold text-white mb-1">
-                {dimensions[flowState.dimensionIndex].title}
-              </h2>
-              <p className="text-green-400 text-sm mb-4">Section Complete</p>
-
-              {flowState.dimensionIndex < dimensions.length - 1 ? (
-                <>
-                  <p className="text-sm text-white/60 mb-4">
-                    Next up: <span className="text-white">{dimensions[flowState.dimensionIndex + 1].title}</span>
-                  </p>
-                  <button
-                    onClick={advance}
-                    className="btn-primary px-6 py-2.5"
-                  >
-                    Continue
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p className="text-sm text-white/60 mb-4">
-                    You've completed all sections!
-                  </p>
-                  <button
-                    onClick={advance}
-                    className="btn-primary px-6 py-2.5"
-                  >
-                    Get Your Results
-                  </button>
-                </>
-              )}
-
-              <p className="text-xs text-white/40 mt-4">
-                Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">Enter</kbd> to continue
-              </p>
-            </div>
-          )}
         </div>
       </div>
 
@@ -410,7 +378,7 @@ export default function FlowAssessment({
         <div className="flex justify-between items-center pt-6 border-t border-white/10 mt-auto">
           <button
             onClick={goBack}
-            className="text-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+            className="type-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -421,7 +389,7 @@ export default function FlowAssessment({
           {currentInfo && answers[currentInfo.question.id] !== undefined && (
             <button
               onClick={advance}
-              className="text-sm text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2"
+              className="type-sm text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2"
             >
               Skip to next
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -432,22 +400,22 @@ export default function FlowAssessment({
         </div>
       )}
 
-      {/* Company Insights Mini-Panel (shows during questions) */}
-      {flowState.type === 'question' && companyInsights && (
+      {/* Company Insights Mini-Panel (shows during questions when valid insights exist) */}
+      {flowState.type === "question" && hasValidInsights && (
         <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/5 to-blue-500/5 rounded-xl border border-white/5">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-              <span className="text-lg font-bold text-purple-400">
-                {companyInsights.ai_maturity?.score || '?'}
+              <span className="type-lg font-bold text-purple-400">
+                {companyInsights.ai_maturity.score}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-white/50 truncate">
+              <p className="type-xs text-white/50 truncate">
                 Est. AI Maturity from website analysis
               </p>
-              {companyInsights.readiness_clues?.gaps?.[0] && (
-                <p className="text-xs text-orange-400/80 truncate">
-                  Focus: {companyInsights.readiness_clues.gaps[0]}
+              {validGap && (
+                <p className="type-xs text-orange-400/80 truncate">
+                  Focus: {validGap}
                 </p>
               )}
             </div>
@@ -459,7 +427,7 @@ export default function FlowAssessment({
       {isAnalyzing && (
         <div className="mt-6 p-4 bg-purple-500/5 rounded-xl border border-purple-500/10 flex items-center gap-3">
           <div className="w-5 h-5 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-          <span className="text-xs text-white/60">Analyzing your company in the background...</span>
+          <span className="type-xs text-white/60">Analyzing your company in the background...</span>
         </div>
       )}
     </div>

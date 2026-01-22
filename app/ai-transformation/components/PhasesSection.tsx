@@ -111,13 +111,13 @@ export function PhasesSection() {
   return (
     <section ref={sectionRef as any} id="phases" className="py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <span className="phases-label inline-block text-sm font-medium tracking-widest text-gray-400 uppercase mb-4">
+        <span className="phases-label inline-block type-sm font-medium tracking-widest text-gray-400 uppercase mb-4">
           Engagement Structure
         </span>
-        <h2 className="phases-title text-3xl md:text-5xl font-bold mb-4">
+        <h2 className="phases-title heading-section mb-4">
           Two Phases. <span className="text-gradient-prism">Clear Outcomes</span>.
         </h2>
-        <p className="phases-text text-lg text-gray-400 max-w-2xl mb-16">
+        <p className="phases-text type-lg text-gray-400 max-w-2xl mb-16 leading-relaxed">
           Phase 1 establishes readiness. Phase 2 builds and deploys. You can start with Phase 1
           only if you're early in your AI journey.
         </p>
@@ -134,22 +134,22 @@ export function PhasesSection() {
               <div className="p-8">
                 {/* Header */}
                 <div className="mb-6">
-                  <span className="inline-block text-xs font-semibold tracking-wider text-gray-500 uppercase mb-2">
+                  <span className="inline-block type-xs font-semibold tracking-wider text-gray-500 uppercase mb-2">
                     {phase.number}
                   </span>
-                  <h3 className="text-2xl font-bold mb-3">{phase.title}</h3>
-                  <div className="flex gap-4 text-sm text-gray-400 mb-4">
+                  <h3 className="heading-card mb-3">{phase.title}</h3>
+                  <div className="flex gap-4 type-sm text-gray-400 mb-4">
                     <span>{phase.duration}</span>
                     <span>{phase.price}</span>
                   </div>
-                  <p className="text-gray-400 leading-relaxed">{phase.description}</p>
+                  <p className="text-gray-400 type-base leading-relaxed">{phase.description}</p>
                 </div>
 
                 {/* Features */}
                 <ul className="space-y-3 mb-8">
                   {phase.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-3 text-gray-300">
-                      <span className="text-green-500 mt-1">&#10003;</span>
+                    <li key={featureIndex} className="flex items-start gap-3 text-gray-300 type-sm">
+                      <span className="text-green-500 mt-0.5">&#10003;</span>
                       <span>{feature}</span>
                     </li>
                   ))}

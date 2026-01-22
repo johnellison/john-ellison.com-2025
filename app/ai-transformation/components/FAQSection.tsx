@@ -108,10 +108,10 @@ export function FAQSection() {
       />
 
       <div className="relative max-w-4xl mx-auto w-full">
-        <span className="faq-label block text-xs font-medium tracking-[0.2em] uppercase text-violet-400 mb-4">
+        <span className="faq-label block type-xs font-medium tracking-[0.2em] uppercase text-violet-400 mb-4">
           FAQ
         </span>
-        <h2 className="faq-title text-2xl md:text-3xl font-medium text-white mb-12">
+        <h2 className="faq-title heading-section text-white mb-12">
           Common Questions
         </h2>
 
@@ -127,11 +127,11 @@ export function FAQSection() {
                 onClick={() => toggleItem(index)}
                 className="w-full py-6 flex justify-between items-center text-left group cursor-pointer"
               >
-                <span className="text-lg font-medium text-white group-hover:text-violet-400 transition-colors duration-200">
+                <span className="type-base font-medium text-white group-hover:text-violet-400 transition-colors duration-200">
                   {item.question}
                 </span>
                 <span
-                  className={`text-2xl text-violet-400 transition-transform duration-300 ${
+                  className={`type-lg text-violet-400 transition-transform duration-300 ${
                     activeIndex === index ? 'rotate-45' : ''
                   }`}
                 >
@@ -145,7 +145,7 @@ export function FAQSection() {
                     : 'max-h-0 pb-0'
                 }`}
               >
-                <p className="text-base text-white/60 leading-relaxed max-w-[70ch]">
+                <p className="type-base text-white/60 leading-relaxed max-w-[70ch]">
                   {item.answer}
                 </p>
               </div>

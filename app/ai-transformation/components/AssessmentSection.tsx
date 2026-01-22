@@ -34,13 +34,13 @@ export function AssessmentSection() {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <span className="assessment-reveal inline-block px-4 py-2 text-sm font-medium text-purple-400 bg-purple-500/10 rounded-full border border-purple-500/20 mb-6">
+          <span className="assessment-reveal inline-block px-4 py-2 type-sm font-medium text-purple-400 bg-purple-500/10 rounded-full border border-purple-500/20 mb-6">
             Start Here
           </span>
-          <h2 className="assessment-reveal text-3xl md:text-5xl font-bold mb-6">
+          <h2 className="assessment-reveal heading-section mb-6">
             <span className="text-gradient-prism">AI Readiness Assessment</span>
           </h2>
-          <p className="assessment-reveal text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="assessment-reveal type-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
             Answer a few questions about your organization and receive an automated
             readiness report. This helps us understand your situation before we talk.
           </p>
@@ -53,61 +53,61 @@ export function AssessmentSection() {
 
           {/* Main content container */}
           <div className="relative bg-[#0a0a0f]/95 backdrop-blur-sm rounded-2xl p-8 md:p-12">
-            <div className="grid lg:grid-cols-5 gap-12">
+            <div className="grid lg:grid-cols-5 gap-12 items-center">
               {/* Left side - What You'll Learn */}
               <div className="lg:col-span-2">
-                <h3 className="text-2xl font-semibold text-white mb-4">
+                <h3 className="type-xl font-semibold text-white mb-4 leading-snug">
                   What You'll Learn
                 </h3>
-                <p className="text-gray-400 mb-6">
+                <p className="text-gray-400 type-sm mb-6 leading-relaxed">
                   This brief assessment evaluates your organization across key dimensions
                   that determine AI adoption success.
                 </p>
 
-                <ul className="space-y-4 mb-8">
+                <ul className="space-y-3 mb-8">
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
-                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </span>
-                    <span className="text-gray-300">Current AI maturity level</span>
+                    <span className="text-gray-300 type-sm">Current AI maturity level</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
-                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </span>
-                    <span className="text-gray-300">Organizational readiness indicators</span>
+                    <span className="text-gray-300 type-sm">Organizational readiness indicators</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
-                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </span>
-                    <span className="text-gray-300">Key blockers to address</span>
+                    <span className="text-gray-300 type-sm">Key blockers to address</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
-                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </span>
-                    <span className="text-gray-300">Recommended starting point</span>
+                    <span className="text-gray-300 type-sm">Recommended starting point</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
-                      <svg className="w-3.5 h-3.5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </span>
-                    <span className="text-gray-300">Next steps specific to your situation</span>
+                    <span className="text-gray-300 type-sm">Next steps specific to your situation</span>
                   </li>
                 </ul>
 
-                <p className="text-sm text-gray-500">
+                <p className="type-xs text-gray-500">
                   Takes 2-3 minutes. You'll receive your report immediately.
                 </p>
               </div>

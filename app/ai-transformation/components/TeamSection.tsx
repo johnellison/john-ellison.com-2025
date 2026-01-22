@@ -82,7 +82,7 @@ export function TeamSection() {
           The Team
         </span>
 
-        <h2 className="team-title text-3xl md:text-4xl lg:text-5xl font-bold mb-16 text-white">
+        <h2 className="team-title heading-section mb-16 text-white">
           Two Disciplines. One{' '}
           <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
             Integrated Engagement
@@ -106,19 +106,19 @@ export function TeamSection() {
                 />
               </div>
 
-              <h3 className="text-2xl font-semibold text-white mb-1">
+              <h3 className="heading-card text-white mb-1">
                 {member.name}
               </h3>
 
-              <span className="inline-block text-sm font-medium text-violet-400 mb-4">
+              <span className="inline-block type-sm font-medium text-violet-400 mb-4">
                 {member.role}
               </span>
 
-              <p className="text-white/70 text-sm leading-relaxed mb-4">
+              <p className="text-white/70 type-sm leading-relaxed mb-4">
                 {member.bio}
               </p>
 
-              <p className="text-white/50 text-sm italic border-l-2 border-violet-500/50 pl-4">
+              <p className="text-white/50 type-sm italic border-l-2 border-violet-500/50 pl-4">
                 {member.quote}
               </p>
             </div>

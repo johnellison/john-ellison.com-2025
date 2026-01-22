@@ -104,18 +104,18 @@ export function ApproachSection() {
       className="py-24 px-6 bg-[#050507]"
     >
       <div className="max-w-6xl mx-auto">
-        <span className="approach-label inline-block text-sm font-medium text-violet-400 tracking-wider uppercase mb-4">
+        <span className="approach-label inline-block type-sm font-medium text-violet-400 tracking-wider uppercase mb-4">
           Our Approach
         </span>
 
-        <h2 className="approach-title text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+        <h2 className="approach-title heading-section mb-6">
           <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
             Strategy, Governance, and Build
           </span>
           <span className="text-white">—Combined</span>
         </h2>
 
-        <p className="approach-description text-lg md:text-xl text-white/70 max-w-3xl mb-16">
+        <p className="approach-description type-lg text-white/70 max-w-3xl mb-16 leading-relaxed">
           We do not run AI workshops. We do not build prototypes that live in a
           demo folder. We deliver AI systems that get deployed and used—with the
           organizational readiness to make adoption stick.
@@ -127,10 +127,10 @@ export function ApproachSection() {
               key={index}
               className="diff-card bg-white/[0.03] border border-white/10 rounded-2xl p-6 hover:bg-white/[0.05] hover:border-violet-500/30 transition-all duration-300"
             >
-              <h4 className="text-lg font-semibold text-white mb-3">
+              <h4 className="heading-card text-white mb-3">
                 {item.title}
               </h4>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <p className="text-white/60 type-sm leading-relaxed">
                 {item.description}
               </p>
             </div>

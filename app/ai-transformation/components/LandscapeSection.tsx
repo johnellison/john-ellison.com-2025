@@ -116,18 +116,18 @@ export function LandscapeSection() {
       className="py-24 px-6 bg-[#050507]"
     >
       <div className="max-w-6xl mx-auto">
-        <span className="landscape-label inline-block text-sm font-medium text-violet-400 tracking-wider uppercase mb-4">
+        <span className="landscape-label inline-block type-sm font-medium text-violet-400 tracking-wider uppercase mb-4">
           The Market
         </span>
 
-        <h2 className="landscape-title text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-white">
+        <h2 className="landscape-title heading-section mb-6 text-white">
           Why Traditional{' '}
           <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
             Options Fail
           </span>
         </h2>
 
-        <p className="landscape-description text-lg md:text-xl text-white/70 max-w-3xl mb-16">
+        <p className="landscape-description type-lg text-white/70 max-w-3xl mb-16 leading-relaxed">
           The AI adoption market is split between expensive generalists and
           generic free tools. Neither delivers the specialized focus required
           for operational transformation.
@@ -144,17 +144,17 @@ export function LandscapeSection() {
               }`}
             >
               <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold mb-4"
+                className="w-12 h-12 rounded-xl flex items-center justify-center type-lg font-bold mb-4"
                 style={{ background: card.iconBg, color: card.iconColor }}
               >
                 {card.icon}
               </div>
 
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="heading-card text-white mb-2">
                 {card.title}
               </h3>
 
-              <p className="text-white font-medium mb-4">{card.subtitle}</p>
+              <p className="text-white type-sm font-medium mb-4">{card.subtitle}</p>
 
               <ul className="space-y-3">
                 {card.items.map((item, itemIndex) => (

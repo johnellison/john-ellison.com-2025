@@ -119,15 +119,15 @@ export function ProblemSection() {
   return (
     <section ref={sectionRef} id="problem" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
-        <span className="problem-label block font-sans text-sm font-medium tracking-widest uppercase text-violet-400 mb-4 text-center">
+        <span className="problem-label block font-sans type-sm font-medium tracking-widest uppercase text-violet-400 mb-4 text-center">
           The Problem
         </span>
 
-        <h2 className="problem-title font-display text-[clamp(2rem,4vw,3rem)] font-medium text-white text-center mb-6 leading-tight">
+        <h2 className="problem-title heading-section text-white text-center mb-6">
           <span className="text-gradient-prism">AI Adoption</span> is Failing Across Organizations
         </h2>
 
-        <p className="problem-text text-lg text-white/60 max-w-3xl mx-auto text-center mb-12 leading-relaxed">
+        <p className="problem-text type-lg text-white/60 max-w-3xl mx-auto text-center mb-12 leading-relaxed">
           The problem is not building AI tools. The problem is that AI is not getting adopted inside organizations.
           Prototypes never ship. Tools never get used. There&apos;s no governance, no strategy, no integration into operations.
         </p>
@@ -139,13 +139,13 @@ export function ProblemSection() {
               key={index}
               className="problem-card bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 transition-all duration-300 hover:border-violet-500/30 hover:-translate-y-1"
             >
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 text-2xl bg-gradient-to-br from-red-400/20 to-red-400/5 text-red-400">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-6 type-lg bg-gradient-to-br from-red-400/20 to-red-400/5 text-red-400">
                 {card.icon}
               </div>
-              <h3 className="font-display text-xl font-medium text-white mb-3">
+              <h3 className="heading-card text-white mb-3">
                 {card.title}
               </h3>
-              <p className="text-sm text-white/60 leading-relaxed">
+              <p className="type-sm text-white/60 leading-relaxed">
                 {card.description}
               </p>
             </div>
@@ -154,21 +154,21 @@ export function ProblemSection() {
 
         {/* ICP Card */}
         <div className="icp-card bg-white/[0.02] border border-white/[0.06] rounded-[20px] p-12 mt-12">
-          <h3 className="font-display text-xl font-medium text-white mb-6">
+          <h3 className="heading-card text-white mb-6">
             Is This You?
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Your Organization Column */}
             <div className="icp-column">
-              <h4 className="font-display text-lg font-medium text-white mb-4">
+              <h4 className="heading-subsection text-white mb-4">
                 Your Organization
               </h4>
               <ul className="space-y-2">
                 {icpOrganization.map((item, index) => (
                   <li
                     key={index}
-                    className="text-sm text-white/70 pl-6 relative"
+                    className="type-sm text-white/70 pl-6 relative"
                   >
                     <span className="absolute left-0 text-violet-400 font-bold">&gt;</span>
                     {item}
@@ -179,14 +179,14 @@ export function ProblemSection() {
 
             {/* Your Situation Column */}
             <div className="icp-column">
-              <h4 className="font-display text-lg font-medium text-white mb-4">
+              <h4 className="heading-subsection text-white mb-4">
                 Your Situation
               </h4>
               <ul className="space-y-2">
                 {icpSituation.map((item, index) => (
                   <li
                     key={index}
-                    className="text-sm text-white/70 pl-6 relative"
+                    className="type-sm text-white/70 pl-6 relative"
                   >
                     <span className="absolute left-0 text-violet-400 font-bold">&gt;</span>
                     {item}
