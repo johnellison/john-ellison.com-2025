@@ -52,6 +52,9 @@ export function RainbowGrid({ className = '' }: RainbowGridProps) {
       const wave = (waveX + waveY) * 0.5;
 
       const colorIndex = (wave * colors.length + time * 3) % colors.length;
+      if (!Number.isFinite(colorIndex)) {
+        return colors[0];
+      }
       const colorA = colors[Math.floor(colorIndex) % colors.length];
       const colorB = colors[Math.ceil(colorIndex) % colors.length];
       const t = colorIndex % 1;
@@ -83,7 +86,7 @@ export function RainbowGrid({ className = '' }: RainbowGridProps) {
 
       ctx.clearRect(0, 0, width, height);
 
-      const time = scrollProgress;
+      const time = Number.isFinite(scrollProgress) ? scrollProgress : 0;
 
       for (let x = 0; x <= width; x += gridSize) {
         for (let y = 0; y < height; y += 4) {
@@ -124,6 +127,10 @@ export function RainbowGrid({ className = '' }: RainbowGridProps) {
 
     function handleScroll() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (!Number.isFinite(docHeight) || docHeight <= 0) {
+        targetScrollProgress = 0;
+        return;
+      }
       targetScrollProgress = window.scrollY / docHeight;
     }
 

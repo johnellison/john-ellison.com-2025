@@ -110,7 +110,7 @@ export function OutcomesSection() {
         <span className="outcomes-label inline-block type-sm font-medium tracking-widest text-gray-400 uppercase mb-4">
           Outcomes
         </span>
-        <h2 className="outcomes-title heading-section mb-4">
+        <h2 className="outcomes-title heading-section mb-10">
           <span className="text-gradient-prism">What You Get</span>
         </h2>
         <p className="outcomes-text type-lg text-gray-400 max-w-2xl mb-16 leading-relaxed">
@@ -127,7 +127,7 @@ export function OutcomesSection() {
                 {outcome.icon}
               </div>
               <h4 className="heading-card mb-2">{outcome.title}</h4>
-              <p className="text-gray-400 type-sm leading-relaxed">{outcome.description}</p>
+              <p className="text-gray-400 type-base leading-relaxed">{outcome.description}</p>
             </div>
           ))}
         </div>

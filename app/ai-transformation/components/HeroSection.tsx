@@ -170,7 +170,7 @@ export function HeroSection() {
           From AI curious to AI-native
         </span>
 
-        <h1 className="hero-headline font-display type-2xl md:text-6xl lg:text-7xl tracking-tight uppercase font-bold text-white leading-[1.1] mb-8 max-w-4xl mx-auto drop-shadow-2xl">
+        <h1 className="hero-headline font-display type-4xl tracking-wide uppercase font-bold text-white leading-[1.1] mb-10 max-w-4xl mx-auto drop-shadow-2xl">
           Transform your <span className="text-gradient-prism">business</span> with{' '}
           <span className="text-gradient-warm block md:inline">AI</span>
         </h1>

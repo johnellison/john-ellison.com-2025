@@ -120,7 +120,7 @@ export function LandscapeSection() {
           The Market
         </span>
 
-        <h2 className="landscape-title heading-section mb-6 text-white">
+        <h2 className="landscape-title heading-section mb-10 text-white">
           Why Traditional{' '}
           <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
             Options Fail
@@ -137,11 +137,10 @@ export function LandscapeSection() {
           {comparisonCards.map((card, index) => (
             <div
               key={index}
-              className={`landscape-card rounded-2xl p-6 transition-all duration-300 ${
-                card.isHighlighted
-                  ? 'bg-violet-500/[0.05] border-2 border-violet-500/50 hover:border-violet-400/70'
-                  : 'bg-white/[0.03] border border-white/10 hover:bg-white/[0.05] hover:border-white/20'
-              }`}
+              className={`landscape-card rounded-2xl p-6 transition-all duration-300 ${card.isHighlighted
+                ? 'bg-violet-500/[0.05] border-2 border-violet-500/50 hover:border-violet-400/70'
+                : 'bg-white/[0.03] border border-white/10 hover:bg-white/[0.05] hover:border-white/20'
+                }`}
             >
               <div
                 className="w-12 h-12 rounded-xl flex items-center justify-center type-lg font-bold mb-4"
@@ -154,11 +153,11 @@ export function LandscapeSection() {
                 {card.title}
               </h3>
 
-              <p className="text-white type-sm font-medium mb-4">{card.subtitle}</p>
+              <p className="text-white type-base font-medium mb-4">{card.subtitle}</p>
 
               <ul className="space-y-3">
                 {card.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="text-sm">
+                  <li key={itemIndex} className="type-base">
                     <span className="font-semibold text-white/90">
                       {item.label}:
                     </span>{' '}

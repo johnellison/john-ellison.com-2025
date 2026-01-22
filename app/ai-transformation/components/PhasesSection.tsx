@@ -9,8 +9,10 @@ const phases = [
   {
     number: 'Phase 1',
     title: 'AI Readiness & Strategy',
+    lead: 'Led by John Ellison & Fatma Ghedira',
+    image: '/images/ai-transformation/ai-readiness-strategy.png',
     duration: '1-2 weeks',
-    price: '$10,000-$20,000',
+    price: '$10k-$20k',
     description:
       "Assess your organization's AI readiness, surface resistance, establish governance, and identify the highest-impact opportunities.",
     features: [
@@ -19,8 +21,6 @@ const phases = [
       'Governance + policy scaffolding',
       'Opportunity mapping across workflows',
       'Technical feasibility review',
-      'Change-management framing',
-      'Build roadmap with prioritization',
       'Strategic recommendations report',
     ],
     cta: 'Start With Strategy',
@@ -28,23 +28,41 @@ const phases = [
   },
   {
     number: 'Phase 2',
-    title: 'AI Product Sprint(s)',
+    title: 'The AI Product Sprint',
+    lead: 'Led by John Ellison',
+    image: '/images/ai-transformation/john-ai-sprint-session.jpg',
     duration: '2-4 weeks',
-    price: '$25,000-$50,000',
+    price: '$25k-$50k',
     description:
-      'Build and deploy 1-2 real AI tools—internal or customer-facing—integrated into your existing stack with full enablement.',
+      'In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your team uses every day.',
     features: [
-      '1-2 production AI tools built and deployed',
-      'Integration into existing stack',
-      'Team enablement and training',
-      'Full documentation and handoff',
-      'Iteration cycle based on usage',
-      'Integration into daily operations',
-      'Post-launch support period',
-      'Stakeholder adoption sessions',
+      'Design Sprint methodology',
+      'Vibe Coding for rapid iteration',
+      'Daily standups and demos',
+      'Production-ready deployment',
+      'Full documentation and handover',
     ],
     cta: 'Ready to Build',
     gradient: 'from-blue-500 to-cyan-500',
+  },
+  {
+    number: 'Phase 3',
+    title: 'AI Adoption & Integration',
+    lead: 'Led by Fatma Ghedira',
+    image: '/images/ai-transformation/fatma-workshop-circle.webp',
+    duration: 'Ongoing',
+    price: 'Custom',
+    description:
+      'Before we build, we align. During the build, we coach. After we ship, we integrate.',
+    features: [
+      'Stakeholder mapping and alignment',
+      'Fear and resistance addressed proactively',
+      'Role clarity in human-AI workflows',
+      'Executive coaching and support',
+      'Change management integration',
+    ],
+    cta: 'Ensure Adoption',
+    gradient: 'from-purple-500 to-pink-500',
   },
 ];
 
@@ -109,59 +127,86 @@ export function PhasesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef as any} id="phases" className="py-24 px-6">
-      <div className="max-w-6xl mx-auto">
+    <section ref={sectionRef as any} id="phases" className="py-24 px-6 relative overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-900/20 blur-[120px] rounded-full pointer-events-none z-0" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <span className="phases-label inline-block type-sm font-medium tracking-widest text-gray-400 uppercase mb-4">
           Engagement Structure
         </span>
-        <h2 className="phases-title heading-section mb-4">
-          Two Phases. <span className="text-gradient-prism">Clear Outcomes</span>.
+        <h2 className="phases-title heading-section mb-10">
+          Three <span className="text-gradient-prism">Distinct Phases</span>.
         </h2>
         <p className="phases-text type-lg text-gray-400 max-w-2xl mb-16 leading-relaxed">
-          Phase 1 establishes readiness. Phase 2 builds and deploys. You can start with Phase 1
-          only if you're early in your AI journey.
+          A complete transformation journey. From strategy to build to adoption.
         </p>
 
-        <div className="phase-grid grid md:grid-cols-2 gap-8">
+        <div className="phase-grid grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {phases.map((phase, index) => (
             <div
               key={index}
-              className="phase-card relative bg-gray-900/50 rounded-2xl border border-gray-800 overflow-hidden"
+              className="phase-card flex flex-col h-full bg-[#0a0a0f] rounded-2xl border border-gray-800 overflow-hidden group hover:border-gray-700 transition-all duration-300 shadow-2xl"
             >
-              {/* Top gradient border */}
-              <div className={`h-1 w-full bg-gradient-to-r ${phase.gradient}`} />
+              {/* Image Area */}
+              <div className="relative h-56 overflow-hidden bg-gray-900 border-b border-white/5">
+                <img
+                  src={phase.image}
+                  alt={phase.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
 
-              <div className="p-8">
-                {/* Header */}
-                <div className="mb-6">
-                  <span className="inline-block type-xs font-semibold tracking-wider text-gray-500 uppercase mb-2">
+                {/* Subtle bottom fade only */}
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0a0a0f] to-transparent z-10 opacity-60" />
+
+                {/* Phase Badge */}
+                <div className="absolute top-4 left-4 z-20">
+                  <span className="inline-block px-3 py-1 bg-black/60 backdrop-blur-md border border-white/10 rounded-full text-xs font-semibold uppercase tracking-wider text-white">
                     {phase.number}
                   </span>
-                  <h3 className="heading-card mb-3">{phase.title}</h3>
-                  <div className="flex gap-4 type-sm text-gray-400 mb-4">
-                    <span>{phase.duration}</span>
-                    <span>{phase.price}</span>
+                </div>
+              </div>
+
+              <div className="p-8 flex flex-col flex-grow relative z-20">
+
+                {/* Content */}
+                <div className="mb-6 pt-2">
+                  <h3 className="heading-card mb-2 text-white group-hover:text-violet-400 transition-colors">
+                    {phase.title}
+                  </h3>
+                  <p className="text-sm font-medium text-violet-400 mb-4 uppercase tracking-wide">
+                    {phase.lead}
+                  </p>
+
+                  <div className="flex items-center gap-4 type-sm text-gray-400 mb-6 pb-6 border-b border-gray-800">
+                    <span className="px-2 py-1 bg-white/5 rounded text-xs border border-white/10">{phase.duration}</span>
+                    <span className="px-2 py-1 bg-white/5 rounded text-xs border border-white/10">{phase.price}</span>
                   </div>
-                  <p className="text-gray-400 type-base leading-relaxed">{phase.description}</p>
+
+                  <p className="text-gray-300 type-base leading-relaxed mb-6 min-h-[5rem]">
+                    {phase.description}
+                  </p>
                 </div>
 
                 {/* Features */}
-                <ul className="space-y-3 mb-8">
+                <ul className="space-y-3 mb-8 flex-grow">
                   {phase.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start gap-3 text-gray-300 type-sm">
-                      <span className="text-green-500 mt-0.5">&#10003;</span>
+                    <li key={featureIndex} className="flex items-start gap-3 text-gray-400 type-sm">
+                      <span className={`text-${phase.gradient.split('-')[1]}-400 mt-1`}>✦</span>
                       <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
                 {/* CTA */}
-                <Link
-                  href="/contact"
-                  className="btn-primary w-full justify-center uppercase tracking-wide py-4"
-                >
-                  {phase.cta}
-                </Link>
+                <div className="mt-auto">
+                  <Link
+                    href="/contact"
+                    className="block w-full py-4 px-6 text-center rounded-lg bg-white/5 border border-white/10 text-sm font-medium text-white hover:bg-white/10 hover:border-white/20 transition-all uppercase tracking-wider"
+                  >
+                    {phase.cta}
+                  </Link>
+                </div>
               </div>
             </div>
           ))}

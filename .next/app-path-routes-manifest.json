@@ -3,8 +3,11 @@
   "/_global-error/page": "/_global-error",
   "/_not-found/page": "/_not-found",
   "/ai-transformation/page": "/ai-transformation",
+  "/ai-transformation/results/page": "/ai-transformation/results",
   "/api/analyze-company/route": "/api/analyze-company",
   "/api/assessments/route": "/api/assessments",
+  "/api/contact/route": "/api/contact",
   "/api/generate-pdf/route": "/api/generate-pdf",
-  "/api/leads/route": "/api/leads"
+  "/api/leads/route": "/api/leads",
+  "/contact/page": "/contact"
 }

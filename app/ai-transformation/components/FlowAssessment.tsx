@@ -20,6 +20,7 @@ interface FlowAssessmentProps {
   answers: Record<string, number>;
   onAnswer: (questionId: string, score: number) => void;
   onComplete: () => void;
+  onDimensionChange?: (dimensionId: string, dimensionIndex: number) => void;
   companyInsights: any;
   isAnalyzing: boolean;
   isSubmitting?: boolean;
@@ -52,6 +53,7 @@ export default function FlowAssessment({
   answers,
   onAnswer,
   onComplete,
+  onDimensionChange,
   companyInsights,
   isAnalyzing,
   isSubmitting = false,
@@ -67,6 +69,16 @@ export default function FlowAssessment({
 
   // Get current dimension color
   const currentColor = DIMENSION_COLORS[currentDimension] || DIMENSION_COLORS[0];
+
+  // Notify parent of dimension changes
+  useEffect(() => {
+    if (onDimensionChange && !isComplete) {
+      const dim = dimensions[currentDimension];
+      if (dim) {
+        onDimensionChange(dim.id, currentDimension);
+      }
+    }
+  }, [currentDimension, dimensions, onDimensionChange, isComplete]);
 
   // Calculate total progress
   const getTotalProgress = useCallback(() => {
@@ -290,7 +302,7 @@ export default function FlowAssessment({
                 }`}
                 style={{
                   backgroundColor: 'rgba(255,255,255,0.1)',
-                  ringColor: isActive ? color.color : 'transparent'
+                  ['--tw-ring-color' as string]: isActive ? color.color : 'transparent'
                 }}
               >
                 <div

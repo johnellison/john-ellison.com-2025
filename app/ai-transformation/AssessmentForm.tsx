@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { AssessmentResult } from '@/types/assessment';
 import FlowAssessment from './components/FlowAssessment';
+import AssessmentSidebar from './components/AssessmentSidebar';
+import { useAssessmentScores } from './hooks/useAssessmentScores';
 import { ArrowRight, Mail, CheckCircle2 } from 'lucide-react';
 
 const QUESTIONS = {
@@ -420,7 +422,11 @@ const STEPS = [
   { id: 'culture', title: 'Culture & Change Readiness' },
 ];
 
-export default function AITransformationPage() {
+interface AssessmentFormProps {
+  onAssessmentStart?: () => void;
+}
+
+export default function AITransformationPage({ onAssessmentStart }: AssessmentFormProps = {}) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
@@ -435,6 +441,22 @@ export default function AITransformationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [report, setReport] = useState<AssessmentResult | null>(null);
   const [basePath, setBasePath] = useState(process.env.NEXT_PUBLIC_BASE_PATH || '');
+  const [currentDimensionId, setCurrentDimensionId] = useState<string>('leadership');
+
+  // Calculate live scores for the sidebar visualization
+  const {
+    dimensionScores,
+    axisScores,
+    predictedArchetype,
+    totalAnswered,
+    totalQuestions,
+    dimensionProgress,
+  } = useAssessmentScores(DIMENSIONS, answers);
+
+  // Handle dimension changes from FlowAssessment
+  const handleDimensionChange = useCallback((dimensionId: string) => {
+    setCurrentDimensionId(dimensionId);
+  }, []);
 
   useEffect(() => {
     // Only check pathname on client after hydration
@@ -559,6 +581,7 @@ export default function AITransformationPage() {
 
       // Immediately advance to next step
       setCurrentStep(1);
+      onAssessmentStart?.();
     } else if (currentStep < STEPS.length - 1) {
       setCurrentStep(currentStep + 1);
     }
@@ -726,20 +749,59 @@ export default function AITransformationPage() {
     );
   };
 
-  // If we're past the intro step, show the flow assessment
+  // If we're past the intro step, show the flow assessment with sidebar
   if (currentStep > 0) {
     return (
-      <div className="assessment-form-container max-w-3xl mx-auto">
-        <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
-          <FlowAssessment
-            dimensions={DIMENSIONS}
-            answers={answers}
-            onAnswer={handleAnswer}
-            onComplete={handleFlowComplete}
-            companyInsights={companyInsights}
-            isAnalyzing={isAnalyzing}
-            isSubmitting={isSubmitting}
-          />
+      <div className="assessment-form-container max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 lg:gap-8">
+          {/* LEFT: Visualization Sidebar (desktop only) */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24 space-y-4">
+              <AssessmentSidebar
+                dimensionScores={dimensionScores}
+                axisScores={axisScores}
+                predictedArchetype={predictedArchetype}
+                currentDimensionId={currentDimensionId}
+                totalAnswered={totalAnswered}
+              />
+            </div>
+          </div>
+
+          {/* RIGHT: Assessment Form */}
+          <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
+            {/* Mobile: Mini archetype badge */}
+            {totalAnswered >= 3 && predictedArchetype && (
+              <div className="lg:hidden mb-6 flex items-center justify-between p-3 bg-white/[0.03] border border-white/[0.06] rounded-lg">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: predictedArchetype.color }}
+                  />
+                  <span className="text-xs text-white/60">Emerging as</span>
+                  <span
+                    className="text-sm font-medium"
+                    style={{ color: predictedArchetype.color }}
+                  >
+                    {predictedArchetype.name}
+                  </span>
+                </div>
+                <div className="text-xs text-white/40">
+                  {totalAnswered}/{totalQuestions}
+                </div>
+              </div>
+            )}
+
+            <FlowAssessment
+              dimensions={DIMENSIONS}
+              answers={answers}
+              onAnswer={handleAnswer}
+              onComplete={handleFlowComplete}
+              onDimensionChange={handleDimensionChange}
+              companyInsights={companyInsights}
+              isAnalyzing={isAnalyzing}
+              isSubmitting={isSubmitting}
+            />
+          </div>
         </div>
       </div>
     );

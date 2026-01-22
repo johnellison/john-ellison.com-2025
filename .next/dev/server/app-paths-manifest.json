@@ -1,5 +1,5 @@
 {
-  "/api/leads/route": "app/api/leads/route.js",
-  "/api/analyze-company/route": "app/api/analyze-company/route.js",
-  "/ai-transformation/page": "app/ai-transformation/page.js"
+  "/ai-transformation/page": "app/ai-transformation/page.js",
+  "/ai-transformation/results/page": "app/ai-transformation/results/page.js",
+  "/contact/page": "app/contact/page.js"
 }

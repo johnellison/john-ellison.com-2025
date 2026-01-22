@@ -137,6 +137,12 @@
       "namedRegex": "^/ai\\-transformation(?:/)?$"
     },
     {
+      "page": "/ai-transformation/results",
+      "regex": "^/ai\\-transformation/results(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ai\\-transformation/results(?:/)?$"
+    },
+    {
       "page": "/api/analyze-company",
       "regex": "^/api/analyze\\-company(?:/)?$",
       "routeKeys": {},
@@ -149,6 +155,12 @@
       "namedRegex": "^/api/assessments(?:/)?$"
     },
     {
+      "page": "/api/contact",
+      "regex": "^/api/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/contact(?:/)?$"
+    },
+    {
       "page": "/api/generate-pdf",
       "regex": "^/api/generate\\-pdf(?:/)?$",
       "routeKeys": {},
@@ -159,6 +171,12 @@
       "regex": "^/api/leads(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/leads(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
     }
   ],
   "dataRoutes": [],
