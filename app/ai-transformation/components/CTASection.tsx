@@ -66,13 +66,12 @@ export function CTASection() {
       />
 
       <h2 className="cta-heading relative heading-section text-white mb-4 max-w-[70%] md:max-w-none">
-        Ready to Move Past{' '}
-        <span className="text-gradient-prism">AI Experimentation</span>?
+        Ready to Harness The{' '}
+        <span className="text-gradient-prism">Power of AI ?</span>
       </h2>
 
       <p className="cta-description relative type-lg text-white/60 mb-8 max-w-[60ch] mx-auto leading-relaxed">
-        Take the readiness assessment or book a strategy call. No sales pitch—a
-        direct conversation about whether we can help.
+        Take the free AI readiness assessment or book a free strategy call and I'll happily hear about what challenges you're facing as an organization and see if there are any ways I can help.
       </p>
 
       <div className="cta-buttons relative flex flex-wrap justify-center gap-4">
@@ -95,7 +94,9 @@ export function CTASection() {
 
         {/* Secondary CTA Button */}
         <Link
-          href="/contact"
+          href="https://calendar.app.google/wirgV6a4Vcz7cZAcA"
+          target="_blank"
+          rel="noopener noreferrer"
           className="btn-secondary uppercase tracking-wide px-8 py-4"
         >
           Book a Strategy Call

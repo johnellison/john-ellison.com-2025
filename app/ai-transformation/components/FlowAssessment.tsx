@@ -26,14 +26,14 @@ interface FlowAssessmentProps {
   isSubmitting?: boolean;
 }
 
-// Prismatic colors for each dimension (rainbow spectrum)
+// Purple-to-blue gradient colors for each dimension (brand-aligned)
 const DIMENSION_COLORS = [
-  { color: '#ef4444', name: 'red' },      // Leadership - Red
-  { color: '#f97316', name: 'orange' },   // Data - Orange
-  { color: '#eab308', name: 'yellow' },   // Technology - Yellow
-  { color: '#22c55e', name: 'green' },    // Talent - Green
-  { color: '#06b6d4', name: 'cyan' },     // Governance - Cyan
-  { color: '#8b5cf6', name: 'violet' },   // Culture - Violet
+  { color: '#8b5cf6', name: 'violet' },       // Leadership - Violet
+  { color: '#7c3aed', name: 'purple' },       // Data - Purple
+  { color: '#6d28d9', name: 'deep-purple' },  // Technology - Deep Purple
+  { color: '#5b21b6', name: 'indigo' },       // Talent - Indigo
+  { color: '#4c1d95', name: 'blue-violet' },  // Governance - Blue Violet
+  { color: '#3b82f6', name: 'blue' },         // Culture - Blue
 ];
 
 // Helper to check if a gap message is valid/useful
@@ -460,25 +460,6 @@ export default function FlowAssessment({
         </div>
       )}
 
-      {/* Loading indicator for analysis */}
-      {isAnalyzing && (
-        <div
-          className="mt-6 p-4 rounded-xl border flex items-center gap-3"
-          style={{
-            backgroundColor: `${currentColor.color}05`,
-            borderColor: `${currentColor.color}20`
-          }}
-        >
-          <div
-            className="w-5 h-5 border-2 rounded-full animate-spin"
-            style={{
-              borderColor: `${currentColor.color}30`,
-              borderTopColor: currentColor.color
-            }}
-          />
-          <span className="type-xs text-white/60">Analyzing your company in the background...</span>
-        </div>
-      )}
     </div>
   );
 }

@@ -2,7 +2,8 @@
 
 import { AssessmentResult } from '@/types/assessment';
 import MaturityRadar from './MaturityRadar';
-import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail } from 'lucide-react';
+import ArchetypeQuadrant from '@/app/ai-transformation/components/ArchetypeQuadrant';
+import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail, Globe, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 
@@ -11,7 +12,7 @@ interface ResultsDashboardProps {
 }
 
 export default function ResultsDashboard({ result }: ResultsDashboardProps) {
-  const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData } = result;
+  const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData, companyInsights, industryAnalysis } = result;
   const [showEmailSent, setShowEmailSent] = useState(true);
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -91,33 +92,95 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
 
-        {/* Hero: Archetype + Score */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4">
-            <span className="type-xs text-white/60">Your AI Archetype</span>
+        {/* Company Overview Section */}
+        {companyData && (
+          <section className="mb-12">
+            <div className="bg-white/5 rounded-2xl border border-white/10 p-6 md:p-8">
+              <h2 className="heading-subsection mb-6 flex items-center gap-3">
+                <Building2 className="h-5 w-5 text-purple-400" />
+                About Your Company
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="type-xs font-medium text-white/50 uppercase tracking-wider mb-1">Company</h3>
+                  <p className="type-base text-white">{companyData.name}</p>
+                </div>
+                <div>
+                  <h3 className="type-xs font-medium text-white/50 uppercase tracking-wider mb-1">Website</h3>
+                  <a
+                    href={companyData.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="type-base text-purple-400 hover:text-purple-300 flex items-center gap-1"
+                  >
+                    <Globe className="h-4 w-4" />
+                    {companyData.website.replace(/^https?:\/\//, '')}
+                  </a>
+                </div>
+              </div>
+
+              {companyInsights?.company_summary && (
+                <div className="mt-6 pt-6 border-t border-white/10">
+                  <h3 className="type-xs font-medium text-white/50 uppercase tracking-wider mb-3">AI Maturity Signals</h3>
+                  <p className="type-sm text-gray-300 leading-relaxed">
+                    {companyInsights.company_summary}
+                  </p>
+                  {companyInsights.ai_maturity?.signals && companyInsights.ai_maturity.signals.length > 0 && (
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {companyInsights.ai_maturity.signals.map((signal: string, i: number) => (
+                        <span key={i} className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full type-xs">
+                          {signal}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Enhanced Archetype Section with Quadrant */}
+        <section className="mb-12">
+          <div className="grid lg:grid-cols-[340px_1fr] gap-8 items-start">
+            {/* Left: Quadrant Visualization */}
+            <div className="hidden lg:block">
+              <ArchetypeQuadrant
+                axisScores={axisScores}
+                predictedArchetype={archetype}
+                totalAnswered={999} // Completed assessment
+              />
+            </div>
+
+            {/* Right: Archetype Details */}
+            <div className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4">
+                <span className="type-xs text-white/60">Your AI Archetype</span>
+              </div>
+
+              <h1
+                className="heading-section mb-3"
+                style={{ color: archetype.color }}
+              >
+                {archetype.name}
+              </h1>
+
+              <p className="type-lg text-white/60 mb-6 italic">
+                "{archetype.hook}"
+              </p>
+
+              <p className="type-base text-white/70 max-w-2xl mb-8">
+                {archetype.description}
+              </p>
+
+              {/* Score display */}
+              <div className="inline-flex items-baseline gap-1 px-6 py-3 rounded-2xl bg-white/5 border border-white/10">
+                <span className="text-4xl md:text-5xl font-bold text-white">{overallScore}</span>
+                <span className="type-lg text-white/40">/100</span>
+              </div>
+            </div>
           </div>
-
-          <h1
-            className="heading-section mb-3"
-            style={{ color: archetype.color }}
-          >
-            {archetype.name}
-          </h1>
-
-          <p className="type-lg text-white/60 mb-6 italic">
-            "{archetype.hook}"
-          </p>
-
-          <p className="type-base text-white/70 max-w-2xl mx-auto mb-8">
-            {archetype.description}
-          </p>
-
-          {/* Score display */}
-          <div className="inline-flex items-baseline gap-1 px-6 py-3 rounded-2xl bg-white/5 border border-white/10">
-            <span className="text-4xl md:text-5xl font-bold text-white">{overallScore}</span>
-            <span className="type-lg text-white/40">/100</span>
-          </div>
-        </div>
+        </section>
 
         {/* Axis Scores */}
         <div className="grid md:grid-cols-2 gap-4 mb-12">
@@ -154,12 +217,31 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
         <div className="mb-12 p-6 rounded-2xl bg-white/5 border border-white/10">
           <h2 className="heading-subsection mb-6 text-center">Readiness Gap Analysis</h2>
           <div ref={chartRef} className="w-full max-w-md mx-auto">
-            <MaturityRadar dimensionScores={dimensionScores} />
+            <MaturityRadar dimensionScores={dimensionScores} showColors={true} />
           </div>
           <p className="type-xs text-white/50 text-center mt-4">
-            Your score (Purple) vs. Industry Benchmark (Gray)
+            Your score (Purple gradient) vs. Industry Benchmark (Gray)
           </p>
         </div>
+
+        {/* Industry-Specific Insights Section */}
+        {industryAnalysis && (
+          <section className="mb-12">
+            <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-2xl border border-indigo-500/20 p-6 md:p-8">
+              <h2 className="heading-subsection mb-6 flex items-center gap-3">
+                <svg className="h-5 w-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+                Industry-Specific Insights
+              </h2>
+              <div className="prose prose-invert max-w-none">
+                <p className="type-base text-gray-300 leading-relaxed whitespace-pre-line">
+                  {industryAnalysis}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Blockers */}
         {blockers.length > 0 && (
@@ -237,7 +319,9 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
             Book a strategy call to review your results and build your custom AI transformation roadmap.
           </p>
           <Link
-            href="/contact"
+            href="https://calendar.app.google/wirgV6a4Vcz7cZAcA"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 type-base font-semibold text-indigo-900 hover:bg-indigo-50 transition-colors"
           >
             Schedule Strategy Call

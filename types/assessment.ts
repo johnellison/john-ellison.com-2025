@@ -35,6 +35,25 @@ export interface AxisScores {
   ops: number;    // X-Axis: Data, Tech, Talent
 }
 
+export interface CompanyInsights {
+  company_summary: string;
+  ai_maturity: {
+    score: number;
+    signals: string[];
+    confidence: string;
+  };
+  tech_insights: {
+    has_roadmap: boolean;
+    mentions_ai: boolean;
+    ai_use_cases: string[];
+  };
+  readiness_clues: {
+    likely_dimensions: string[];
+    strengths: string[];
+    gaps: string[];
+  };
+}
+
 export interface AssessmentResult {
   companyData: {
     name: string;
@@ -42,6 +61,8 @@ export interface AssessmentResult {
     linkedin: string;
     email: string;
   };
+  companyInsights?: CompanyInsights;
+  industryAnalysis?: string;
   dimensionScores: DimensionScore[];
   overallScore: number;
   readiness: ReadinessLevel;

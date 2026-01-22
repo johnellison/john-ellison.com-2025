@@ -10,6 +10,8 @@ interface AssessmentSidebarProps {
   predictedArchetype: Archetype | null;
   currentDimensionId?: string;
   totalAnswered: number;
+  isAnalyzing?: boolean;
+  companyInsights?: any;
 }
 
 export default function AssessmentSidebar({
@@ -18,6 +20,8 @@ export default function AssessmentSidebar({
   predictedArchetype,
   currentDimensionId,
   totalAnswered,
+  isAnalyzing = false,
+  companyInsights,
 }: AssessmentSidebarProps) {
   return (
     <div className="space-y-4">
@@ -33,6 +37,9 @@ export default function AssessmentSidebar({
         dimensionScores={dimensionScores}
         predictedArchetype={predictedArchetype}
         currentDimensionId={currentDimensionId}
+        isAnalyzing={isAnalyzing}
+        companyInsights={companyInsights}
+        totalAnswered={totalAnswered}
       />
     </div>
   );

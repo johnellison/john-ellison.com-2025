@@ -6,6 +6,9 @@ import { Resend } from 'resend';
 const resendApiKey = process.env.RESEND_API_KEY || '';
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
+// Anthropic API key for industry analysis
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || '';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -51,6 +54,62 @@ export async function POST(request: NextRequest) {
     const axisScores = calculateAxisScores(dimensionScores);
     const archetype = determineArchetype(axisScores);
 
+    // Generate industry-specific AI analysis if we have company insights
+    let industryAnalysis = '';
+    if (ANTHROPIC_API_KEY && companyInsights?.company_summary) {
+      try {
+        const strengthDimensions = dimensionScores
+          .filter(d => d.score >= 70)
+          .map(d => d.dimension)
+          .join(', ');
+        const gapDimensions = blockers.map(b => b.dimension).join(', ');
+
+        const analysisPrompt = `Based on this company profile:
+${companyInsights.company_summary}
+
+And their AI readiness assessment results:
+- Overall Score: ${overallScore}/100
+- Archetype: ${archetype.name}
+- Key Strengths: ${strengthDimensions || 'Still developing across dimensions'}
+- Critical Gaps: ${gapDimensions || 'No critical blockers identified'}
+
+Generate a personalized 3-paragraph analysis covering:
+1. AI opportunities specific to their industry
+2. Common challenges they'll face based on their archetype and gaps
+3. Recommended starting point for AI adoption based on their strengths
+
+Write in second person ("you"), professional but conversational tone. Keep each paragraph concise (2-3 sentences max).`;
+
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'x-api-key': ANTHROPIC_API_KEY,
+            'Content-Type': 'application/json',
+            'anthropic-version': '2023-06-01',
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-5-20250929',
+            max_tokens: 800,
+            messages: [{
+              role: 'user',
+              content: analysisPrompt,
+            }],
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const aiContent = data?.content?.[0]?.text;
+          if (typeof aiContent === 'string' && aiContent.trim()) {
+            industryAnalysis = aiContent.trim();
+          }
+        }
+      } catch (error) {
+        console.error('Error generating industry analysis:', error);
+        // Continue without industry analysis if it fails
+      }
+    }
+
     const assessmentData = {
       company_name: companyData.name,
       website: companyData.website,
@@ -62,6 +121,7 @@ export async function POST(request: NextRequest) {
       blockers,
       recommendations,
       company_insights: companyInsights || null,
+      industry_analysis: industryAnalysis || null, // Save AI-generated analysis
       archetype,   // Save new field
       axis_scores: axisScores, // Save new field
     };
@@ -97,6 +157,8 @@ export async function POST(request: NextRequest) {
         archetype,
         axisScores,
         companyData, // Pass back for dashboard
+        companyInsights: companyInsights || null, // Include company insights
+        industryAnalysis: industryAnalysis || null, // Include AI-generated analysis
       },
     });
   } catch (error) {
@@ -206,7 +268,7 @@ function generateEmailContent(report: any): string {
           </div>
 
           <div class="cta">
-            <a href="https://john-ellison.com/contact" class="btn">Schedule Strategy Call</a>
+            <a href="https://calendar.app.google/wirgV6a4Vcz7cZAcA" class="btn">Schedule Strategy Call</a>
             <p style="margin-top: 16px; opacity: 0.7; font-size: 14px;">
               Let's discuss your results and build your transformation roadmap.
             </p>

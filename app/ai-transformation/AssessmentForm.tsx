@@ -1,12 +1,16 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { AssessmentResult } from '@/types/assessment';
 import FlowAssessment from './components/FlowAssessment';
 import AssessmentSidebar from './components/AssessmentSidebar';
+import ArchetypeQuadrant from './components/ArchetypeQuadrant';
+import LiveRadarChart from './components/LiveRadarChart';
 import { useAssessmentScores } from './hooks/useAssessmentScores';
-import { ArrowRight, Mail, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Mail, CheckCircle2, Calendar } from 'lucide-react';
+import { gsap } from '@/lib/gsap';
+import Link from 'next/link';
 
 const QUESTIONS = {
   leadership: [
@@ -458,6 +462,21 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
     setCurrentDimensionId(dimensionId);
   }, []);
 
+  // GSAP animation for completion screen reveal
+  useEffect(() => {
+    if (report) {
+      // Animate completion screen elements with staggered reveal
+      const tl = gsap.timeline();
+      tl.from('.results-reveal', {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: 'power2.out',
+      });
+    }
+  }, [report]);
+
   useEffect(() => {
     // Only check pathname on client after hydration
     if (!process.env.NEXT_PUBLIC_BASE_PATH && window.location.pathname.startsWith('/ai-readiness')) {
@@ -629,43 +648,107 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
   // Show completion screen when report is ready
   if (report) {
     return (
-      <div className="assessment-form-container max-w-xl mx-auto">
-        <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8 text-center">
-          {/* Success indicator */}
-          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
-            <CheckCircle2 className="w-8 h-8 text-green-400" />
+      <div className="assessment-form-container max-w-6xl mx-auto px-4">
+        <div className="completion-screen">
+          {/* Header with success indicator */}
+          <div className="results-reveal text-center mb-8">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
+              <CheckCircle2 className="w-5 h-5 text-green-400" />
+              <span className="type-sm text-green-300">Assessment Complete</span>
+            </div>
           </div>
 
-          {/* Archetype reveal */}
-          <p className="type-xs text-white/50 uppercase tracking-wider mb-2">Your AI Archetype</p>
-          <h2
-            className="heading-subsection mb-3"
-            style={{ color: report.archetype.color }}
-          >
-            {report.archetype.name}
-          </h2>
-          <p className="type-base text-white/60 italic mb-6">"{report.archetype.hook}"</p>
+          {/* Two-column layout with visualizations */}
+          <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 lg:gap-8">
+            {/* LEFT: Visualizations (desktop only) */}
+            <div className="hidden lg:block space-y-4 results-reveal">
+              <ArchetypeQuadrant
+                axisScores={report.axisScores}
+                predictedArchetype={report.archetype}
+                totalAnswered={999}
+              />
+              <LiveRadarChart
+                dimensionScores={report.dimensionScores}
+                predictedArchetype={report.archetype}
+                totalAnswered={999}
+              />
+            </div>
 
-          {/* Score */}
-          <div className="inline-flex items-baseline gap-1 px-5 py-2 rounded-xl bg-white/5 border border-white/10 mb-8">
-            <span className="text-3xl font-bold text-white">{report.overallScore}</span>
-            <span className="type-base text-white/40">/100</span>
+            {/* RIGHT: Results Summary */}
+            <div className="results-reveal bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
+              {/* Archetype reveal */}
+              <p className="type-xs text-white/50 uppercase tracking-wider mb-2">Your AI Archetype</p>
+              <h2
+                className="heading-subsection mb-3"
+                style={{ color: report.archetype.color }}
+              >
+                {report.archetype.name}
+              </h2>
+              <p className="type-lg text-white/60 italic mb-6">"{report.archetype.hook}"</p>
+
+              {/* Scores display */}
+              <div className="flex flex-wrap gap-4 mb-6">
+                {/* Overall Score */}
+                <div className="flex-1 min-w-[120px] p-4 rounded-xl bg-white/5 border border-white/10">
+                  <p className="type-xs text-white/40 mb-1">Overall Score</p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-bold text-white">{report.overallScore}</span>
+                    <span className="type-sm text-white/40">/100</span>
+                  </div>
+                </div>
+
+                {/* Vision Score */}
+                <div className="flex-1 min-w-[100px] p-4 rounded-xl bg-white/5 border border-white/10">
+                  <p className="type-xs text-white/40 mb-1">Vision</p>
+                  <span className="text-2xl font-semibold text-blue-400">{report.axisScores.vision}</span>
+                </div>
+
+                {/* Ops Score */}
+                <div className="flex-1 min-w-[100px] p-4 rounded-xl bg-white/5 border border-white/10">
+                  <p className="type-xs text-white/40 mb-1">Ops</p>
+                  <span className="text-2xl font-semibold text-violet-400">{report.axisScores.ops}</span>
+                </div>
+              </div>
+
+              {/* Email notification */}
+              <div className="flex items-center gap-2 text-white/50 mb-8 p-3 bg-green-500/5 border border-green-500/10 rounded-lg">
+                <Mail className="w-4 h-4 text-green-400" />
+                <span className="type-sm">Report sent to {companyData.email}</span>
+              </div>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => router.push('/ai-transformation/results')}
+                  className="btn-primary inline-flex items-center justify-center gap-2 flex-1"
+                >
+                  View Full Report
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <Link
+                  href="https://calendar.app.google/wirgV6a4Vcz7cZAcA"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary inline-flex items-center justify-center gap-2 flex-1"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Schedule Call
+                </Link>
+              </div>
+            </div>
           </div>
 
-          {/* Email notification */}
-          <div className="flex items-center justify-center gap-2 text-white/50 mb-8">
-            <Mail className="w-4 h-4" />
-            <span className="type-sm">Report sent to {companyData.email}</span>
+          {/* Mobile: Mini visualizations */}
+          <div className="lg:hidden mt-6 grid grid-cols-2 gap-4 results-reveal">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+              <p className="type-xs text-white/40 mb-1">Vision</p>
+              <span className="text-2xl font-semibold text-blue-400">{report.axisScores.vision}</span>
+            </div>
+            <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center">
+              <p className="type-xs text-white/40 mb-1">Ops</p>
+              <span className="text-2xl font-semibold text-violet-400">{report.axisScores.ops}</span>
+            </div>
           </div>
-
-          {/* CTA */}
-          <button
-            onClick={() => router.push('/ai-transformation/results')}
-            className="btn-primary inline-flex items-center gap-2"
-          >
-            View Full Report
-            <ArrowRight className="w-4 h-4" />
-          </button>
         </div>
       </div>
     );
@@ -763,6 +846,8 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
                 predictedArchetype={predictedArchetype}
                 currentDimensionId={currentDimensionId}
                 totalAnswered={totalAnswered}
+                isAnalyzing={isAnalyzing}
+                companyInsights={companyInsights}
               />
             </div>
           </div>
