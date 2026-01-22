@@ -4,7 +4,7 @@
   "description": "John Ellison - Portfolio website with AI assessment tool",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
