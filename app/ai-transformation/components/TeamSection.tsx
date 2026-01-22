@@ -8,19 +8,15 @@ import { gsap, ScrollTrigger } from '@/lib/gsap';
 const teamMembers = [
   {
     name: 'John Ellison',
-    role: 'Strategy & Technical Lead',
+    role: 'Product, AI & Behavior Design',
     photo: '/john-e-wedding-headshot.webp',
     bio: '16 years building products. 300+ founders supported. $18M+ raised. Former design lead at major tech companies. Specializes in rapid AI product development using modern AI-assisted methodologies.',
-    quote:
-      '"I build AI systems that work technically and deliver measurable business outcomes."',
   },
   {
     name: 'Fatma Ghedira',
-    role: 'Organizational Integration Lead',
+    role: 'Organizational Psychology & Change Management',
     photo: '/fatma-headshot.jpeg',
     bio: 'Double Master\'s from Columbia University. 7+ years guiding teams at Snapchat, OneCycle, Google, and the World Economic Forum. Specializes in the "people side" of AI—overcoming resistance and designing organizational systems that actually adopt new technology.',
-    quote:
-      '"I ensure those systems get adopted—addressing resistance before it blocks progress."',
   },
 ];
 
@@ -83,9 +79,12 @@ export function TeamSection() {
         </span>
 
         <h2 className="team-title heading-section mb-16 text-white">
-          Two Disciplines. One{' '}
+          An Ivy-League Psychologist
+          <br />
+          and a
+          {' '}
           <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-            Integrated Engagement
+            Veteran Product Builder
           </span>
           .
         </h2>
@@ -116,10 +115,6 @@ export function TeamSection() {
 
               <p className="text-white/70 type-sm leading-relaxed mb-4">
                 {member.bio}
-              </p>
-
-              <p className="text-white/50 type-sm italic border-l-2 border-violet-500/50 pl-4">
-                {member.quote}
               </p>
             </div>
           ))}

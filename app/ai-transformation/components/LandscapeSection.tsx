@@ -6,9 +6,11 @@ import { gsap, ScrollTrigger } from '@/lib/gsap';
 
 const comparisonCards = [
   {
+    image: '/images/ai-transformation/market-big-consulting.png',
     icon: '$',
     iconBg: 'rgba(255, 100, 100, 0.1)',
     iconColor: '#ff6b6b',
+    borderColor: 'rgba(255, 100, 100, 0.2)',
     title: 'Big Consulting Firms',
     subtitle: 'McKinsey, Deloitte, BCG',
     items: [
@@ -20,9 +22,11 @@ const comparisonCards = [
     isHighlighted: false,
   },
   {
+    image: '/images/ai-transformation/market-cloud-vendors.png',
     icon: '☁️',
     iconBg: 'rgba(100, 200, 255, 0.1)',
     iconColor: '#64c8ff',
+    borderColor: 'rgba(100, 200, 255, 0.2)',
     title: 'Cloud Vendor Tools',
     subtitle: 'Microsoft, AWS, Google',
     items: [
@@ -34,9 +38,11 @@ const comparisonCards = [
     isHighlighted: false,
   },
   {
+    image: '/images/ai-transformation/market-specialized-approach.png',
     icon: '✓',
     iconBg: 'rgba(124, 58, 237, 0.2)',
     iconColor: '#a78bfa',
+    borderColor: 'rgba(124, 58, 237, 0.5)',
     title: 'The Specialized Approach',
     subtitle: 'Our Methodology',
     items: [
@@ -98,7 +104,7 @@ export function LandscapeSection() {
     gsap.from('.landscape-card', {
       scrollTrigger: {
         trigger: '.landscape-grid',
-        start: 'top 80%',
+        start: 'top 75%', // Trigger easier
         toggleActions: 'play none none reverse',
       },
       y: 60,
@@ -113,58 +119,103 @@ export function LandscapeSection() {
     <section
       ref={sectionRef as React.RefObject<HTMLElement>}
       id="landscape"
-      className="py-24 px-6 bg-[#050507]"
+      className="py-24 px-6 bg-[#050507] relative overflow-hidden"
     >
-      <div className="max-w-6xl mx-auto">
-        <span className="landscape-label inline-block type-sm font-medium text-violet-400 tracking-wider uppercase mb-4">
-          The Market
-        </span>
+      {/* Background Ambience */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-violet-900/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[100px]" />
+      </div>
 
-        <h2 className="landscape-title heading-section mb-10 text-white">
-          Why Traditional{' '}
-          <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
-            Options Fail
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="text-center md:text-left mb-16">
+          <span className="landscape-label inline-block type-sm font-medium text-violet-400 tracking-wider uppercase mb-4">
+            The Market
           </span>
-        </h2>
 
-        <p className="landscape-description type-lg text-white/70 max-w-3xl mb-16 leading-relaxed">
-          The AI adoption market is split between expensive generalists and
-          generic free tools. Neither delivers the specialized focus required
-          for operational transformation.
-        </p>
+          <h2 className="landscape-title heading-section mb-6 text-white max-w-3xl">
+            Why Traditional{' '}
+            <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent">
+              Options Fail
+            </span>
+          </h2>
 
-        <div className="landscape-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <p className="landscape-description type-lg text-white/70 max-w-2xl leading-relaxed">
+            The AI adoption market is split between expensive generalists and
+            generic free tools. Neither delivers the specialized focus required
+            for operational transformation.
+          </p>
+        </div>
+
+        <div className="landscape-grid grid grid-cols-1 md:grid-cols-3 gap-8">
           {comparisonCards.map((card, index) => (
             <div
               key={index}
-              className={`landscape-card rounded-2xl p-6 transition-all duration-300 ${card.isHighlighted
-                ? 'bg-violet-500/[0.05] border-2 border-violet-500/50 hover:border-violet-400/70'
-                : 'bg-white/[0.03] border border-white/10 hover:bg-white/[0.05] hover:border-white/20'
+              className={`landscape-card group relative flex flex-col rounded-2xl overflow-hidden transition-all duration-300 ${card.isHighlighted
+                ? 'bg-violet-950/10 shadow-[0_0_40px_-10px_rgba(124,58,237,0.15)] translate-y-[-8px] border border-violet-500/30'
+                : 'bg-[#0A0A0E] border border-white/5 hover:border-white/10'
                 }`}
             >
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center type-lg font-bold mb-4"
-                style={{ background: card.iconBg, color: card.iconColor }}
-              >
-                {card.icon}
+              {/* Highlight Specific Effects (Rainbow Grid) */}
+              {card.isHighlighted && (
+                <div className="absolute inset-0 z-0 opacity-20 pointer-events-none"
+                  style={{
+                    backgroundImage: `
+                         linear-gradient(90deg, rgba(124,58,237,0.1) 1px, transparent 1px),
+                         linear-gradient(180deg, rgba(59,130,246,0.1) 1px, transparent 1px)
+                       `,
+                    backgroundSize: '30px 30px'
+                  }}
+                />
+              )}
+
+              {/* Image Section */}
+              <div className="relative h-48 w-full overflow-hidden shrink-0">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0E] to-transparent z-10" />
+                <img
+                  src={card.image}
+                  alt={card.title}
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out opacity-80 group-hover:opacity-100"
+                />
               </div>
 
-              <h3 className="heading-card text-white mb-2">
-                {card.title}
-              </h3>
+              {/* Content Section */}
+              <div className="p-6 pt-0 flex flex-col grow relative z-10">
+                {/* Icon Badge - Moved here to overlap border */}
+                <div
+                  className="w-14 h-14 rounded-xl flex items-center justify-center -mt-7 mb-6 font-bold text-2xl backdrop-blur-md border border-white/10 shadow-lg relative z-20"
+                  style={{
+                    background: '#1a1a1a',
+                    color: card.iconColor,
+                    borderColor: card.borderColor || 'rgba(255,255,255,0.1)'
+                  }}
+                >
+                  {card.icon}
+                </div>
 
-              <p className="text-white type-base font-medium mb-4">{card.subtitle}</p>
+                <h3 className="heading-card text-white mb-1 group-hover:text-violet-200 transition-colors">
+                  {card.title}
+                </h3>
+                <p className="text-white/50 text-sm font-medium mb-6 uppercase tracking-wider">{card.subtitle}</p>
 
-              <ul className="space-y-3">
-                {card.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="type-base">
-                    <span className="font-semibold text-white/90">
-                      {item.label}:
-                    </span>{' '}
-                    <span className="text-white/60">{item.description}</span>
-                  </li>
-                ))}
-              </ul>
+                <ul className="space-y-4 mt-auto">
+                  {card.items.map((item, itemIndex) => (
+                    <li key={itemIndex} className="text-sm border-t border-white/5 pt-3 first:border-0 first:pt-0">
+                      <div className="font-semibold text-white/90 mb-0.5">
+                        {item.label}
+                      </div>
+                      <div className="text-white/60 leading-snug">
+                        {item.description}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Highlight Border Overlay */}
+              {card.isHighlighted && (
+                <div className="absolute inset-0 rounded-2xl border border-violet-500/20 pointer-events-none ring-1 ring-violet-500/10" />
+              )}
             </div>
           ))}
         </div>

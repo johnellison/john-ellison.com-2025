@@ -12,9 +12,9 @@ export function useGSAP(
   useEffect(() => {
     if (!scopeRef.current) return;
 
-    const ctx = gsap.context(() => {
-      callback(ctx);
-    }, scopeRef);
+    const ctx = gsap.context((context) => {
+      callback(context);
+    }, scopeRef.current);
 
     return () => ctx.revert();
   }, deps);

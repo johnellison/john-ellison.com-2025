@@ -8,11 +8,8 @@ import Link from 'next/link';
 const phases = [
   {
     number: 'Phase 1',
-    title: 'AI Readiness & Strategy',
-    lead: 'Led by John Ellison & Fatma Ghedira',
+    title: 'Readiness & Strategy',
     image: '/images/ai-transformation/ai-readiness-strategy.png',
-    duration: '1-2 weeks',
-    price: '$10k-$20k',
     description:
       "Assess your organization's AI readiness, surface resistance, establish governance, and identify the highest-impact opportunities.",
     features: [
@@ -23,35 +20,30 @@ const phases = [
       'Technical feasibility review',
       'Strategic recommendations report',
     ],
-    cta: 'Start With Strategy',
+    cta: 'Take Free Assessment',
     gradient: 'from-orange-500 to-red-500',
   },
   {
     number: 'Phase 2',
-    title: 'The AI Product Sprint',
-    lead: 'Led by John Ellison',
+    title: 'Product Sprint',
     image: '/images/ai-transformation/john-ai-sprint-session.jpg',
-    duration: '2-4 weeks',
-    price: '$25k-$50k',
     description:
-      'In 1-4 weeks, we ship a real AI product—not a prototype, not a pilot—a working tool your team uses every day.',
+      'In 2-4 weeks, we ship a real AI product with real data, tested by your users and deployed on your infrastructure. We also teach product teams how to deliver this methodology.',
     features: [
       'Design Sprint methodology',
-      'Vibe Coding for rapid iteration',
-      'Daily standups and demos',
+      'AI-assisted development for rapid iteration',
+      'Daily standups and weekly demos',
+      'Fully moderated user testing',
       'Production-ready deployment',
       'Full documentation and handover',
     ],
-    cta: 'Ready to Build',
+    cta: 'Learn More',
     gradient: 'from-blue-500 to-cyan-500',
   },
   {
     number: 'Phase 3',
-    title: 'AI Adoption & Integration',
-    lead: 'Led by Fatma Ghedira',
+    title: 'Adoption & Integration',
     image: '/images/ai-transformation/fatma-workshop-circle.webp',
-    duration: 'Ongoing',
-    price: 'Custom',
     description:
       'Before we build, we align. During the build, we coach. After we ship, we integrate.',
     features: [
@@ -61,7 +53,7 @@ const phases = [
       'Executive coaching and support',
       'Change management integration',
     ],
-    cta: 'Ensure Adoption',
+    cta: 'Learn More',
     gradient: 'from-purple-500 to-pink-500',
   },
 ];
@@ -174,14 +166,6 @@ export function PhasesSection() {
                   <h3 className="heading-card mb-2 text-white group-hover:text-violet-400 transition-colors">
                     {phase.title}
                   </h3>
-                  <p className="text-sm font-medium text-violet-400 mb-4 uppercase tracking-wide">
-                    {phase.lead}
-                  </p>
-
-                  <div className="flex items-center gap-4 type-sm text-gray-400 mb-6 pb-6 border-b border-gray-800">
-                    <span className="px-2 py-1 bg-white/5 rounded text-xs border border-white/10">{phase.duration}</span>
-                    <span className="px-2 py-1 bg-white/5 rounded text-xs border border-white/10">{phase.price}</span>
-                  </div>
 
                   <p className="text-gray-300 type-base leading-relaxed mb-6 min-h-[5rem]">
                     {phase.description}

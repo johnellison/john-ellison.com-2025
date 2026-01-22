@@ -1,13 +1,16 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
 import AssessmentForm from '../AssessmentForm';
 
 export function AssessmentSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const whatYoullLearnRef = useRef<HTMLDivElement>(null);
+  const formContainerRef = useRef<HTMLDivElement>(null);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useGSAP(() => {
     if (!sectionRef.current) return;
@@ -26,9 +29,46 @@ export function AssessmentSection() {
     });
   }, []);
 
-  const handleAssessmentStart = () => {
-    setHasStarted(true);
-  };
+  const handleAssessmentStart = useCallback(() => {
+    if (hasStarted || isAnimating) return;
+    setIsAnimating(true);
+
+    const tl = gsap.timeline({
+      onComplete: () => {
+        setHasStarted(true);
+        setIsAnimating(false);
+      }
+    });
+
+    // Fade out "What You'll Learn" section
+    if (whatYoullLearnRef.current) {
+      tl.to(whatYoullLearnRef.current, {
+        opacity: 0,
+        x: -40,
+        scale: 0.95,
+        duration: 0.5,
+        ease: 'power3.inOut',
+      });
+
+      // Collapse width after fade
+      tl.to(whatYoullLearnRef.current, {
+        width: 0,
+        marginRight: 0,
+        paddingRight: 0,
+        duration: 0.6,
+        ease: 'power3.inOut',
+      }, '-=0.2');
+    }
+
+    // Fade in and expand form container
+    if (formContainerRef.current) {
+      tl.to(formContainerRef.current, {
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.out',
+      }, '-=0.4');
+    }
+  }, [hasStarted, isAnimating]);
 
   return (
     <section
@@ -57,16 +97,15 @@ export function AssessmentSection() {
           <div className="absolute -inset-[1px] bg-gradient-to-r from-purple-500/50 via-blue-500/50 to-teal-500/50 rounded-2xl blur-sm opacity-60" />
 
           {/* Main content container */}
-          <div className="relative bg-[#0a0a0f]/95 backdrop-blur-sm rounded-2xl p-8 md:p-12">
-            <div className={`grid gap-12 items-start transition-all duration-500 ${
-              hasStarted ? 'lg:grid-cols-1' : 'lg:grid-cols-5'
-            }`}>
+          <div className="relative bg-[#0a0a0f]/95 backdrop-blur-sm rounded-2xl p-8 md:p-12 overflow-hidden">
+            <div className="flex flex-col lg:flex-row gap-12 items-start">
               {/* Left side - What You'll Learn (fades out when started) */}
-              <div className={`lg:col-span-2 transition-all duration-500 ${
-                hasStarted
-                  ? 'opacity-0 absolute pointer-events-none h-0 overflow-hidden'
-                  : 'opacity-100'
-              }`}>
+              <div
+                ref={whatYoullLearnRef}
+                className={`lg:w-[340px] shrink-0 overflow-hidden ${
+                  hasStarted ? 'hidden' : ''
+                }`}
+              >
                 <h3 className="type-xl font-semibold text-white mb-4 leading-snug">
                   What You'll Learn
                 </h3>
@@ -124,9 +163,10 @@ export function AssessmentSection() {
               </div>
 
               {/* Right side - Assessment Form (expands when started) */}
-              <div className={`transition-all duration-500 ${
-                hasStarted ? 'lg:col-span-1' : 'lg:col-span-3'
-              }`}>
+              <div
+                ref={formContainerRef}
+                className="flex-1 min-w-0"
+              >
                 <AssessmentForm onAssessmentStart={handleAssessmentStart} />
               </div>
             </div>
