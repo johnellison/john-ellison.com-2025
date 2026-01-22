@@ -1,0 +1,182 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:path*.css",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?\\.css(?:/)?$"
+    },
+    {
+      "source": "/:path*.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?\\.js(?:/)?$"
+    },
+    {
+      "source": "/:path*.(jpg|jpeg|png|gif|webp|avif|svg|ico)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:\\.(jpg|jpeg|png|gif|webp|avif|svg|ico))(?:/)?$"
+    },
+    {
+      "source": "/:path*.(woff|woff2|ttf|otf|eot)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ],
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))?(?:\\.(woff|woff2|ttf|otf|eot))(?:/)?$"
+    }
+  ],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [
+      {
+        "source": "/sprint.html",
+        "destination": "/sprint",
+        "regex": "^/sprint\\.html(?:/)?$"
+      },
+      {
+        "source": "/contact.html",
+        "destination": "/contact",
+        "regex": "^/contact\\.html(?:/)?$"
+      },
+      {
+        "source": "/splash.html",
+        "destination": "/splash",
+        "regex": "^/splash\\.html(?:/)?$"
+      },
+      {
+        "source": "/ai-transformation.html",
+        "destination": "/ai-transformation",
+        "regex": "^/ai-transformation\\.html(?:/)?$"
+      },
+      {
+        "source": "/case-studies/toucan.html",
+        "destination": "/case-studies/toucan",
+        "regex": "^/case-studies/toucan\\.html(?:/)?$"
+      },
+      {
+        "source": "/case-studies/interbeing-case-study.html",
+        "destination": "/case-studies/interbeing",
+        "regex": "^/case-studies/interbeing-case-study\\.html(?:/)?$"
+      },
+      {
+        "source": "/case-studies/interbeing-claude-4.5.html",
+        "destination": "/case-studies/interbeing-claude-4.5",
+        "regex": "^/case-studies/interbeing-claude-4\\.5\\.html(?:/)?$"
+      },
+      {
+        "source": "/podcast/index.html",
+        "destination": "/podcast",
+        "regex": "^/podcast/index\\.html(?:/)?$"
+      },
+      {
+        "source": "/podcast/guest/index.html",
+        "destination": "/podcast/guest",
+        "regex": "^/podcast/guest/index\\.html(?:/)?$"
+      }
+    ],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/[[...path]]",
+      "regex": "^(?:/(.+?))?(?:/)?$",
+      "routeKeys": {
+        "nxtPpath": "nxtPpath"
+      },
+      "namedRegex": "^(?:/(?<nxtPpath>.+?))?(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/ai-transformation",
+      "regex": "^/ai\\-transformation(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ai\\-transformation(?:/)?$"
+    },
+    {
+      "page": "/api/analyze-company",
+      "regex": "^/api/analyze\\-company(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/analyze\\-company(?:/)?$"
+    },
+    {
+      "page": "/api/assessments",
+      "regex": "^/api/assessments(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/assessments(?:/)?$"
+    },
+    {
+      "page": "/api/generate-pdf",
+      "regex": "^/api/generate\\-pdf(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/generate\\-pdf(?:/)?$"
+    },
+    {
+      "page": "/api/leads",
+      "regex": "^/api/leads(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/leads(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

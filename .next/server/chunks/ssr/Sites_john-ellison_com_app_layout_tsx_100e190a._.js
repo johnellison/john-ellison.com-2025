@@ -1,0 +1,3 @@
+module.exports=[76775,a=>{"use strict";var b=a.i(45251);function c({children:a}){return(0,b.jsx)("html",{lang:"en",children:(0,b.jsx)("body",{children:a})})}a.s(["default",()=>c,"metadata",0,{title:"John Ellison | AI Transformation & Product Strategy",description:"Helping companies transform with AI through strategic consulting, hands-on development, and organizational readiness assessment.",icons:{icon:[{url:"/favicon.svg",type:"image/svg+xml"},{url:"/favicon-32.png",sizes:"32x32",type:"image/png"}],apple:"/favicon-32.png"}}])}];
+
+//# sourceMappingURL=Sites_john-ellison_com_app_layout_tsx_100e190a._.js.map

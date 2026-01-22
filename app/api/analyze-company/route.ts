@@ -33,10 +33,13 @@ async function scrapeCompany(website: string): Promise<ScrapedContent> {
 
     const data = await response.json();
 
+    // Firecrawl v1 returns { success: true, data: { markdown, metadata } }
+    const scraped = data.data || data;
+
     return {
-      title: data.metadata?.title || '',
-      description: data.metadata?.description || '',
-      content: [data.markdown || ''],
+      title: scraped.metadata?.title || '',
+      description: scraped.metadata?.description || '',
+      content: [scraped.markdown || ''],
     };
   } catch (error) {
     console.error('Scraping error:', error);
@@ -170,6 +173,19 @@ export async function POST(request: NextRequest) {
     }
 
     const scrapedContent = await scrapeCompany(website);
+
+    // Check if we have meaningful content to analyze
+    const hasContent = scrapedContent.content.length > 0 &&
+      scrapedContent.content.some(c => c && c.trim().length > 50);
+
+    if (!hasContent) {
+      return NextResponse.json({
+        success: false,
+        error: 'Unable to retrieve content from website for analysis',
+        scraped: scrapedContent,
+      });
+    }
+
     const aiInsights = await analyzeWithAI(scrapedContent, linkedin);
 
     if (!aiInsights) {

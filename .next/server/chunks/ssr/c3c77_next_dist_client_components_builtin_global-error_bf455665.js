@@ -1,0 +1,3 @@
+module.exports=[55633,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(42614);a.n(d("[project]/Sites/john-ellison.com/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},25669,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(42614);a.n(d("[project]/Sites/john-ellison.com/node_modules/next/dist/client/components/builtin/global-error.js"))},2410,a=>{"use strict";a.i(55633);var b=a.i(25669);a.n(b)}];
+
+//# sourceMappingURL=c3c77_next_dist_client_components_builtin_global-error_bf455665.js.map

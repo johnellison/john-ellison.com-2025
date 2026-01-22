@@ -140,21 +140,23 @@ export function HeroSection() {
       </div>
 
       {/* --- MOBILE/TABLET: MASONRY GRID (< LG) --- */}
-      <div className="lg:hidden absolute inset-0 z-0 pointer-events-none select-none overflow-hidden opacity-40">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0F] via-[#0B0B0F]/90 to-[#0B0B0F] z-10" /> {/* Dark Overlay */}
+      <div className="lg:hidden absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
+        {/* Lighter Gradient Overlay + Purple Glow */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0F]/90 via-[#0B0B0F]/50 to-[#0B0B0F]/90 z-20" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(124,58,237,0.3)_0%,transparent_70%)] z-20 mix-blend-screen pointer-events-none" />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 transform -rotate-6 scale-110 w-[120%] -ml-[10%]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 transform -rotate-6 scale-110 w-[120%] -ml-[10%] opacity-70">
           <div className="hero-image-mobile space-y-2 mt-12">
-            <img src="/images/ai-transformation/john-ellison-workshop-vertical.jpg" className="w-full rounded-lg opacity-60 grayscale-[30%]" alt="" />
-            <img src="/images/ai-transformation/john-white-board-ai-square.jpg" className="w-full rounded-lg opacity-60 grayscale-[30%]" alt="" />
+            <img src="/images/ai-transformation/john-ellison-workshop-vertical.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
+            <img src="/images/ai-transformation/john-white-board-ai-square.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
           </div>
           <div className="hero-image-mobile space-y-2">
-            <img src="/images/ai-transformation/john-ai-sprint-session.jpg" className="w-full rounded-lg opacity-60 grayscale-[30%]" alt="" />
-            <img src="/images/ai-transformation/john-and-fatma-at-workshop.jpg" className="w-full rounded-lg opacity-60 grayscale-[30%]" alt="" />
+            <img src="/images/ai-transformation/john-ai-sprint-session.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
+            <img src="/images/ai-transformation/john-and-fatma-at-workshop.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
           </div>
           <div className="hero-image-mobile space-y-2 mt-8 hidden md:block">
-            <img src="/images/ai-transformation/john-and-osho-square.jpg" className="w-full rounded-lg opacity-60 grayscale-[30%]" alt="" />
-            <img src="/images/ai-transformation/john-ai-sprint-session.jpg" className="w-full rounded-lg opacity-60 grayscale-[30%]" alt="" />
+            <img src="/images/ai-transformation/john-and-osho-square.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
+            <img src="/images/ai-transformation/john-ai-sprint-session.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
           </div>
         </div>
       </div>

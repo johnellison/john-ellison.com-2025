@@ -1,0 +1,24 @@
+'use client';
+
+import { useState, useEffect, useCallback, useRef } from 'react';
+
+interface Question {
+  id: string;
+  question: string;
+  options: { label: string; score: number }[];
+}
+
+interface Dimension {
+  id: string;
+  title: string;
+  questions: Question[];
+  weight: number;
+}
+
+interface FlowAssessmentProps {
+  dimensions: Dimension[];
+  answers: Record<string, number>;
+  onAnswer: (questionId: string, score: number) => void;
+  onComplete: () => void;
+  companyInsights: any;
+  isAnalyzing
