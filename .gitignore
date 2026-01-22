@@ -3,6 +3,9 @@ node_modules/
 
 # Build output
 dist/
+.next/
+out/
+build/
 
 # IDE
 .idea/
@@ -24,3 +27,8 @@ npm-debug.log*
 .env.*.local
 youtube-banner.png
 .vercel
+
+# Next.js specific
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+.playwright-mcp/
