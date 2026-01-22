@@ -75,14 +75,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await sendAssessmentEmail(companyData.email, {
+    // Send email in background (don't block response)
+    sendAssessmentEmail(companyData.email, {
       overallScore,
       readiness,
       dimensionScores,
       blockers,
       recommendations,
-      archetype, // Add to email report context
-    });
+      archetype,
+    }).catch(err => console.error('Background email error:', err));
 
     return NextResponse.json({
       success: true,
@@ -115,8 +116,9 @@ async function sendAssessmentEmail(email: string, report: any) {
     }
 
     const { data, error } = await resend.emails.send({
-      from: 'AI Readiness Assessment <assessment@john-ellison.com>',
+      from: 'John Ellison <no-reply@updates.john-ellison.com>',
       to: email,
+      cc: 'john@john-ellison.com',
       subject: 'Your AI Readiness Assessment Report',
       html: generateEmailContent(report),
     });

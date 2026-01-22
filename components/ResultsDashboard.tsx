@@ -1,224 +1,252 @@
 'use client';
 
 import { AssessmentResult } from '@/types/assessment';
-import ArchetypeCard from './ArchetypeCard';
 import MaturityRadar from './MaturityRadar';
-import { Download, Share2, ArrowRight, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail } from 'lucide-react';
 import Link from 'next/link';
-import { useCurrentPng } from 'recharts-to-png';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface ResultsDashboardProps {
   result: AssessmentResult;
 }
 
 export default function ResultsDashboard({ result }: ResultsDashboardProps) {
-  const { archetype, axisScores, dimensionScores, blockers, overallScore } = result;
-  const [getPng, { ref: chartRef }] = useCurrentPng();
-  const [isDownloading, setIsDownloading] = useState(false);
+  const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData } = result;
+  const [showEmailSent, setShowEmailSent] = useState(true);
+  const chartRef = useRef<HTMLDivElement>(null);
 
-  const handleDownload = async () => {
-    setIsDownloading(true);
-    try {
-      const chartImage = await getPng();
-      
-      const response = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ report: result, chartImage }),
-      });
-
-      if (!response.ok) throw new Error('Failed to generate PDF');
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `AI-Readiness-Report-${result.companyData.name}.pdf`;
-      link.click();
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Download error:', error);
-      alert('Failed to download report. Please try again.');
-    } finally {
-      setIsDownloading(false);
-    }
-  };
+  // Disable smooth scrolling on this page for performance
+  useEffect(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    return () => {
+      document.documentElement.style.scrollBehavior = '';
+    };
+  }, []);
 
   const handleShare = async () => {
+    const shareText = `I'm a ${archetype.name} - AI Readiness Assessment. Score: ${overallScore}/100.`;
+
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `I'm a ${archetype.name} - AI Readiness Assessment`,
-          text: `My organization is classified as a ${archetype.name}. Score: ${overallScore}/100.`,
+          title: `AI Readiness: ${archetype.name}`,
+          text: shareText,
           url: window.location.href,
         });
       } catch (err) {
-        console.error('Error sharing:', err);
+        // User cancelled or error
       }
     } else {
-      alert('Copy this link to share: ' + window.location.href);
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(`${shareText}\n${window.location.href}`);
+      alert('Link copied to clipboard!');
     }
   };
 
   return (
     <div className="min-h-screen bg-[#050507] text-white">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-50 border-b border-white/10 bg-[#050507]/80 backdrop-blur-md">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <div className="font-bold">AI Transformation</div>
-          <div className="flex gap-3">
-            <button 
+      {/* Header */}
+      <div className="sticky top-0 z-50 border-b border-white/10 bg-[#050507]">
+        <div className="max-w-4xl mx-auto flex h-14 items-center justify-between px-4 md:px-6">
+          <div className="type-sm font-medium text-white/70">AI Readiness Report</div>
+          <div className="flex items-center gap-2">
+            <button
               onClick={handleShare}
-              className="hidden sm:flex items-center gap-2 rounded-lg border border-white/20 px-4 py-2 text-sm font-medium hover:bg-white/5"
+              className="flex items-center gap-2 rounded-lg border border-white/20 px-3 py-1.5 type-sm hover:bg-white/5 transition-colors"
             >
               <Share2 className="h-4 w-4" />
-              Share
+              <span className="hidden sm:inline">Share</span>
             </button>
-            <button 
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            <Link
+              href="/ai-transformation"
+              className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-1.5 type-sm hover:bg-white/15 transition-colors"
             >
-              {isDownloading ? (
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
-              ) : (
-                <Download className="h-4 w-4" />
-              )}
-              {isDownloading ? 'Generating...' : 'Download Report'}
-            </button>
+              <X className="h-4 w-4" />
+              <span className="hidden sm:inline">Close</span>
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto max-w-6xl px-4 py-12">
-        {/* Hero Section */}
-        <div className="mb-12 grid gap-8 lg:grid-cols-2">
-          {/* Left: Archetype Card */}
-          <div className="lg:sticky lg:top-24 h-fit">
-            <ArchetypeCard archetype={archetype} overallScore={overallScore} />
-            
-            <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-6">
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
-                Your Axis Profile
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Strategic Vision</span>
-                    <span className="font-bold">{axisScores.vision}/100</span>
-                  </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                    <div 
-                      className="h-full rounded-full bg-blue-500 transition-all duration-1000" 
-                      style={{ width: `${axisScores.vision}%` }}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span>Operational Capability</span>
-                    <span className="font-bold">{axisScores.ops}/100</span>
-                  </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
-                    <div 
-                      className="h-full rounded-full bg-violet-500 transition-all duration-1000" 
-                      style={{ width: `${axisScores.ops}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
+      {/* Email notification banner */}
+      {showEmailSent && (
+        <div className="bg-green-500/10 border-b border-green-500/20">
+          <div className="max-w-4xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Mail className="h-4 w-4 text-green-400" />
+              <span className="type-sm text-green-300">
+                A copy of this report has been sent to {companyData.email}
+              </span>
             </div>
-          </div>
-
-          {/* Right: Analysis & Radar */}
-          <div className="space-y-8">
-            <div className="rounded-2xl border border-white/10 bg-[#0c0c10] p-6 shadow-xl">
-              <h3 className="mb-6 text-xl font-bold">Readiness Gap Analysis</h3>
-              <div ref={chartRef} className="w-full">
-                <MaturityRadar dimensionScores={dimensionScores} />
-              </div>
-              <p className="mt-4 text-center text-sm text-gray-400">
-                Comparing your score (Purple) vs. Series B Average (Gray)
-              </p>
-            </div>
-
-            {/* Critical Path */}
-            <div>
-              <h3 className="mb-6 text-2xl font-bold">Critical Path: Top Blockers</h3>
-              <div className="space-y-4">
-                {blockers.map((blocker, idx) => (
-                  <div 
-                    key={idx} 
-                    className="group relative overflow-hidden rounded-xl border border-red-500/20 bg-red-500/5 p-5 transition-all hover:border-red-500/40"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="rounded-lg bg-red-500/10 p-2 text-red-500">
-                        <AlertTriangle className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-red-200">{blocker.issue}</h4>
-                        <p className="mt-1 text-sm text-gray-400">Impact: {blocker.impact}</p>
-                        <div className="mt-3 flex items-center gap-4 text-xs text-gray-500">
-                          <span>Est. Cost: {blocker.costRange}</span>
-                          <span>•</span>
-                          <span>Timeline: {blocker.timeline}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Strategic Roadmap */}
-            <div>
-              <h3 className="mb-6 text-2xl font-bold">Strategic Roadmap</h3>
-              <div className="relative border-l border-white/10 pl-8 space-y-8">
-                {result.recommendations.map((rec, idx) => (
-                  <div key={idx} className="relative">
-                    <div className="absolute -left-[39px] flex h-6 w-6 items-center justify-center rounded-full border border-white/20 bg-[#0c0c10] text-xs font-bold text-gray-500">
-                      {idx + 1}
-                    </div>
-                    <div className="rounded-xl border border-white/10 bg-white/5 p-6">
-                      <div className="mb-2 flex items-center justify-between">
-                        <span className="text-xs font-medium uppercase tracking-wider text-indigo-400">
-                          {rec.phase}
-                        </span>
-                        <span className="text-xs text-gray-500">{rec.timeframe}</span>
-                      </div>
-                      <h4 className="mb-2 text-lg font-bold">{rec.title}</h4>
-                      <p className="mb-4 text-sm text-gray-400">{rec.description}</p>
-                      <ul className="space-y-2">
-                        {rec.actions.map((action, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                            <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500/50 mt-0.5" />
-                            <span>{action}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="rounded-2xl bg-gradient-to-r from-indigo-900/50 to-violet-900/50 p-8 text-center border border-indigo-500/20">
-              <h3 className="mb-3 text-2xl font-bold">Ready to become an Apex Integrator?</h3>
-              <p className="mb-8 text-indigo-200">
-                Book a strategy call to review your results and build your custom roadmap.
-              </p>
-              <Link 
-                href="/contact"
-                className="inline-flex items-center gap-2 rounded-lg bg-white px-8 py-4 font-bold text-indigo-900 transition-transform hover:scale-105"
-              >
-                Schedule Strategy Call
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </div>
+            <button
+              onClick={() => setShowEmailSent(false)}
+              className="text-green-400 hover:text-green-300"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
         </div>
+      )}
+
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
+
+        {/* Hero: Archetype + Score */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-4">
+            <span className="type-xs text-white/60">Your AI Archetype</span>
+          </div>
+
+          <h1
+            className="heading-section mb-3"
+            style={{ color: archetype.color }}
+          >
+            {archetype.name}
+          </h1>
+
+          <p className="type-lg text-white/60 mb-6 italic">
+            "{archetype.hook}"
+          </p>
+
+          <p className="type-base text-white/70 max-w-2xl mx-auto mb-8">
+            {archetype.description}
+          </p>
+
+          {/* Score display */}
+          <div className="inline-flex items-baseline gap-1 px-6 py-3 rounded-2xl bg-white/5 border border-white/10">
+            <span className="text-4xl md:text-5xl font-bold text-white">{overallScore}</span>
+            <span className="type-lg text-white/40">/100</span>
+          </div>
+        </div>
+
+        {/* Axis Scores */}
+        <div className="grid md:grid-cols-2 gap-4 mb-12">
+          <div className="p-5 rounded-xl bg-white/5 border border-white/10">
+            <div className="flex justify-between items-center mb-3">
+              <span className="type-sm text-white/70">Strategic Vision</span>
+              <span className="type-base font-semibold">{axisScores.vision}/100</span>
+            </div>
+            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full rounded-full bg-blue-500"
+                style={{ width: `${axisScores.vision}%` }}
+              />
+            </div>
+            <p className="type-xs text-white/50 mt-2">Leadership, Culture & Governance</p>
+          </div>
+
+          <div className="p-5 rounded-xl bg-white/5 border border-white/10">
+            <div className="flex justify-between items-center mb-3">
+              <span className="type-sm text-white/70">Operational Capability</span>
+              <span className="type-base font-semibold">{axisScores.ops}/100</span>
+            </div>
+            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+              <div
+                className="h-full rounded-full bg-violet-500"
+                style={{ width: `${axisScores.ops}%` }}
+              />
+            </div>
+            <p className="type-xs text-white/50 mt-2">Data, Technology & Talent</p>
+          </div>
+        </div>
+
+        {/* Radar Chart */}
+        <div className="mb-12 p-6 rounded-2xl bg-white/5 border border-white/10">
+          <h2 className="heading-subsection mb-6 text-center">Readiness Gap Analysis</h2>
+          <div ref={chartRef} className="w-full max-w-md mx-auto">
+            <MaturityRadar dimensionScores={dimensionScores} />
+          </div>
+          <p className="type-xs text-white/50 text-center mt-4">
+            Your score (Purple) vs. Industry Benchmark (Gray)
+          </p>
+        </div>
+
+        {/* Blockers */}
+        {blockers.length > 0 && (
+          <div className="mb-12">
+            <h2 className="heading-subsection mb-6">Critical Blockers</h2>
+            <div className="space-y-4">
+              {blockers.map((blocker, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 rounded-xl border border-red-500/20 bg-red-500/5"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-2 rounded-lg bg-red-500/10 text-red-400 shrink-0">
+                      <AlertTriangle className="h-5 w-5" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="type-base font-semibold text-red-200 mb-1">{blocker.issue}</h3>
+                      <p className="type-sm text-white/60 mb-3">{blocker.impact}</p>
+                      <div className="flex flex-wrap gap-4 type-xs text-white/50">
+                        <span>Est. Cost: {blocker.costRange}</span>
+                        <span>Timeline: {blocker.timeline}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recommendations */}
+        {recommendations.length > 0 && (
+          <div className="mb-12">
+            <h2 className="heading-subsection mb-6">Your Roadmap</h2>
+            <div className="space-y-6">
+              {recommendations.map((rec, idx) => (
+                <div
+                  key={idx}
+                  className="relative pl-8 border-l-2 border-white/10"
+                >
+                  <div className="absolute -left-3 top-0 w-6 h-6 rounded-full bg-[#050507] border-2 border-white/20 flex items-center justify-center">
+                    <span className="type-xs font-bold text-white/60">{idx + 1}</span>
+                  </div>
+
+                  <div className="p-5 rounded-xl bg-white/5 border border-white/10">
+                    <div className="flex flex-wrap items-center gap-3 mb-3">
+                      <span className="type-xs font-medium uppercase tracking-wider text-indigo-400">
+                        {rec.phase}
+                      </span>
+                      <span className="type-xs text-white/40">{rec.timeframe}</span>
+                    </div>
+
+                    <h3 className="type-base font-semibold mb-2">{rec.title}</h3>
+                    <p className="type-sm text-white/60 mb-4">{rec.description}</p>
+
+                    <ul className="space-y-2">
+                      {rec.actions.map((action, i) => (
+                        <li key={i} className="flex items-start gap-2 type-sm text-white/70">
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-green-500/60 mt-0.5" />
+                          <span>{action}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* CTA */}
+        <div className="p-8 rounded-2xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/20 text-center">
+          <h2 className="heading-subsection mb-3">Ready to Transform?</h2>
+          <p className="type-base text-indigo-200/80 mb-6 max-w-lg mx-auto">
+            Book a strategy call to review your results and build your custom AI transformation roadmap.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 type-base font-semibold text-indigo-900 hover:bg-indigo-50 transition-colors"
+          >
+            Schedule Strategy Call
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        {/* Footer spacing */}
+        <div className="h-12" />
       </div>
     </div>
   );

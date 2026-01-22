@@ -22,12 +22,18 @@ interface FlowAssessmentProps {
   onComplete: () => void;
   companyInsights: any;
   isAnalyzing: boolean;
+  isSubmitting?: boolean;
 }
 
-type FlowState =
-  | { type: 'section-intro'; dimensionIndex: number }
-  | { type: 'question'; dimensionIndex: number; questionIndex: number }
-  | { type: 'complete' };
+// Prismatic colors for each dimension (rainbow spectrum)
+const DIMENSION_COLORS = [
+  { color: '#ef4444', name: 'red' },      // Leadership - Red
+  { color: '#f97316', name: 'orange' },   // Data - Orange
+  { color: '#eab308', name: 'yellow' },   // Technology - Yellow
+  { color: '#22c55e', name: 'green' },    // Talent - Green
+  { color: '#06b6d4', name: 'cyan' },     // Governance - Cyan
+  { color: '#8b5cf6', name: 'violet' },   // Culture - Violet
+];
 
 // Helper to check if a gap message is valid/useful
 function isValidGap(gap: unknown): gap is string {
@@ -48,11 +54,19 @@ export default function FlowAssessment({
   onComplete,
   companyInsights,
   isAnalyzing,
+  isSubmitting = false,
 }: FlowAssessmentProps) {
-  const [flowState, setFlowState] = useState<FlowState>({ type: 'section-intro', dimensionIndex: 0 });
+  // Start directly on first question (no section intros)
+  const [currentDimension, setCurrentDimension] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const containerRef = useRef<HTMLDivElement>(null);
+  const hasCompletedRef = useRef(false);
+
+  // Get current dimension color
+  const currentColor = DIMENSION_COLORS[currentDimension] || DIMENSION_COLORS[0];
 
   // Calculate total progress
   const getTotalProgress = useCallback(() => {
@@ -68,34 +82,35 @@ export default function FlowAssessment({
 
   // Get current question info
   const getCurrentInfo = useCallback(() => {
-    if (flowState.type === 'question') {
-      const dim = dimensions[flowState.dimensionIndex];
-      const question = dim.questions[flowState.questionIndex];
-      const questionNumberInDimension = flowState.questionIndex + 1;
-      const totalInDimension = dim.questions.length;
+    if (isComplete) return null;
 
-      // Calculate global question number
-      let globalNumber = 0;
-      for (let i = 0; i < flowState.dimensionIndex; i++) {
-        globalNumber += dimensions[i].questions.length;
-      }
-      globalNumber += flowState.questionIndex + 1;
+    const dim = dimensions[currentDimension];
+    const question = dim?.questions[currentQuestion];
+    if (!dim || !question) return null;
 
-      return {
-        dimension: dim,
-        question,
-        questionNumberInDimension,
-        totalInDimension,
-        globalNumber,
-        totalQuestions: dimensions.reduce((sum, d) => sum + d.questions.length, 0),
-      };
+    const questionNumberInDimension = currentQuestion + 1;
+    const totalInDimension = dim.questions.length;
+
+    // Calculate global question number
+    let globalNumber = 0;
+    for (let i = 0; i < currentDimension; i++) {
+      globalNumber += dimensions[i].questions.length;
     }
-    return null;
-  }, [flowState, dimensions]);
+    globalNumber += currentQuestion + 1;
+
+    return {
+      dimension: dim,
+      question,
+      questionNumberInDimension,
+      totalInDimension,
+      globalNumber,
+      totalQuestions: dimensions.reduce((sum, d) => sum + d.questions.length, 0),
+    };
+  }, [currentDimension, currentQuestion, dimensions, isComplete]);
 
   // Handle answer selection with auto-advance
   const handleAnswer = useCallback((score: number) => {
-    if (flowState.type !== 'question') return;
+    if (isComplete) return;
 
     const info = getCurrentInfo();
     if (!info) return;
@@ -106,96 +121,91 @@ export default function FlowAssessment({
     setTimeout(() => {
       advance();
     }, 300);
-  }, [flowState, getCurrentInfo, onAnswer]);
+  }, [isComplete, getCurrentInfo, onAnswer]);
 
-  // Advance to next state - skip section-complete, go directly to next section
+  // Advance to next question
   const advance = useCallback(() => {
+    if (isComplete) return;
+
     setDirection('forward');
     setIsTransitioning(true);
 
     setTimeout(() => {
-      setFlowState(prev => {
-        if (prev.type === 'section-intro') {
-          return { type: 'question', dimensionIndex: prev.dimensionIndex, questionIndex: 0 };
-        }
+      const dim = dimensions[currentDimension];
 
-        if (prev.type === 'question') {
-          const dim = dimensions[prev.dimensionIndex];
-          if (prev.questionIndex < dim.questions.length - 1) {
-            // More questions in this section
-            return { type: 'question', dimensionIndex: prev.dimensionIndex, questionIndex: prev.questionIndex + 1 };
-          }
-          // Last question - go directly to next section intro or complete
-          if (prev.dimensionIndex < dimensions.length - 1) {
-            return { type: 'section-intro', dimensionIndex: prev.dimensionIndex + 1 };
-          }
-          return { type: 'complete' };
-        }
-
-        return prev;
-      });
+      if (currentQuestion < dim.questions.length - 1) {
+        // More questions in this section
+        setCurrentQuestion(prev => prev + 1);
+      } else if (currentDimension < dimensions.length - 1) {
+        // Move to next section
+        setCurrentDimension(prev => prev + 1);
+        setCurrentQuestion(0);
+      } else {
+        // Assessment complete
+        setIsComplete(true);
+      }
 
       setTimeout(() => setIsTransitioning(false), 50);
     }, 200);
-  }, [dimensions]);
+  }, [currentDimension, currentQuestion, dimensions, isComplete]);
 
-  // Go back to previous state
+  // Go back to previous question
   const goBack = useCallback(() => {
+    if (isComplete) {
+      // Go back from complete state
+      setIsComplete(false);
+      const lastDim = dimensions[dimensions.length - 1];
+      setCurrentDimension(dimensions.length - 1);
+      setCurrentQuestion(lastDim.questions.length - 1);
+      return;
+    }
+
     setDirection('backward');
     setIsTransitioning(true);
 
     setTimeout(() => {
-      setFlowState(prev => {
-        if (prev.type === 'section-intro' && prev.dimensionIndex > 0) {
-          // Go to last question of previous section
-          const prevDim = dimensions[prev.dimensionIndex - 1];
-          return { type: 'question', dimensionIndex: prev.dimensionIndex - 1, questionIndex: prevDim.questions.length - 1 };
-        }
-
-        if (prev.type === 'question') {
-          if (prev.questionIndex > 0) {
-            return { type: 'question', dimensionIndex: prev.dimensionIndex, questionIndex: prev.questionIndex - 1 };
-          }
-          return { type: 'section-intro', dimensionIndex: prev.dimensionIndex };
-        }
-
-        if (prev.type === 'complete') {
-          // Go to last question of last section
-          const lastDim = dimensions[dimensions.length - 1];
-          return { type: 'question', dimensionIndex: dimensions.length - 1, questionIndex: lastDim.questions.length - 1 };
-        }
-
-        return prev;
-      });
+      if (currentQuestion > 0) {
+        setCurrentQuestion(prev => prev - 1);
+      } else if (currentDimension > 0) {
+        const prevDim = dimensions[currentDimension - 1];
+        setCurrentDimension(prev => prev - 1);
+        setCurrentQuestion(prevDim.questions.length - 1);
+      }
 
       setTimeout(() => setIsTransitioning(false), 50);
     }, 200);
-  }, [dimensions]);
+  }, [currentDimension, currentQuestion, dimensions, isComplete]);
+
+  // Skip current question (press 9)
+  const skipQuestion = useCallback(() => {
+    if (isComplete) return;
+    advance();
+  }, [isComplete, advance]);
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (flowState.type === 'question') {
-        const info = getCurrentInfo();
-        if (!info) return;
+      if (isComplete || isSubmitting) return;
 
-        // Number keys 1-4 to select answer
-        if (['1', '2', '3', '4'].includes(e.key)) {
-          const index = parseInt(e.key) - 1;
-          if (index < info.question.options.length) {
-            handleAnswer(info.question.options[index].score);
-          }
+      const info = getCurrentInfo();
+      if (!info) return;
+
+      // Number keys 1-4 to select answer
+      if (['1', '2', '3', '4'].includes(e.key)) {
+        const index = parseInt(e.key) - 1;
+        if (index < info.question.options.length) {
+          handleAnswer(info.question.options[index].score);
         }
       }
 
-      // Enter to advance on intro screens
-      if (e.key === 'Enter' && flowState.type === 'section-intro') {
-        advance();
+      // 9 to skip
+      if (e.key === '9') {
+        skipQuestion();
       }
 
       // Backspace/Escape to go back
       if (e.key === 'Backspace' || e.key === 'Escape') {
-        if (flowState.type !== 'section-intro' || flowState.dimensionIndex > 0) {
+        if (currentQuestion > 0 || currentDimension > 0) {
           goBack();
         }
       }
@@ -203,14 +213,15 @@ export default function FlowAssessment({
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [flowState, getCurrentInfo, handleAnswer, advance, goBack]);
+  }, [isComplete, isSubmitting, getCurrentInfo, handleAnswer, skipQuestion, goBack, currentQuestion, currentDimension]);
 
-  // Handle complete
+  // Handle complete - only call onComplete once
   useEffect(() => {
-    if (flowState.type === 'complete') {
+    if (isComplete && !hasCompletedRef.current) {
+      hasCompletedRef.current = true;
       onComplete();
     }
-  }, [flowState, onComplete]);
+  }, [isComplete, onComplete]);
 
   const progress = getTotalProgress();
   const currentInfo = getCurrentInfo();
@@ -222,54 +233,72 @@ export default function FlowAssessment({
       ? 'opacity-0 translate-y-4'
       : 'opacity-0 -translate-y-4';
   };
+
   // Check if we have valid company insights to display
   const hasValidInsights = companyInsights && typeof companyInsights.ai_maturity?.score === "number";
   const validGap = hasValidInsights && isValidGap(companyInsights.readiness_clues?.gaps?.[0])
     ? companyInsights.readiness_clues.gaps[0]
     : null;
 
-
+  // Show submitting state
+  if (isComplete && isSubmitting) {
+    return (
+      <div ref={containerRef} className="flow-assessment min-h-[400px] flex flex-col items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 mx-auto mb-6 relative">
+            <div className="absolute inset-0 rounded-full border-4 border-white/10" />
+            <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-purple-500 animate-spin" />
+          </div>
+          <h2 className="text-xl font-semibold text-white mb-2">Analyzing Your Responses</h2>
+          <p className="type-sm text-white/60 max-w-sm mx-auto">
+            Calculating your AI readiness score and generating personalized recommendations...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="flow-assessment min-h-[400px] flex flex-col">
-      {/* Progress Bar */}
+      {/* Progress Bar Header */}
       <div className="mb-8">
         <div className="flex justify-between items-center mb-2">
-          <span className="type-xs text-white/50 uppercase tracking-wider">
-            {flowState.type === 'question' && currentInfo
-              ? `${currentInfo.dimension.title}`
-              : flowState.type === 'section-intro'
-              ? dimensions[flowState.dimensionIndex].title
-              : 'Assessment Complete'
-            }
+          <span
+            className="type-xs font-medium uppercase tracking-wider transition-colors duration-300"
+            style={{ color: currentColor.color }}
+          >
+            {currentInfo ? currentInfo.dimension.title : 'Assessment Complete'}
           </span>
           <span className="type-xs text-white/50">
-            {progress.answered} of {progress.total} questions
+            {progress.answered} of {progress.total}
           </span>
         </div>
 
-        {/* Segmented progress bar */}
+        {/* Prismatic segmented progress bar */}
         <div className="flex gap-1">
           {dimensions.map((dim, dimIdx) => {
             const dimAnswered = dim.questions.filter(q => answers[q.id] !== undefined).length;
             const dimProgress = (dimAnswered / dim.questions.length) * 100;
-            const isActive = flowState.type === 'section-intro'
-              ? dimIdx === flowState.dimensionIndex
-              : flowState.type === 'question'
-              ? dimIdx === flowState.dimensionIndex
-              : false;
+            const isActive = dimIdx === currentDimension && !isComplete;
+            const color = DIMENSION_COLORS[dimIdx];
 
             return (
               <div
                 key={dim.id}
                 className={`flex-1 h-1.5 rounded-full overflow-hidden transition-all duration-300 ${
-                  isActive ? 'ring-1 ring-purple-500/50' : ''
+                  isActive ? 'ring-1 ring-offset-1 ring-offset-transparent' : ''
                 }`}
-                style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}
+                style={{
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  ringColor: isActive ? color.color : 'transparent'
+                }}
               >
                 <div
-                  className="h-full bg-gradient-to-r from-purple-500 to-blue-500 transition-all duration-500 ease-out"
-                  style={{ width: `${dimProgress}%` }}
+                  className="h-full transition-all duration-500 ease-out"
+                  style={{
+                    width: `${dimProgress}%`,
+                    backgroundColor: color.color
+                  }}
                 />
               </div>
             );
@@ -281,38 +310,8 @@ export default function FlowAssessment({
       <div className="flex-1 flex flex-col">
         <div className={`transition-all duration-300 ease-out ${getAnimationClass()}`}>
 
-          {/* Section Intro */}
-          {flowState.type === 'section-intro' && (
-            <div className="text-center py-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 mb-4">
-                <span className="type-xs font-medium text-purple-400 uppercase tracking-wider">
-                  Section {flowState.dimensionIndex + 1} of {dimensions.length}
-                </span>
-              </div>
-
-              <h2 className="heading-subsection text-white mb-2">
-                {dimensions[flowState.dimensionIndex].title}
-              </h2>
-
-              <p className="type-sm text-white/60 mb-6 max-w-md mx-auto leading-relaxed">
-                {dimensions[flowState.dimensionIndex].questions.length} questions about your organization's {dimensions[flowState.dimensionIndex].title.toLowerCase()}.
-              </p>
-
-              <button
-                onClick={advance}
-                className="btn-primary px-6 py-2.5"
-              >
-                Begin Section
-              </button>
-
-              <p className="type-xs text-white/40 mt-4">
-                Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">Enter</kbd> to continue
-              </p>
-            </div>
-          )}
-
           {/* Question */}
-          {flowState.type === 'question' && currentInfo && (
+          {currentInfo && (
             <div className="py-4">
               <div className="mb-6">
                 <span className="type-xs text-white/40 uppercase tracking-wider">
@@ -336,26 +335,42 @@ export default function FlowAssessment({
                         w-full text-left px-4 py-3 rounded-lg border transition-all duration-200
                         flex items-center gap-3 group
                         ${isSelected
-                          ? 'bg-purple-500/20 border-purple-500/50 ring-1 ring-purple-500/30'
+                          ? 'border-opacity-50 ring-1 ring-opacity-30'
                           : 'bg-white/[0.03] border-white/[0.08] hover:bg-white/[0.06] hover:border-white/20'
                         }
                       `}
+                      style={isSelected ? {
+                        backgroundColor: `${currentColor.color}20`,
+                        borderColor: `${currentColor.color}80`,
+                        boxShadow: `0 0 0 1px ${currentColor.color}30`
+                      } : {}}
                     >
-                      <span className={`
-                        w-6 h-6 rounded flex items-center justify-center type-xs font-medium
-                        transition-colors shrink-0
-                        ${isSelected
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-white/10 text-white/60 group-hover:bg-white/15'
-                        }
-                      `}>
+                      <span
+                        className={`
+                          w-6 h-6 rounded flex items-center justify-center type-xs font-medium
+                          transition-colors shrink-0
+                        `}
+                        style={isSelected ? {
+                          backgroundColor: currentColor.color,
+                          color: 'white'
+                        } : {
+                          backgroundColor: 'rgba(255,255,255,0.1)',
+                          color: 'rgba(255,255,255,0.6)'
+                        }}
+                      >
                         {idx + 1}
                       </span>
                       <span className={`flex-1 type-sm ${isSelected ? 'text-white' : 'text-white/80'}`}>
                         {option.label}
                       </span>
                       {isSelected && (
-                        <svg className="w-4 h-4 text-purple-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg
+                          className="w-4 h-4 shrink-0"
+                          style={{ color: currentColor.color }}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       )}
@@ -366,6 +381,8 @@ export default function FlowAssessment({
 
               <p className="type-xs text-white/40 mt-6 text-center">
                 Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">1</kbd>-<kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">4</kbd> to select
+                <span className="mx-2 text-white/20">·</span>
+                <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">9</kbd> to skip
               </p>
             </div>
           )}
@@ -374,11 +391,12 @@ export default function FlowAssessment({
       </div>
 
       {/* Navigation Footer */}
-      {flowState.type === 'question' && (
+      {currentInfo && (
         <div className="flex justify-between items-center pt-6 border-t border-white/10 mt-auto">
           <button
             onClick={goBack}
-            className="type-sm text-white/60 hover:text-white transition-colors flex items-center gap-2"
+            disabled={currentDimension === 0 && currentQuestion === 0}
+            className="type-sm text-white/60 hover:text-white transition-colors flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -386,12 +404,13 @@ export default function FlowAssessment({
             Back
           </button>
 
-          {currentInfo && answers[currentInfo.question.id] !== undefined && (
+          {answers[currentInfo.question.id] !== undefined && (
             <button
               onClick={advance}
-              className="type-sm text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-2"
+              className="type-sm hover:opacity-80 transition-colors flex items-center gap-2"
+              style={{ color: currentColor.color }}
             >
-              Skip to next
+              Next
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -401,11 +420,17 @@ export default function FlowAssessment({
       )}
 
       {/* Company Insights Mini-Panel (shows during questions when valid insights exist) */}
-      {flowState.type === "question" && hasValidInsights && (
-        <div className="mt-6 p-4 bg-gradient-to-r from-purple-500/5 to-blue-500/5 rounded-xl border border-white/5">
+      {currentInfo && hasValidInsights && (
+        <div
+          className="mt-6 p-4 rounded-xl border border-white/5"
+          style={{ backgroundColor: `${currentColor.color}08` }}
+        >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
-              <span className="type-lg font-bold text-purple-400">
+            <div
+              className="w-10 h-10 rounded-lg flex items-center justify-center"
+              style={{ backgroundColor: `${currentColor.color}20` }}
+            >
+              <span className="type-lg font-bold" style={{ color: currentColor.color }}>
                 {companyInsights.ai_maturity.score}
               </span>
             </div>
@@ -425,8 +450,20 @@ export default function FlowAssessment({
 
       {/* Loading indicator for analysis */}
       {isAnalyzing && (
-        <div className="mt-6 p-4 bg-purple-500/5 rounded-xl border border-purple-500/10 flex items-center gap-3">
-          <div className="w-5 h-5 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
+        <div
+          className="mt-6 p-4 rounded-xl border flex items-center gap-3"
+          style={{
+            backgroundColor: `${currentColor.color}05`,
+            borderColor: `${currentColor.color}20`
+          }}
+        >
+          <div
+            className="w-5 h-5 border-2 rounded-full animate-spin"
+            style={{
+              borderColor: `${currentColor.color}30`,
+              borderTopColor: currentColor.color
+            }}
+          />
           <span className="type-xs text-white/60">Analyzing your company in the background...</span>
         </div>
       )}

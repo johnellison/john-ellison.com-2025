@@ -80,7 +80,7 @@ export function calculateOverallScore(dimensionScores: DimensionScore[]): number
     (acc, dim) => acc + dim.score * dim.weight,
     0
   );
-  return Math.round(weightedSum * 100);
+  return Math.round(weightedSum);
 }
 
 export function getReadinessLevel(score: number): ReadinessLevel {

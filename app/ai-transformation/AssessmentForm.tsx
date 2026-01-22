@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import ResultsDashboard from '@/components/ResultsDashboard';
+import { useRouter } from 'next/navigation';
 import { AssessmentResult } from '@/types/assessment';
 import FlowAssessment from './components/FlowAssessment';
+import { ArrowRight, Mail, CheckCircle2 } from 'lucide-react';
 
 const QUESTIONS = {
   leadership: [
@@ -420,6 +421,7 @@ const STEPS = [
 ];
 
 export default function AITransformationPage() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [companyData, setCompanyData] = useState({
@@ -473,6 +475,39 @@ export default function AITransformationPage() {
   const handleAnswer = useCallback((questionId: string, score: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: score }));
   }, []);
+
+  // Handle flow assessment completion - must be before any conditional returns
+  const handleFlowComplete = useCallback(async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${basePath}/api/assessments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyData, answers, companyInsights }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        alert(result?.error || 'Failed to submit assessment.');
+        return;
+      }
+
+      if (!result.report) {
+        alert('Assessment submitted, but no report was returned.');
+        return;
+      }
+
+      // Store report in localStorage for the results page
+      localStorage.setItem('assessmentReport', JSON.stringify(result.report));
+      setReport(result.report);
+    } catch (error) {
+      console.error('Assessment submission error:', error);
+      alert('Failed to submit assessment. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [basePath, companyData, answers, companyInsights]);
 
   const handleNext = async () => {
     if (currentStep === 0) {
@@ -568,8 +603,49 @@ export default function AITransformationPage() {
     }
   };
 
+  // Show completion screen when report is ready
   if (report) {
-    return <ResultsDashboard result={report} />;
+    return (
+      <div className="assessment-form-container max-w-xl mx-auto">
+        <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8 text-center">
+          {/* Success indicator */}
+          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
+            <CheckCircle2 className="w-8 h-8 text-green-400" />
+          </div>
+
+          {/* Archetype reveal */}
+          <p className="type-xs text-white/50 uppercase tracking-wider mb-2">Your AI Archetype</p>
+          <h2
+            className="heading-subsection mb-3"
+            style={{ color: report.archetype.color }}
+          >
+            {report.archetype.name}
+          </h2>
+          <p className="type-base text-white/60 italic mb-6">"{report.archetype.hook}"</p>
+
+          {/* Score */}
+          <div className="inline-flex items-baseline gap-1 px-5 py-2 rounded-xl bg-white/5 border border-white/10 mb-8">
+            <span className="text-3xl font-bold text-white">{report.overallScore}</span>
+            <span className="type-base text-white/40">/100</span>
+          </div>
+
+          {/* Email notification */}
+          <div className="flex items-center justify-center gap-2 text-white/50 mb-8">
+            <Mail className="w-4 h-4" />
+            <span className="type-sm">Report sent to {companyData.email}</span>
+          </div>
+
+          {/* CTA */}
+          <button
+            onClick={() => router.push('/ai-transformation/results')}
+            className="btn-primary inline-flex items-center gap-2"
+          >
+            View Full Report
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const isStepComplete = (stepId: string) => {
@@ -582,37 +658,6 @@ export default function AITransformationPage() {
     const dimensionAnswers = dimension.questions.map((q) => answers[q.id]);
     return dimensionAnswers.every((a) => a !== undefined);
   };
-
-  // Handle flow assessment completion
-  const handleFlowComplete = useCallback(async () => {
-    setIsSubmitting(true);
-    try {
-      const response = await fetch(`${basePath}/api/assessments`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ companyData, answers, companyInsights }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        alert(result?.error || 'Failed to submit assessment.');
-        return;
-      }
-
-      if (!result.report) {
-        alert('Assessment submitted, but no report was returned.');
-        return;
-      }
-
-      setReport(result.report);
-    } catch (error) {
-      console.error('Assessment submission error:', error);
-      alert('Failed to submit assessment. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [basePath, companyData, answers, companyInsights]);
 
   const renderIntroStep = () => {
     return (
@@ -693,6 +738,7 @@ export default function AITransformationPage() {
             onComplete={handleFlowComplete}
             companyInsights={companyInsights}
             isAnalyzing={isAnalyzing}
+            isSubmitting={isSubmitting}
           />
         </div>
       </div>
