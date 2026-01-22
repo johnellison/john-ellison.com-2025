@@ -1,0 +1,109 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@300,400,500,700&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Font Families */
+    --font-display: 'Clash Display', -apple-system, sans-serif;
+    --font-body: 'Satoshi', -apple-system, sans-serif;
+
+    /* Type Scale - Fluid Typography */
+    --text-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8rem);
+    --text-sm: clamp(0.85rem, 0.8rem + 0.25vw, 0.95rem);
+    --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+    --text-lg: clamp(1.15rem, 1.05rem + 0.5vw, 1.35rem);
+    --text-xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+    --text-2xl: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+    --text-3xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+    --text-4xl: clamp(3rem, 2.5rem + 2.5vw, 5rem);
+
+    /* Line Heights */
+    --leading-tight: 1.1;
+    --leading-snug: 1.3;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.7;
+
+    /* Letter Spacing */
+    --tracking-tight: -0.02em;
+    --tracking-normal: 0;
+    --tracking-wide: 0.05em;
+    --tracking-wider: 0.1em;
+    --tracking-widest: 0.15em;
+
+    /* Responsive Breakpoints */
+    --bp-mobile: 480px;
+    --bp-tablet: 768px;
+    --bp-desktop: 1024px;
+
+    /* Grid Gaps */
+    --grid-gap-sm: 0.75rem;
+    --grid-gap-md: 1.25rem;
+    --grid-gap-lg: 1.5rem;
+
+    /* Custom Gradients */
+    --gradient-prism: linear-gradient(135deg, #7c3aed 0%, #3b82f6 50%, #2dd4bf 100%);
+    --gradient-warm: linear-gradient(135deg, #ef4444 0%, #f59e0b 50%, #fcd34d 100%);
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Base Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  h1 { font-size: var(--text-4xl); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+
+  p {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+  }
+
+  small {
+    font-size: var(--text-sm);
+  }
+
+  /* Utility: Gradient Text */
+  .text-gradient-prism {
+    background: var(--gradient-prism);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+  }
+
+  .text-gradient-warm {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
+  }
+}
