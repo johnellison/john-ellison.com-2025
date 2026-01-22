@@ -85,7 +85,7 @@ Respond with valid JSON only, no other text.`;
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4.5-20250514',
+        model: 'claude-sonnet-4-5-20250929',
         max_tokens: 2000,
         messages: [
           {
@@ -107,7 +107,9 @@ Respond with valid JSON only, no other text.`;
       throw new Error('Empty AI response');
     }
 
-    const parsed = JSON.parse(aiContent);
+    // Strip markdown code blocks if present
+    const jsonContent = aiContent.replace(/^```(?:json)?\s*\n?|\n?```$/g, '').trim();
+    const parsed = JSON.parse(jsonContent);
     if (!isValidInsights(parsed)) {
       throw new Error('Invalid AI response shape');
     }

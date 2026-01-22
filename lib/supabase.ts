@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseSecretKey = process.env.SUPABASE_SECRET_KEY || '';
 
 function getSupabaseClient() {
   if (!supabaseUrl || !supabaseSecretKey) {
-    throw new Error('Missing Supabase configuration. Set SUPABASE_URL and SUPABASE_SECRET_KEY.');
+    throw new Error('Missing Supabase configuration. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY.');
   }
 
   return createClient(supabaseUrl, supabaseSecretKey);
@@ -45,6 +45,56 @@ export async function saveAssessment(assessment: Omit<Assessment, 'id' | 'create
   } catch (err) {
     console.error('Exception saving assessment:', err);
     return { success: false, error: String(err) };
+  }
+}
+
+export interface Lead {
+  id: string;
+  created_at: string;
+  email: string;
+  company_name: string;
+  website: string;
+  linkedin?: string;
+  company_insights?: any;
+  converted_to_assessment: boolean;
+}
+
+export async function saveLead(lead: Omit<Lead, 'id' | 'created_at' | 'converted_to_assessment'>) {
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+      .from('leads')
+      .upsert(
+        { ...lead, converted_to_assessment: false },
+        { onConflict: 'email' }
+      )
+      .select();
+
+    if (error) {
+      console.error('Error saving lead:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data };
+  } catch (err) {
+    console.error('Exception saving lead:', err);
+    return { success: false, error: String(err) };
+  }
+}
+
+export async function markLeadConverted(email: string) {
+  try {
+    const supabase = getSupabaseClient();
+    const { error } = await supabase
+      .from('leads')
+      .update({ converted_to_assessment: true })
+      .eq('email', email);
+
+    if (error) {
+      console.error('Error marking lead converted:', error);
+    }
+  } catch (err) {
+    console.error('Exception marking lead converted:', err);
   }
 }
 

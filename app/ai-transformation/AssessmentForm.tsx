@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import ResultsDashboard from '@/components/ResultsDashboard';
 import { AssessmentResult } from '@/types/assessment';
+import FlowAssessment from './components/FlowAssessment';
 
 const QUESTIONS = {
   leadership: [
@@ -440,41 +441,97 @@ export default function AITransformationPage() {
     }
   }, []);
 
-  const handleAnswer = (questionId: string, score: number) => {
-    setAnswers((prev) => ({ ...prev, [questionId]: score }));
+  // Derive website and company name from email domain
+  const deriveFromEmail = (email: string) => {
+    const domain = email.split('@')[1];
+    if (domain && !domain.includes('gmail') && !domain.includes('yahoo') && !domain.includes('hotmail') && !domain.includes('outlook') && !domain.includes('icloud')) {
+      const companyName = domain.split('.')[0];
+      // Capitalize first letter of company name
+      const formattedName = companyName.charAt(0).toUpperCase() + companyName.slice(1);
+      return {
+        website: `https://${domain}`,
+        name: formattedName,
+      };
+    }
+    return { website: '', name: '' };
   };
+
+  // Auto-fill website and company name when email changes
+  const [manuallyEdited, setManuallyEdited] = useState({ website: false, name: false });
+
+  useEffect(() => {
+    if (companyData.email) {
+      const derived = deriveFromEmail(companyData.email);
+      setCompanyData((prev) => ({
+        ...prev,
+        website: manuallyEdited.website ? prev.website : derived.website,
+        name: manuallyEdited.name ? prev.name : derived.name,
+      }));
+    }
+  }, [companyData.email, manuallyEdited]);
+
+  const handleAnswer = useCallback((questionId: string, score: number) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: score }));
+  }, []);
 
   const handleNext = async () => {
     if (currentStep === 0) {
+      // Save lead immediately (capture email early)
+      fetch(`${basePath}/api/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: companyData.email,
+          companyName: companyData.name,
+          linkedin: companyData.linkedin,
+        }),
+      }).catch((error) => console.error('Lead capture error:', error));
+
+      // Start company analysis in background (non-blocking)
       setIsAnalyzing(true);
-      try {
-        const response = await fetch(`${basePath}/api/analyze-company`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ website: companyData.website, linkedin: companyData.linkedin }),
+      const websiteToAnalyze = companyData.website || deriveFromEmail(companyData.email).website;
+
+      fetch(`${basePath}/api/analyze-company`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ website: websiteToAnalyze, linkedin: companyData.linkedin }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success && result.insights) {
+            setCompanyInsights(result.insights);
+            // Update lead with company insights
+            fetch(`${basePath}/api/leads`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                email: companyData.email,
+                companyName: companyData.name,
+                linkedin: companyData.linkedin,
+                companyInsights: result.insights,
+              }),
+            }).catch((error) => console.error('Lead update error:', error));
+          } else if (result.error) {
+            console.warn('Company analysis skipped:', result.error);
+          }
+        })
+        .catch((error) => {
+          console.error('Analysis error:', error);
+        })
+        .finally(() => {
+          setIsAnalyzing(false);
         });
 
-        const result = await response.json();
-        if (result.success && result.insights) {
-          setCompanyInsights(result.insights);
-          setCurrentStep(1);
-        }
-      } catch (error) {
-        console.error('Analysis error:', error);
-        setCurrentStep(1);
-      } finally {
-        setIsAnalyzing(false);
-      }
+      // Immediately advance to next step
+      setCurrentStep(1);
     } else if (currentStep < STEPS.length - 1) {
       setCurrentStep(currentStep + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handlePrevious = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -517,7 +574,8 @@ export default function AITransformationPage() {
 
   const isStepComplete = (stepId: string) => {
     if (stepId === 'company') {
-      return companyData.name && companyData.website && companyData.email;
+      // Only email is required - website derived from email domain
+      return companyData.email && companyData.email.includes('@');
     }
     const dimension = DIMENSIONS.find((d) => d.id === stepId);
     if (!dimension) return false;
@@ -525,158 +583,125 @@ export default function AITransformationPage() {
     return dimensionAnswers.every((a) => a !== undefined);
   };
 
-  const renderStep = () => {
-    if (currentStep === 0) {
-      return (
-        <div className="form-step active">
-          <div className="form-step-header mb-5">
-            <span className="block text-xs text-purple-400/80 uppercase tracking-wider mb-1">Step 1 of {STEPS.length}</span>
-            <h2 className="text-lg font-semibold text-white m-0">{STEPS[0].title}</h2>
-          </div>
+  // Handle flow assessment completion
+  const handleFlowComplete = useCallback(async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${basePath}/api/assessments`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyData, answers, companyInsights }),
+      });
 
-          <div className="form-group mb-5">
-            <label className="form-label block text-sm font-medium text-white/90 mb-2">Company Name *</label>
-            <input
-              type="text"
-              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
-              value={companyData.name}
-              onChange={(e) => setCompanyData((prev) => ({ ...prev, name: e.target.value }))}
-              placeholder="Your company name"
-              disabled={isAnalyzing}
-            />
-          </div>
+      const result = await response.json();
 
-          <div className="form-group mb-5">
-            <label className="form-label block text-sm font-medium text-white/90 mb-2">Website URL *</label>
-            <input
-              type="url"
-              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
-              value={companyData.website}
-              onChange={(e) => setCompanyData((prev) => ({ ...prev, website: e.target.value }))}
-              placeholder="https://yourcompany.com"
-              disabled={isAnalyzing}
-            />
-          </div>
+      if (!response.ok) {
+        alert(result?.error || 'Failed to submit assessment.');
+        return;
+      }
 
-          <div className="form-group mb-5">
-            <label className="form-label block text-sm font-medium text-white/90 mb-2">LinkedIn Company Page</label>
-            <input
-              type="url"
-              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
-              value={companyData.linkedin}
-              onChange={(e) => setCompanyData((prev) => ({ ...prev, linkedin: e.target.value }))}
-              placeholder="https://linkedin.com/company/yourcompany"
-              disabled={isAnalyzing}
-            />
-          </div>
+      if (!result.report) {
+        alert('Assessment submitted, but no report was returned.');
+        return;
+      }
 
-          <div className="form-group mb-5">
-            <label className="form-label block text-sm font-medium text-white/90 mb-2">Email Address *</label>
-            <input
-              type="email"
-              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
-              value={companyData.email}
-              onChange={(e) => setCompanyData((prev) => ({ ...prev, email: e.target.value }))}
-              placeholder="you@yourcompany.com"
-              disabled={isAnalyzing}
-            />
-          </div>
+      setReport(result.report);
+    } catch (error) {
+      console.error('Assessment submission error:', error);
+      alert('Failed to submit assessment. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [basePath, companyData, answers, companyInsights]);
 
-          {companyInsights && (
-            <div className="mt-6 p-4 bg-purple-500/10 rounded-xl border-l-[3px] border-purple-400">
-              <h3 className="text-base font-medium text-white mb-3">AI Analysis Insights</h3>
-              {companyInsights.company_summary && (
-                <p className="text-sm text-white/70 mb-4 leading-relaxed">
-                  <strong>Company Summary:</strong> {companyInsights.company_summary}
-                </p>
-              )}
-              {companyInsights.ai_maturity && (
-                <div className="bg-white/5 rounded-lg p-3 mb-3">
-                  <h4 className="text-sm font-medium text-white mb-2">Estimated AI Maturity: {companyInsights.ai_maturity.score}/100</h4>
-                  <p className="text-[0.8125rem] text-white/60">Confidence: {companyInsights.ai_maturity.confidence}</p>
-                  {companyInsights.ai_maturity.signals && (
-                    <ul className="text-[0.8125rem] text-white/60 mt-2">
-                      {companyInsights.ai_maturity.signals.map((signal: string, idx: number) => (
-                        <li key={idx} className="pl-2 mb-1">• {signal}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              )}
-              {companyInsights.tech_insights && (
-                <div className="bg-white/5 rounded-lg p-3 mb-3">
-                  <h4 className="text-sm font-medium text-white mb-2">Technology Insights</h4>
-                  <ul className="text-[0.8125rem] text-white/60">
-                    <li className="pl-2 mb-1">AI Roadmap: {companyInsights.tech_insights.has_roadmap ? 'Yes' : 'No'}</li>
-                    <li className="pl-2 mb-1">AI Mentions: {companyInsights.tech_insights.mentions_ai ? 'Yes' : 'No'}</li>
-                    {companyInsights.tech_insights.ai_use_cases && companyInsights.tech_insights.ai_use_cases.length > 0 && (
-                      <li className="pl-2 mb-1">Potential Use Cases: {companyInsights.tech_insights.ai_use_cases.join(', ')}</li>
-                    )}
-                  </ul>
-                </div>
-              )}
-              {companyInsights.readiness_clues && (
-                <div className="bg-white/5 rounded-lg p-3 mb-3">
-                  <h4 className="text-sm font-medium text-white mb-2">Readiness Clues</h4>
-                  <p className="text-[0.8125rem] text-white/60">Likely strong in: {companyInsights.readiness_clues.likely_dimensions.join(', ')}</p>
-                  <p className="text-[0.8125rem] text-white/60">Strengths: {companyInsights.readiness_clues.strengths.join(', ')}</p>
-                  <p className="text-[0.8125rem] text-white/60">Identified Gaps: {companyInsights.readiness_clues.gaps.join(', ')}</p>
-                </div>
-              )}
-            </div>
-          )}
-
-          <p className="text-xs text-white/50 mt-4">
-            We'll analyze your website and LinkedIn to understand your company's AI maturity and provide personalized recommendations.
+  const renderIntroStep = () => {
+    return (
+      <div className="form-step active">
+        <div className="form-step-header mb-5">
+          <span className="block text-xs text-purple-400/80 uppercase tracking-wider mb-1">Let's Get Started</span>
+          <h2 className="text-lg font-semibold text-white m-0">{STEPS[0].title}</h2>
+          <p className="text-sm text-white/60 mt-2">
+            Enter your work email and we'll automatically analyze your company's AI readiness.
           </p>
         </div>
-      );
-    }
 
-    const currentDimension = DIMENSIONS[currentStep - 1];
-    if (currentDimension) {
-      return (
-        <div className="form-step active">
-          <div className="form-step-header mb-5">
-            <span className="block text-xs text-purple-400/80 uppercase tracking-wider mb-1">
-              Step {currentStep + 1} of {STEPS.length}
-            </span>
-            <h2 className="text-lg font-semibold text-white m-0">{currentDimension.title}</h2>
-            <p className="text-sm text-white/60 mt-2">
-              Rate your organization on each question. Select the option that best describes your current state.
-            </p>
-          </div>
-
-          {currentDimension.questions.map((question, idx) => (
-            <div key={question.id} className="form-group mb-5">
-              <label className="block text-sm font-medium text-white/90 mb-2">
-                {idx + 1}. {question.question}
-              </label>
-              <div className="flex flex-col gap-2">
-                {question.options.map((option) => (
-                  <label key={option.label} className="flex items-start gap-2.5 px-3.5 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-lg cursor-pointer transition-colors hover:bg-white/[0.06] hover:border-white/[0.15] has-[input:checked]:bg-purple-500/10 has-[input:checked]:border-purple-500/30">
-                    <input
-                      type="radio"
-                      name={question.id}
-                      checked={answers[question.id] === option.score}
-                      onChange={() => handleAnswer(question.id, option.score)}
-                      className="mt-0.5 accent-purple-500"
-                    />
-                    <span className="text-[0.8125rem] text-white/85 leading-snug">{option.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="form-group mb-5">
+          <label className="form-label block text-sm font-medium text-white/90 mb-2">Work Email *</label>
+          <input
+            type="email"
+            className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
+            value={companyData.email}
+            onChange={(e) => setCompanyData((prev) => ({ ...prev, email: e.target.value }))}
+            placeholder="you@yourcompany.com"
+            disabled={isAnalyzing}
+          />
         </div>
-      );
-    }
 
-    return null;
+        {/* Auto-detected fields */}
+        {(companyData.name || companyData.website) && (
+          <div className="p-4 bg-white/[0.02] border border-white/[0.06] rounded-lg mb-5">
+            <p className="text-xs text-white/50 uppercase tracking-wider mb-3">Auto-detected from your email</p>
+
+            {companyData.name && (
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-white/70">Company</span>
+                <input
+                  type="text"
+                  className="bg-transparent text-sm text-white text-right border-none focus:outline-none focus:ring-0 w-auto"
+                  value={companyData.name}
+                  onChange={(e) => {
+                    setManuallyEdited((prev) => ({ ...prev, name: true }));
+                    setCompanyData((prev) => ({ ...prev, name: e.target.value }));
+                  }}
+                />
+              </div>
+            )}
+
+            {companyData.website && (
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-white/70">Website</span>
+                <input
+                  type="text"
+                  className="bg-transparent text-sm text-white text-right border-none focus:outline-none focus:ring-0 w-auto max-w-[200px]"
+                  value={companyData.website}
+                  onChange={(e) => {
+                    setManuallyEdited((prev) => ({ ...prev, website: true }));
+                    setCompanyData((prev) => ({ ...prev, website: e.target.value }));
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
+
+        <p className="text-xs text-white/50 mt-4">
+          We'll analyze your website to understand your company's current AI maturity and provide personalized recommendations.
+        </p>
+      </div>
+    );
   };
 
+  // If we're past the intro step, show the flow assessment
+  if (currentStep > 0) {
+    return (
+      <div className="assessment-form-container max-w-3xl mx-auto">
+        <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
+          <FlowAssessment
+            dimensions={DIMENSIONS}
+            answers={answers}
+            onAnswer={handleAnswer}
+            onComplete={handleFlowComplete}
+            companyInsights={companyInsights}
+            isAnalyzing={isAnalyzing}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Intro step
   return (
-    <div className="assessment-form-container">
+    <div className="assessment-form-container max-w-xl mx-auto">
       {/* Stats Header */}
       <div className="assessment-stats flex justify-center gap-6 md:gap-10 mb-8 pb-6 border-b border-white/10">
         <div className="stat-item text-center">
@@ -693,56 +718,20 @@ export default function AITransformationPage() {
         </div>
       </div>
 
-      {/* Form Content */}
+      {/* Intro Form */}
       <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-5 md:p-6">
-        {renderStep()}
+        {renderIntroStep()}
 
-        <div className="form-nav mt-6 flex justify-between">
+        <div className="form-nav mt-6 flex justify-end">
           <button
-            className="btn-secondary"
-            onClick={handlePrevious}
-            disabled={currentStep === 0}
+            className="btn-primary"
+            onClick={handleNext}
+            disabled={!isStepComplete(STEPS[0].id)}
           >
-            Previous
+            Start Assessment
           </button>
-          {isAnalyzing ? (
-            <button className="btn-primary flex items-center gap-2" disabled>
-              <span className="spinner"></span>
-              Analyzing...
-            </button>
-          ) : currentStep < STEPS.length - 1 ? (
-            <button
-              className="btn-primary"
-              onClick={handleNext}
-              disabled={!isStepComplete(STEPS[currentStep].id)}
-            >
-              Next
-            </button>
-          ) : (
-            <button
-              className="btn-primary"
-              onClick={handleSubmit}
-              disabled={!isStepComplete(STEPS[currentStep].id) || isSubmitting}
-            >
-              {isSubmitting ? 'Submitting...' : 'Get Your Report'}
-            </button>
-          )}
         </div>
       </div>
-
-      {/* Progress Dots */}
-      <div className="progress-bar mt-6 flex justify-center gap-2">
-        {STEPS.map((step, idx) => (
-          <div
-            key={step.id}
-            className={`progress-dot h-2 w-2 rounded-full transition-all duration-300 ${
-              idx === currentStep ? 'bg-purple-500 w-6' : idx < currentStep ? 'bg-purple-500/50' : 'bg-white/10'
-            }`}
-            title={step.title}
-          />
-        ))}
-      </div>
-
     </div>
   );
 }
