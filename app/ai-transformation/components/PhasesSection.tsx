@@ -158,7 +158,7 @@ export function PhasesSection() {
                 {/* CTA */}
                 <Link
                   href="/contact"
-                  className="block w-full text-center bg-white text-black font-semibold py-4 px-6 rounded-full hover:bg-gray-200 transition-all duration-300"
+                  className="btn-primary w-full justify-center uppercase tracking-wide py-4"
                 >
                   {phase.cta}
                 </Link>

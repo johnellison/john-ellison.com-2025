@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ResultsDashboard from '@/components/ResultsDashboard';
 import { AssessmentResult } from '@/types/assessment';
 
@@ -431,17 +431,14 @@ export default function AITransformationPage() {
   const [companyInsights, setCompanyInsights] = useState<any>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [report, setReport] = useState<AssessmentResult | null>(null);
-  const basePath = (() => {
-    if (process.env.NEXT_PUBLIC_BASE_PATH) {
-      return process.env.NEXT_PUBLIC_BASE_PATH;
-    }
+  const [basePath, setBasePath] = useState(process.env.NEXT_PUBLIC_BASE_PATH || '');
 
-    if (typeof window !== 'undefined' && window.location.pathname.startsWith('/ai-readiness')) {
-      return '/ai-readiness';
+  useEffect(() => {
+    // Only check pathname on client after hydration
+    if (!process.env.NEXT_PUBLIC_BASE_PATH && window.location.pathname.startsWith('/ai-readiness')) {
+      setBasePath('/ai-readiness');
     }
-
-    return '';
-  })();
+  }, []);
 
   const handleAnswer = (questionId: string, score: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: score }));
@@ -532,16 +529,16 @@ export default function AITransformationPage() {
     if (currentStep === 0) {
       return (
         <div className="form-step active">
-          <div className="form-step-header">
-            <span className="form-step-number">Step 1 of {STEPS.length}</span>
-            <h2 className="form-step-title">{STEPS[0].title}</h2>
+          <div className="form-step-header mb-5">
+            <span className="block text-xs text-purple-400/80 uppercase tracking-wider mb-1">Step 1 of {STEPS.length}</span>
+            <h2 className="text-lg font-semibold text-white m-0">{STEPS[0].title}</h2>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Company Name *</label>
+          <div className="form-group mb-5">
+            <label className="form-label block text-sm font-medium text-white/90 mb-2">Company Name *</label>
             <input
               type="text"
-              className="form-input"
+              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
               value={companyData.name}
               onChange={(e) => setCompanyData((prev) => ({ ...prev, name: e.target.value }))}
               placeholder="Your company name"
@@ -549,11 +546,11 @@ export default function AITransformationPage() {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Website URL *</label>
+          <div className="form-group mb-5">
+            <label className="form-label block text-sm font-medium text-white/90 mb-2">Website URL *</label>
             <input
               type="url"
-              className="form-input"
+              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
               value={companyData.website}
               onChange={(e) => setCompanyData((prev) => ({ ...prev, website: e.target.value }))}
               placeholder="https://yourcompany.com"
@@ -561,11 +558,11 @@ export default function AITransformationPage() {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">LinkedIn Company Page</label>
+          <div className="form-group mb-5">
+            <label className="form-label block text-sm font-medium text-white/90 mb-2">LinkedIn Company Page</label>
             <input
               type="url"
-              className="form-input"
+              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
               value={companyData.linkedin}
               onChange={(e) => setCompanyData((prev) => ({ ...prev, linkedin: e.target.value }))}
               placeholder="https://linkedin.com/company/yourcompany"
@@ -573,11 +570,11 @@ export default function AITransformationPage() {
             />
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Email Address *</label>
+          <div className="form-group mb-5">
+            <label className="form-label block text-sm font-medium text-white/90 mb-2">Email Address *</label>
             <input
               type="email"
-              className="form-input"
+              className="w-full px-3.5 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm transition-colors focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.08] placeholder:text-white/40 disabled:opacity-50 disabled:cursor-not-allowed"
               value={companyData.email}
               onChange={(e) => setCompanyData((prev) => ({ ...prev, email: e.target.value }))}
               placeholder="you@yourcompany.com"
@@ -586,50 +583,50 @@ export default function AITransformationPage() {
           </div>
 
           {companyInsights && (
-            <div className="company-insights">
-              <h3>AI Analysis Insights</h3>
+            <div className="mt-6 p-4 bg-purple-500/10 rounded-xl border-l-[3px] border-purple-400">
+              <h3 className="text-base font-medium text-white mb-3">AI Analysis Insights</h3>
               {companyInsights.company_summary && (
-                <p className="insight-summary">
+                <p className="text-sm text-white/70 mb-4 leading-relaxed">
                   <strong>Company Summary:</strong> {companyInsights.company_summary}
                 </p>
               )}
               {companyInsights.ai_maturity && (
-                <div className="insight-box">
-                  <h4>Estimated AI Maturity: {companyInsights.ai_maturity.score}/100</h4>
-                  <p>Confidence: {companyInsights.ai_maturity.confidence}</p>
+                <div className="bg-white/5 rounded-lg p-3 mb-3">
+                  <h4 className="text-sm font-medium text-white mb-2">Estimated AI Maturity: {companyInsights.ai_maturity.score}/100</h4>
+                  <p className="text-[0.8125rem] text-white/60">Confidence: {companyInsights.ai_maturity.confidence}</p>
                   {companyInsights.ai_maturity.signals && (
-                    <ul>
+                    <ul className="text-[0.8125rem] text-white/60 mt-2">
                       {companyInsights.ai_maturity.signals.map((signal: string, idx: number) => (
-                        <li key={idx}>• {signal}</li>
+                        <li key={idx} className="pl-2 mb-1">• {signal}</li>
                       ))}
                     </ul>
                   )}
                 </div>
               )}
               {companyInsights.tech_insights && (
-                <div className="insight-box">
-                  <h4>Technology Insights</h4>
-                  <ul>
-                    <li>AI Roadmap: {companyInsights.tech_insights.has_roadmap ? 'Yes' : 'No'}</li>
-                    <li>AI Mentions: {companyInsights.tech_insights.mentions_ai ? 'Yes' : 'No'}</li>
+                <div className="bg-white/5 rounded-lg p-3 mb-3">
+                  <h4 className="text-sm font-medium text-white mb-2">Technology Insights</h4>
+                  <ul className="text-[0.8125rem] text-white/60">
+                    <li className="pl-2 mb-1">AI Roadmap: {companyInsights.tech_insights.has_roadmap ? 'Yes' : 'No'}</li>
+                    <li className="pl-2 mb-1">AI Mentions: {companyInsights.tech_insights.mentions_ai ? 'Yes' : 'No'}</li>
                     {companyInsights.tech_insights.ai_use_cases && companyInsights.tech_insights.ai_use_cases.length > 0 && (
-                      <li>Potential Use Cases: {companyInsights.tech_insights.ai_use_cases.join(', ')}</li>
+                      <li className="pl-2 mb-1">Potential Use Cases: {companyInsights.tech_insights.ai_use_cases.join(', ')}</li>
                     )}
                   </ul>
                 </div>
               )}
               {companyInsights.readiness_clues && (
-                <div className="insight-box">
-                  <h4>Readiness Clues</h4>
-                  <p>Likely strong in: {companyInsights.readiness_clues.likely_dimensions.join(', ')}</p>
-                  <p>Strengths: {companyInsights.readiness_clues.strengths.join(', ')}</p>
-                  <p>Identified Gaps: {companyInsights.readiness_clues.gaps.join(', ')}</p>
+                <div className="bg-white/5 rounded-lg p-3 mb-3">
+                  <h4 className="text-sm font-medium text-white mb-2">Readiness Clues</h4>
+                  <p className="text-[0.8125rem] text-white/60">Likely strong in: {companyInsights.readiness_clues.likely_dimensions.join(', ')}</p>
+                  <p className="text-[0.8125rem] text-white/60">Strengths: {companyInsights.readiness_clues.strengths.join(', ')}</p>
+                  <p className="text-[0.8125rem] text-white/60">Identified Gaps: {companyInsights.readiness_clues.gaps.join(', ')}</p>
                 </div>
               )}
             </div>
           )}
 
-          <p className="form-hint">
+          <p className="text-xs text-white/50 mt-4">
             We'll analyze your website and LinkedIn to understand your company's AI maturity and provide personalized recommendations.
           </p>
         </div>
@@ -640,31 +637,32 @@ export default function AITransformationPage() {
     if (currentDimension) {
       return (
         <div className="form-step active">
-          <div className="form-step-header">
-            <span className="form-step-number">
+          <div className="form-step-header mb-5">
+            <span className="block text-xs text-purple-400/80 uppercase tracking-wider mb-1">
               Step {currentStep + 1} of {STEPS.length}
             </span>
-            <h2 className="form-step-title">{currentDimension.title}</h2>
-            <p className="form-step-description">
+            <h2 className="text-lg font-semibold text-white m-0">{currentDimension.title}</h2>
+            <p className="text-sm text-white/60 mt-2">
               Rate your organization on each question. Select the option that best describes your current state.
             </p>
           </div>
 
           {currentDimension.questions.map((question, idx) => (
-            <div key={question.id} className="form-group">
-              <label className="form-label">
+            <div key={question.id} className="form-group mb-5">
+              <label className="block text-sm font-medium text-white/90 mb-2">
                 {idx + 1}. {question.question}
               </label>
-              <div className="form-radio-group">
+              <div className="flex flex-col gap-2">
                 {question.options.map((option) => (
-                  <label key={option.label} className="form-radio-label">
+                  <label key={option.label} className="flex items-start gap-2.5 px-3.5 py-2.5 bg-white/[0.03] border border-white/[0.08] rounded-lg cursor-pointer transition-colors hover:bg-white/[0.06] hover:border-white/[0.15] has-[input:checked]:bg-purple-500/10 has-[input:checked]:border-purple-500/30">
                     <input
                       type="radio"
                       name={question.id}
                       checked={answers[question.id] === option.score}
                       onChange={() => handleAnswer(question.id, option.score)}
+                      className="mt-0.5 accent-purple-500"
                     />
-                    <span className="form-radio-text">{option.label}</span>
+                    <span className="text-[0.8125rem] text-white/85 leading-snug">{option.label}</span>
                   </label>
                 ))}
               </div>
@@ -701,20 +699,20 @@ export default function AITransformationPage() {
 
         <div className="form-nav mt-6 flex justify-between">
           <button
-            className="form-btn form-btn-prev px-5 py-2 rounded-lg border border-white/10 hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+            className="btn-secondary"
             onClick={handlePrevious}
             disabled={currentStep === 0}
           >
             Previous
           </button>
           {isAnalyzing ? (
-            <button className="form-btn form-btn-next px-5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2 text-sm" disabled>
+            <button className="btn-primary flex items-center gap-2" disabled>
               <span className="spinner"></span>
               Analyzing...
             </button>
           ) : currentStep < STEPS.length - 1 ? (
             <button
-              className="form-btn form-btn-next px-5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+              className="btn-primary"
               onClick={handleNext}
               disabled={!isStepComplete(STEPS[currentStep].id)}
             >
@@ -722,7 +720,7 @@ export default function AITransformationPage() {
             </button>
           ) : (
             <button
-              className="form-btn form-btn-submit btn-primary px-5 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+              className="btn-primary"
               onClick={handleSubmit}
               disabled={!isStepComplete(STEPS[currentStep].id) || isSubmitting}
             >
@@ -745,179 +743,6 @@ export default function AITransformationPage() {
         ))}
       </div>
 
-      <style jsx>{`
-        .company-insights {
-          margin-top: 1.5rem;
-          padding: 1rem;
-          background: rgba(124, 58, 237, 0.1);
-          border-radius: 0.75rem;
-          border-left: 3px solid rgb(168, 85, 247);
-        }
-
-        .company-insights h3 {
-          font-size: 1rem;
-          font-weight: 500;
-          color: white;
-          margin: 0 0 0.75rem 0;
-        }
-
-        .insight-summary {
-          font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.7);
-          margin-bottom: 1rem;
-          line-height: 1.6;
-        }
-
-        .insight-box {
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 0.5rem;
-          padding: 0.75rem;
-          margin-bottom: 0.75rem;
-        }
-
-        .insight-box h4 {
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: white;
-          margin: 0 0 0.5rem 0;
-        }
-
-        .insight-box p,
-        .insight-box ul {
-          font-size: 0.8125rem;
-          color: rgba(255, 255, 255, 0.6);
-          margin: 0;
-          line-height: 1.5;
-        }
-
-        .insight-box li {
-          padding-left: 0.5rem;
-          margin-bottom: 0.25rem;
-        }
-
-        .spinner {
-          display: inline-block;
-          width: 14px;
-          height: 14px;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          border-top-color: transparent;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        .form-step-header {
-          margin-bottom: 1.25rem;
-        }
-
-        .form-step-number {
-          font-size: 0.75rem;
-          color: rgba(168, 85, 247, 0.8);
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-        }
-
-        .form-step-title {
-          font-size: 1.125rem;
-          font-weight: 600;
-          color: white;
-          margin: 0.25rem 0 0;
-        }
-
-        .form-step-description {
-          font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.6);
-          margin-top: 0.5rem;
-        }
-
-        .form-group {
-          margin-bottom: 1.25rem;
-        }
-
-        .form-label {
-          display: block;
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: rgba(255, 255, 255, 0.9);
-          margin-bottom: 0.5rem;
-        }
-
-        .form-input {
-          width: 100%;
-          padding: 0.625rem 0.875rem;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 0.5rem;
-          color: white;
-          font-size: 0.875rem;
-          transition: border-color 0.2s, background-color 0.2s;
-        }
-
-        .form-input:focus {
-          outline: none;
-          border-color: rgba(168, 85, 247, 0.5);
-          background: rgba(255, 255, 255, 0.08);
-        }
-
-        .form-input::placeholder {
-          color: rgba(255, 255, 255, 0.4);
-        }
-
-        .form-input:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-
-        .form-radio-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .form-radio-label {
-          display: flex;
-          align-items: flex-start;
-          gap: 0.625rem;
-          padding: 0.625rem 0.875rem;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 0.5rem;
-          cursor: pointer;
-          transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        .form-radio-label:hover {
-          background: rgba(255, 255, 255, 0.06);
-          border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .form-radio-label:has(input:checked) {
-          background: rgba(168, 85, 247, 0.1);
-          border-color: rgba(168, 85, 247, 0.3);
-        }
-
-        .form-radio-label input {
-          margin-top: 0.125rem;
-          accent-color: rgb(168, 85, 247);
-        }
-
-        .form-radio-text {
-          font-size: 0.8125rem;
-          color: rgba(255, 255, 255, 0.85);
-          line-height: 1.4;
-        }
-
-        .form-hint {
-          font-size: 0.75rem;
-          color: rgba(255, 255, 255, 0.5);
-          margin-top: 1rem;
-        }
-      `}</style>
     </div>
   );
 }

@@ -69,10 +69,7 @@ export function HeroSection() {
       <div className="hero-cta-group z-10">
         <a
           href="#assessment"
-          className="group relative inline-flex items-center gap-2 text-white/95 font-medium text-sm tracking-wide uppercase px-6 py-3 border border-white/20 rounded-md transition-all duration-400 hover:-translate-y-0.5 hover:border-transparent hover:shadow-[0_10px_40px_rgba(180,100,255,0.25),0_0_60px_rgba(100,200,255,0.15)]"
-          style={{
-            background: 'rgba(8, 8, 12, 0.6)',
-          }}
+          className="btn-primary uppercase tracking-wide"
         >
           Take AI Readiness Assessment
           <svg
