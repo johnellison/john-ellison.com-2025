@@ -88,6 +88,9 @@ export function HeroSection() {
       {/* --- DESKTOP: IMAGE CANVAS (LG+) --- */}
       <div ref={visualsRef} className="hidden lg:block absolute inset-0 z-0 pointer-events-none">
 
+        {/* Global Desktop Overlay - Added for contrast with more images */}
+        <div className="absolute inset-0 bg-[#0B0B0F]/40 z-10 mix-blend-multiply" />
+
         {/* Top Left - Speaking/Authority */}
         <div className="hero-image-desktop absolute top-[15%] left-[5%] w-[18vw] max-w-[280px] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[-3deg]">
           <div className="absolute inset-0 bg-violet-900/10 mix-blend-overlay z-10" />
@@ -128,7 +131,7 @@ export function HeroSection() {
           />
         </div>
 
-        {/* Far Left Edge Element (Optional - purely decorative or another image) */}
+        {/* Far Left Edge Element */}
         <div className="hero-image-desktop absolute top-[45%] -left-[2%] w-[12vw] max-w-[200px] aspect-square rounded-full overflow-hidden shadow-2xl border border-white/5 blur-sm opacity-60">
           <img
             src="/images/ai-transformation/john-and-osho-square.jpg"
@@ -137,26 +140,61 @@ export function HeroSection() {
           />
         </div>
 
+        {/* Far Right Edge Element (New) */}
+        <div className="hero-image-desktop absolute top-[50%] -right-[2%] w-[14vw] max-w-[220px] aspect-square rounded-full overflow-hidden shadow-2xl border border-white/5 blur-sm opacity-60 rotate-[5deg]">
+          <img
+            src="/images/ai-transformation/fatma-workshop-circle.webp"
+            alt="Fatma Workshop"
+            className="w-full h-full object-cover grayscale opacity-50"
+          />
+        </div>
+
+        {/* Inner Top Left (New Filler) */}
+        <div className="hero-image-desktop absolute top-[25%] left-[20%] w-[12vw] max-w-[180px] aspect-video rounded-xl overflow-hidden shadow-xl border border-white/5 rotate-[6deg] opacity-40 blur-[1px] -z-10">
+          <div className="absolute inset-0 bg-purple-900/20 mix-blend-overlay z-10" />
+          <img
+            src="/images/ai-transformation/case-study-knowledge-hub.jpg"
+            alt="Knowledge Hub"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Inner Bottom Right (New Filler) */}
+        <div className="hero-image-desktop absolute bottom-[30%] right-[22%] w-[10vw] max-w-[160px] aspect-square rounded-xl overflow-hidden shadow-xl border border-white/5 rotate-[-4deg] opacity-40 blur-[1px] -z-10">
+          <div className="absolute inset-0 bg-fuchsia-900/20 mix-blend-overlay z-10" />
+          <img
+            src="/images/ai-transformation/case-study-call-center.jpg"
+            alt="Call Center"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
       </div>
 
       {/* --- MOBILE/TABLET: MASONRY GRID (< LG) --- */}
       <div className="lg:hidden absolute inset-0 z-0 pointer-events-none select-none overflow-hidden">
-        {/* Lighter Gradient Overlay + Purple Glow */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0F]/90 via-[#0B0B0F]/50 to-[#0B0B0F]/90 z-20" />
+        {/* Lighter Gradient Overlay + Purple Glow - DARKENED to /70 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0F]/95 via-[#0B0B0F]/70 to-[#0B0B0F]/95 z-20" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(124,58,237,0.3)_0%,transparent_70%)] z-20 mix-blend-screen pointer-events-none" />
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 transform -rotate-6 scale-110 w-[120%] -ml-[10%] opacity-70">
           <div className="hero-image-mobile space-y-2 mt-12">
             <img src="/images/ai-transformation/john-ellison-workshop-vertical.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
             <img src="/images/ai-transformation/john-white-board-ai-square.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
+            {/* Added Filler */}
+            <img src="/images/ai-transformation/fatma-workshop-circle.webp" className="w-full rounded-lg grayscale-[20%]" alt="" />
           </div>
           <div className="hero-image-mobile space-y-2">
             <img src="/images/ai-transformation/john-ai-sprint-session.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
             <img src="/images/ai-transformation/john-and-fatma-at-workshop.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
+            {/* Added Filler */}
+            <img src="/images/ai-transformation/case-study-knowledge-hub.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
           </div>
           <div className="hero-image-mobile space-y-2 mt-8 hidden md:block">
             <img src="/images/ai-transformation/john-and-osho-square.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
             <img src="/images/ai-transformation/john-ai-sprint-session.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
+            {/* Added Filler */}
+            <img src="/images/ai-transformation/case-study-call-center.jpg" className="w-full rounded-lg grayscale-[20%]" alt="" />
           </div>
         </div>
       </div>
