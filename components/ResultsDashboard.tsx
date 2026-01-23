@@ -3,7 +3,7 @@
 import { AssessmentResult, CompanyInsights } from '@/types/assessment';
 import MaturityRadar from './MaturityRadar';
 import ArchetypeQuadrant from '@/app/ai-transformation/components/ArchetypeQuadrant';
-import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail, Globe, Building2, Download, CheckCircle, TrendingUp, Info, Search, Linkedin, XCircle, AlertCircle } from 'lucide-react';
+import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail, Globe, Download, CheckCircle, TrendingUp, Info, Search, Linkedin, XCircle, AlertCircle, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -84,11 +84,31 @@ function getCompanyLogoUrl(website: string, insights?: CompanyInsights) {
   }
 }
 
+// Calculate AI Transformation Opportunity (inverse of readiness - higher for lower scores)
+function calculateTransformationOpportunity(overallScore: number): number {
+  // Scale: Low readiness = high opportunity
+  // Score 0-30: Opportunity 85-100
+  // Score 30-50: Opportunity 70-85
+  // Score 50-70: Opportunity 55-70
+  // Score 70-100: Opportunity 40-55
+  if (overallScore <= 30) {
+    return Math.round(100 - (overallScore / 30) * 15);
+  } else if (overallScore <= 50) {
+    return Math.round(85 - ((overallScore - 30) / 20) * 15);
+  } else if (overallScore <= 70) {
+    return Math.round(70 - ((overallScore - 50) / 20) * 15);
+  } else {
+    return Math.round(55 - ((overallScore - 70) / 30) * 15);
+  }
+}
+
 export default function ResultsDashboard({ result }: ResultsDashboardProps) {
   const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData, companyInsights, industryAnalysis } = result;
   const [showEmailSent, setShowEmailSent] = useState(true);
   const [logoError, setLogoError] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
+
+  const transformationOpportunity = calculateTransformationOpportunity(overallScore);
 
   // Disable smooth scrolling on this page for performance
   useEffect(() => {
@@ -179,13 +199,13 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12">
 
-        {/* Hero Section with Company Branding */}
+        {/* Hero Section - Redesigned */}
         <section className="mb-12">
-          <div className="grid lg:grid-cols-[160px_1fr] gap-8 items-start">
-            {/* Left: Company Visual */}
+          <div className="grid lg:grid-cols-[200px_1fr] gap-8 items-start">
+            {/* Left: Company Visual + Score + Archetype */}
             <div className="flex flex-col items-center lg:items-start gap-4">
               {/* Company Logo/Favicon */}
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-white/5 border border-white/10 p-4 flex items-center justify-center overflow-hidden">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white/5 border border-white/10 p-3 flex items-center justify-center overflow-hidden">
                 {logoUrl && !logoError ? (
                   <img
                     src={logoUrl}
@@ -194,14 +214,14 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                     onError={() => setLogoError(true)}
                   />
                 ) : (
-                  <div className="text-4xl font-bold text-white/60">
+                  <div className="text-3xl font-bold text-white/60">
                     {companyData.name.charAt(0).toUpperCase()}
                   </div>
                 )}
               </div>
 
               {/* Company Links */}
-              <div className="flex flex-col gap-2 w-full">
+              <div className="flex flex-col gap-1.5 w-full">
                 <a
                   href={companyData.website}
                   target="_blank"
@@ -223,9 +243,30 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                   </a>
                 )}
               </div>
+
+              {/* Score Display - Moved to left */}
+              <div className="w-full p-4 rounded-xl bg-white/5 border border-white/10">
+                <p className="type-xs text-white/50 mb-1">AI Readiness Score</p>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-white">{overallScore}</span>
+                  <span className="type-sm text-white/40">/100</span>
+                </div>
+              </div>
+
+              {/* Archetype Badge - Moved to left */}
+              <div className="w-full p-4 rounded-xl bg-white/5 border border-white/10">
+                <p className="type-xs text-white/50 mb-1">AI Archetype</p>
+                <p
+                  className="text-lg font-semibold"
+                  style={{ color: archetype.color }}
+                >
+                  {archetype.name}
+                </p>
+                <p className="type-xs text-white/40 mt-1 italic">&ldquo;{archetype.hook}&rdquo;</p>
+              </div>
             </div>
 
-            {/* Right: Report Header */}
+            {/* Right: Report Header + Executive Summary */}
             <div>
               <div className="flex items-center gap-3 mb-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
@@ -237,56 +278,66 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                 </span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 {companyData.name}
               </h1>
 
-              {/* Score and Archetype in compact row */}
-              <div className="flex flex-wrap items-center gap-4 mb-6">
-                <div className="inline-flex items-baseline gap-1 px-4 py-2 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-2xl font-bold text-white">{overallScore}</span>
-                  <span className="type-sm text-white/40">/100</span>
-                </div>
-                <div className="h-8 w-px bg-white/10" />
-                <div>
-                  <p className="type-xs text-white/50 mb-0.5">AI Archetype</p>
-                  <p
-                    className="text-lg font-semibold"
-                    style={{ color: archetype.color }}
-                  >
-                    {archetype.name}
+              {/* Executive Summary */}
+              <div className="p-5 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-xl border border-indigo-500/20">
+                <h2 className="type-sm font-semibold text-white/80 mb-3 flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-indigo-400" />
+                  Executive Summary
+                </h2>
+                {companyInsights?.company_summary ? (
+                  <div className="space-y-3">
+                    <p className="type-sm text-gray-300 leading-relaxed">
+                      {companyInsights.company_summary}
+                    </p>
+                    <p className="type-sm text-gray-300 leading-relaxed">
+                      With an AI Readiness Score of <strong className="text-white">{overallScore}/100</strong> and a{' '}
+                      <strong style={{ color: archetype.color }}>{archetype.name}</strong> profile, {companyData.name} demonstrates{' '}
+                      {overallScore >= 70
+                        ? 'strong foundational capabilities for enterprise AI adoption. The organization is well-positioned to scale AI initiatives across departments.'
+                        : overallScore >= 50
+                        ? 'developing capabilities with clear opportunities for acceleration. Targeted investments in identified gap areas will unlock significant value.'
+                        : 'early-stage AI readiness with substantial transformation opportunity. Strategic foundation-building will enable future AI initiatives.'
+                      }
+                    </p>
+                    <p className="type-sm text-gray-300 leading-relaxed">
+                      {companyInsights.tech_insights?.mentions_ai
+                        ? 'Given the existing technology signals on your website, AI transformation can build on current digital investments.'
+                        : 'The AI transformation opportunity score indicates significant potential for competitive differentiation through strategic AI adoption.'
+                      }
+                    </p>
+                  </div>
+                ) : (
+                  <p className="type-sm text-gray-300 leading-relaxed">
+                    {archetype.description}
                   </p>
-                </div>
+                )}
               </div>
-
-              {/* Archetype hook as tagline */}
-              <p className="text-base italic text-white/60 mb-4">
-                &ldquo;{archetype.hook}&rdquo;
-              </p>
-
-              {/* Archetype description */}
-              <p className="type-base text-white/70 max-w-2xl">
-                {archetype.description}
-              </p>
             </div>
           </div>
         </section>
 
-        {/* Quadrant Visualization (mobile hidden, shown on desktop in sidebar below) */}
-        <section className="mb-12 hidden lg:block">
+        {/* Quadrant + Scores Section */}
+        <section className="mb-12">
           <div className="grid lg:grid-cols-[340px_1fr] gap-8 items-start">
-            <ArchetypeQuadrant
-              axisScores={axisScores}
-              predictedArchetype={archetype}
-              totalAnswered={999}
-            />
+            {/* Left: Quadrant */}
+            <div className="hidden lg:block">
+              <ArchetypeQuadrant
+                axisScores={axisScores}
+                predictedArchetype={archetype}
+                totalAnswered={999}
+              />
+            </div>
 
-            {/* Axis Scores */}
+            {/* Right: Three Score Cards */}
             <div className="space-y-4">
               <div className="p-5 rounded-xl bg-white/5 border border-white/10">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="type-sm text-white/70">Strategic Vision</span>
-                  <span className="type-base font-semibold">{axisScores.vision}/100</span>
+                  <span className="type-base text-white/80">Strategic Vision</span>
+                  <span className="text-xl font-semibold">{axisScores.vision}/100</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/10 overflow-hidden">
                   <div
@@ -294,13 +345,13 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                     style={{ width: `${axisScores.vision}%` }}
                   />
                 </div>
-                <p className="type-xs text-white/50 mt-2">Leadership, Culture & Governance</p>
+                <p className="type-sm text-white/50 mt-2">Leadership, Culture & Governance</p>
               </div>
 
               <div className="p-5 rounded-xl bg-white/5 border border-white/10">
                 <div className="flex justify-between items-center mb-3">
-                  <span className="type-sm text-white/70">Operational Capability</span>
-                  <span className="type-base font-semibold">{axisScores.ops}/100</span>
+                  <span className="type-base text-white/80">Operational Capability</span>
+                  <span className="text-xl font-semibold">{axisScores.ops}/100</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/10 overflow-hidden">
                   <div
@@ -308,7 +359,27 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                     style={{ width: `${axisScores.ops}%` }}
                   />
                 </div>
-                <p className="type-xs text-white/50 mt-2">Data, Technology & Talent</p>
+                <p className="type-sm text-white/50 mt-2">Data, Technology & Talent</p>
+              </div>
+
+              {/* New: AI Transformation Opportunity */}
+              <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="type-base text-white/80 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-emerald-400" />
+                    AI Transformation Opportunity
+                  </span>
+                  <span className="text-xl font-semibold text-emerald-400">{transformationOpportunity}/100</span>
+                </div>
+                <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500"
+                    style={{ width: `${transformationOpportunity}%` }}
+                  />
+                </div>
+                <p className="type-sm text-white/50 mt-2">
+                  Economic value potential from AI transformation
+                </p>
               </div>
             </div>
           </div>
@@ -316,30 +387,17 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
 
         {/* Mobile: Axis Scores */}
         <div className="lg:hidden grid grid-cols-2 gap-4 mb-12">
-          <div className="p-5 rounded-xl bg-white/5 border border-white/10">
-            <div className="flex justify-between items-center mb-3">
-              <span className="type-sm text-white/70">Vision</span>
-              <span className="type-base font-semibold">{axisScores.vision}/100</span>
-            </div>
-            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-blue-500"
-                style={{ width: `${axisScores.vision}%` }}
-              />
-            </div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <p className="type-xs text-white/40 mb-1">Vision</p>
+            <span className="text-xl font-semibold text-blue-400">{axisScores.vision}</span>
           </div>
-
-          <div className="p-5 rounded-xl bg-white/5 border border-white/10">
-            <div className="flex justify-between items-center mb-3">
-              <span className="type-sm text-white/70">Ops</span>
-              <span className="type-base font-semibold">{axisScores.ops}/100</span>
-            </div>
-            <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-violet-500"
-                style={{ width: `${axisScores.ops}%` }}
-              />
-            </div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+            <p className="type-xs text-white/40 mb-1">Ops</p>
+            <span className="text-xl font-semibold text-violet-400">{axisScores.ops}</span>
+          </div>
+          <div className="col-span-2 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+            <p className="type-xs text-white/40 mb-1">Opportunity</p>
+            <span className="text-xl font-semibold text-emerald-400">{transformationOpportunity}</span>
           </div>
         </div>
 
@@ -354,7 +412,39 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
           </p>
         </div>
 
-        {/* What We Discovered Section */}
+        {/* Dimension Scores Table */}
+        <div className="mb-12">
+          <h2 className="heading-subsection mb-6">Dimension Scores</h2>
+          <div className="rounded-xl overflow-hidden border border-white/10">
+            {/* Table Header */}
+            <div className="bg-gradient-to-r from-purple-600 to-violet-600 px-6 py-3 grid grid-cols-[1fr_120px_120px] gap-4">
+              <span className="text-sm font-semibold text-white">Dimension</span>
+              <span className="text-sm font-semibold text-white text-center">Score</span>
+              <span className="text-sm font-semibold text-white text-center">Status</span>
+            </div>
+            {/* Table Rows */}
+            <div className="divide-y divide-white/5">
+              {dimensionScores.map((d, idx) => {
+                const status = d.score >= 70 ? 'Strong' : d.score >= 50 ? 'Developing' : 'Needs Work';
+                const statusColor = d.score >= 70 ? 'text-green-400' : d.score >= 50 ? 'text-yellow-400' : 'text-red-400';
+                return (
+                  <div
+                    key={idx}
+                    className={`px-6 py-4 grid grid-cols-[1fr_120px_120px] gap-4 items-center ${
+                      idx % 2 === 0 ? 'bg-white/[0.02]' : 'bg-transparent'
+                    }`}
+                  >
+                    <span className="text-sm text-white/90">{d.dimension}</span>
+                    <span className="text-sm text-white/70 text-center">{d.score}/100</span>
+                    <span className={`text-sm font-medium text-center ${statusColor}`}>{status}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* What We Discovered Section - Rebalanced Layout */}
         {companyInsights && (
           <section className="mb-12">
             <div className="bg-white/5 rounded-2xl border border-white/10 p-6 md:p-8">
@@ -364,31 +454,8 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Website Analysis */}
+                {/* Left Column - Technology + Confidence + Maturity Signals */}
                 <div className="space-y-4">
-                  {/* Metadata */}
-                  {(companyInsights.metadata?.pageTitle || companyInsights.metadata?.pageDescription) && (
-                    <div>
-                      <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-3">
-                        Website Analysis
-                      </h3>
-                      <div className="space-y-2">
-                        {companyInsights.metadata?.pageTitle && (
-                          <div className="p-3 bg-white/[0.02] rounded-lg border border-white/[0.06]">
-                            <p className="type-xs text-white/40 mb-1">Page Title</p>
-                            <p className="type-sm text-white/80">{companyInsights.metadata.pageTitle}</p>
-                          </div>
-                        )}
-                        {companyInsights.metadata?.pageDescription && (
-                          <div className="p-3 bg-white/[0.02] rounded-lg border border-white/[0.06]">
-                            <p className="type-xs text-white/40 mb-1">Description</p>
-                            <p className="type-sm text-white/80 line-clamp-3">{companyInsights.metadata.pageDescription}</p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
                   {/* Technology Signals */}
                   {companyInsights.tech_insights && (
                     <div>
@@ -436,43 +503,60 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                     </div>
                   )}
 
-                  {/* Leadership Team */}
-                  {companyInsights.leadership_team && companyInsights.leadership_team.length > 0 && (
+                  {/* Analysis Confidence - Moved to left */}
+                  {companyInsights.readiness_clues && (
                     <div>
                       <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-3">
-                        Leadership Team
+                        Analysis Confidence
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
+                            style={{
+                              width:
+                                companyInsights.ai_maturity.confidence === 'high'
+                                  ? '100%'
+                                  : companyInsights.ai_maturity.confidence === 'medium'
+                                  ? '66%'
+                                  : '33%',
+                            }}
+                          />
+                        </div>
+                        <span className="type-xs text-white/60 capitalize min-w-[60px]">
+                          {companyInsights.ai_maturity.confidence}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* AI Maturity Signals - Moved to left */}
+                  {companyInsights.ai_maturity?.signals && companyInsights.ai_maturity.signals.length > 0 && (
+                    <div>
+                      <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-3">
+                        AI Maturity Signals
                       </h3>
                       <div className="space-y-2">
-                        {companyInsights.leadership_team.slice(0, 4).map((exec, i) => (
-                          <div
-                            key={i}
-                            className="flex items-center gap-3 p-2 bg-white/[0.02] rounded-lg border border-white/[0.06]"
-                          >
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-semibold text-sm">
-                              {exec.name.charAt(0)}
+                        {companyInsights.ai_maturity.signals.slice(0, 4).map((signal: string, i: number) => {
+                          const category = categorizeSignal(signal);
+                          return (
+                            <div
+                              key={i}
+                              className={`flex items-start gap-2 p-2 rounded-lg ${category.bgColor} border ${category.borderColor}`}
+                            >
+                              {category.icon}
+                              <p className="text-xs text-gray-300 leading-relaxed">
+                                {signal}
+                              </p>
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="type-sm font-medium text-white truncate">{exec.name}</p>
-                              <p className="type-xs text-white/50 truncate">{exec.title}</p>
-                            </div>
-                            {exec.linkedin && (
-                              <a
-                                href={exec.linkedin}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-purple-400 hover:text-purple-300"
-                              >
-                                <Linkedin className="w-4 h-4" />
-                              </a>
-                            )}
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   )}
                 </div>
 
-                {/* Readiness Clues */}
+                {/* Right Column - Strengths + Gaps */}
                 <div className="space-y-4">
                   {companyInsights.readiness_clues && (
                     <>
@@ -503,54 +587,40 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                           ))}
                         </ul>
                       </div>
-
-                      <div>
-                        <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-3">
-                          Analysis Confidence
-                        </h3>
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"
-                              style={{
-                                width:
-                                  companyInsights.ai_maturity.confidence === 'high'
-                                    ? '100%'
-                                    : companyInsights.ai_maturity.confidence === 'medium'
-                                    ? '66%'
-                                    : '33%',
-                              }}
-                            />
-                          </div>
-                          <span className="type-xs text-white/60 capitalize min-w-[60px]">
-                            {companyInsights.ai_maturity.confidence}
-                          </span>
-                        </div>
-                      </div>
                     </>
                   )}
 
-                  {/* AI Maturity Signals */}
-                  {companyInsights.ai_maturity?.signals && companyInsights.ai_maturity.signals.length > 0 && (
+                  {/* Leadership Team */}
+                  {companyInsights.leadership_team && companyInsights.leadership_team.length > 0 && (
                     <div>
                       <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-3">
-                        AI Maturity Signals
+                        Leadership Team
                       </h3>
                       <div className="space-y-2">
-                        {companyInsights.ai_maturity.signals.map((signal: string, i: number) => {
-                          const category = categorizeSignal(signal);
-                          return (
-                            <div
-                              key={i}
-                              className={`flex items-start gap-3 p-3 rounded-lg ${category.bgColor} border ${category.borderColor}`}
-                            >
-                              {category.icon}
-                              <p className="text-sm text-gray-300 leading-relaxed">
-                                {signal}
-                              </p>
+                        {companyInsights.leadership_team.slice(0, 3).map((exec, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-3 p-2 bg-white/[0.02] rounded-lg border border-white/[0.06]"
+                          >
+                            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-semibold text-xs">
+                              {exec.name.charAt(0)}
                             </div>
-                          );
-                        })}
+                            <div className="flex-1 min-w-0">
+                              <p className="type-xs font-medium text-white truncate">{exec.name}</p>
+                              <p className="type-xs text-white/50 truncate">{exec.title}</p>
+                            </div>
+                            {exec.linkedin && (
+                              <a
+                                href={exec.linkedin}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-purple-400 hover:text-purple-300"
+                              >
+                                <Linkedin className="w-3 h-3" />
+                              </a>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
