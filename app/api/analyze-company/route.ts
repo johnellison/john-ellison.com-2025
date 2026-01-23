@@ -10,6 +10,11 @@ interface ScrapedContent {
   techStack?: string[];
   aiMentions?: string[];
   leadershipAI?: string[];
+  metadata?: {
+    favicon?: string;
+    ogImage?: string;
+    language?: string;
+  };
 }
 
 async function scrapeCompany(website: string): Promise<ScrapedContent> {
@@ -40,6 +45,11 @@ async function scrapeCompany(website: string): Promise<ScrapedContent> {
       title: scraped.metadata?.title || '',
       description: scraped.metadata?.description || '',
       content: [scraped.markdown || ''],
+      metadata: {
+        favicon: scraped.metadata?.favicon,
+        ogImage: scraped.metadata?.ogImage,
+        language: scraped.metadata?.language,
+      },
     };
   } catch (error) {
     console.error('Scraping error:', error);
@@ -75,8 +85,18 @@ Please analyze and provide a JSON response with:
     "likely_dimensions": ["Leadership & Strategy", "Data Readiness"],
     "strengths": ["strength1"],
     "gaps": ["gap1"]
+  },
+  "leadership_team": [
+    { "name": "Full Name", "title": "Role/Title", "linkedin": "url if found" }
+  ],
+  "company_metadata": {
+    "employee_range": "estimate if visible (e.g., '50-200', '1000+')",
+    "founded_year": "if mentioned",
+    "headquarters": "location if found"
   }
 }
+
+For leadership_team: Look for About page sections listing executives/team, footer links to LinkedIn profiles, Team/Leadership page content, or founder bios. Return empty array if not found. Do not invent data.
 
 Respond with valid JSON only, no other text.`;
 
@@ -198,10 +218,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Merge scraped metadata into AI insights
+    const enrichedInsights = {
+      ...aiInsights,
+      metadata: {
+        ...aiInsights.company_metadata,
+        favicon: scrapedContent.metadata?.favicon,
+        ogImage: scrapedContent.metadata?.ogImage,
+        pageTitle: scrapedContent.title,
+        pageDescription: scrapedContent.description,
+      },
+    };
+    // Remove duplicate company_metadata field
+    delete enrichedInsights.company_metadata;
+
     return NextResponse.json({
       success: true,
       scraped: scrapedContent,
-      insights: aiInsights,
+      insights: enrichedInsights,
       usage_hint: 'These insights can be used to pre-fill or personalize the AI Readiness Assessment',
     });
   } catch (error) {

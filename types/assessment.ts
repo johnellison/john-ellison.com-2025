@@ -35,8 +35,25 @@ export interface AxisScores {
   ops: number;    // X-Axis: Data, Tech, Talent
 }
 
+export interface LeadershipMember {
+  name: string;
+  title: string;
+  linkedin?: string;
+}
+
+export interface CompanyMetadata {
+  employee_range?: string;
+  founded_year?: string;
+  headquarters?: string;
+  favicon?: string;
+  ogImage?: string;
+  pageTitle?: string;
+  pageDescription?: string;
+}
+
 export interface CompanyInsights {
   company_summary: string;
+  metadata?: CompanyMetadata;
   ai_maturity: {
     score: number;
     signals: string[];
@@ -52,6 +69,7 @@ export interface CompanyInsights {
     strengths: string[];
     gaps: string[];
   };
+  leadership_team?: LeadershipMember[];
 }
 
 export interface AssessmentResult {

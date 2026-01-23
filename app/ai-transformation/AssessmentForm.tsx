@@ -645,6 +645,24 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
     }
   };
 
+  // Helper function for personalized intro
+  const getPersonalizedIntro = (report: AssessmentResult): string => {
+    const { companyInsights: insights, archetype, overallScore } = report;
+
+    if (!insights) return "a company ready to transform with AI.";
+
+    const { ai_maturity } = insights;
+
+    // Dynamic intro based on maturity level
+    if (ai_maturity.score < 40) {
+      return `a company in the early stages of AI exploration. With your ${archetype.name} profile and score of ${overallScore}/100, you're positioned to build a strong AI foundation from the ground up.`;
+    } else if (ai_maturity.score < 70) {
+      return `a company actively investing in digital capabilities. Your ${archetype.name} profile shows you're well-positioned to accelerate AI adoption across key business areas.`;
+    } else {
+      return `a digitally mature organization with established technology practices. As an ${archetype.name} with a score of ${overallScore}/100, you're ready to deploy enterprise-scale AI transformation.`;
+    }
+  };
+
   // Show completion screen when report is ready
   if (report) {
     return (
@@ -676,6 +694,15 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
 
             {/* RIGHT: Results Summary */}
             <div className="results-reveal bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
+              {/* Personalized Intro */}
+              {report.companyInsights?.company_summary && (
+                <div className="mb-6 p-4 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-lg border border-indigo-500/20">
+                  <p className="text-sm text-white/70 leading-relaxed">
+                    Based on our analysis of <span className="text-white font-medium">{companyData.name}</span>&apos;s website, we see {getPersonalizedIntro(report)}
+                  </p>
+                </div>
+              )}
+
               {/* Archetype reveal */}
               <p className="type-xs text-white/50 uppercase tracking-wider mb-2">Your AI Archetype</p>
               <h2
@@ -684,7 +711,7 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
               >
                 {report.archetype.name}
               </h2>
-              <p className="type-lg text-white/60 italic mb-6">"{report.archetype.hook}"</p>
+              <p className="type-lg text-white/60 italic mb-6">&ldquo;{report.archetype.hook}&rdquo;</p>
 
               {/* Scores display */}
               <div className="flex flex-wrap gap-4 mb-6">

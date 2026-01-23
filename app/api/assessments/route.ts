@@ -64,21 +64,47 @@ export async function POST(request: NextRequest) {
           .join(', ');
         const gapDimensions = blockers.map(b => b.dimension).join(', ');
 
-        const analysisPrompt = `Based on this company profile:
+        const analysisPrompt = `You are analyzing an AI readiness assessment for ${companyData.name}.
+
+COMPANY CONTEXT (from website analysis):
 ${companyInsights.company_summary}
 
-And their AI readiness assessment results:
-- Overall Score: ${overallScore}/100
-- Archetype: ${archetype.name}
-- Key Strengths: ${strengthDimensions || 'Still developing across dimensions'}
-- Critical Gaps: ${gapDimensions || 'No critical blockers identified'}
+${companyInsights.ai_maturity?.signals ? `Website signals detected:\n${companyInsights.ai_maturity.signals.join('\n')}` : ''}
 
-Generate a personalized 3-paragraph analysis covering:
-1. AI opportunities specific to their industry
-2. Common challenges they'll face based on their archetype and gaps
-3. Recommended starting point for AI adoption based on their strengths
+ASSESSMENT RESULTS:
+- Overall AI Readiness: ${overallScore}/100
+- AI Archetype: ${archetype.name} - "${archetype.hook}"
+- Strategic Vision Score: ${axisScores.vision}/100
+- Operational Capability Score: ${axisScores.ops}/100
 
-Write in second person ("you"), professional but conversational tone. Keep each paragraph concise (2-3 sentences max).`;
+Key Strengths: ${strengthDimensions || 'Building foundational capabilities'}
+Critical Gaps: ${gapDimensions || 'No critical blockers identified'}
+
+TASK: Generate a highly personalized 3-paragraph analysis that:
+
+**Paragraph 1 - Industry Context & Opportunities:**
+- Reference specific details from their website/business
+- Identify 2-3 AI opportunities tailored to their industry and current state
+- Show you understand their market positioning
+
+**Paragraph 2 - Realistic Challenges:**
+- Based on their ${archetype.name} profile, what friction points will they face?
+- What gaps need addressing before scaling AI?
+- Be specific to their dimension scores and detected signals
+
+**Paragraph 3 - Actionable Starting Point:**
+- Given their ${axisScores.vision} vision and ${axisScores.ops} ops scores, where should they start?
+- Recommend 1-2 specific first initiatives
+- Connect back to their identified strengths
+
+Tone: Professional consultant speaking directly to the company ("you", "your organization")
+Length: 2-3 sentences per paragraph
+Style: Conversational but authoritative - show domain expertise
+
+Format as clean markdown:
+- Use **bold** for emphasis on key terms
+- No headers (just 3 paragraphs)
+- No bullet points in the main text`;
 
         const response = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
@@ -121,9 +147,9 @@ Write in second person ("you"), professional but conversational tone. Keep each 
       blockers,
       recommendations,
       company_insights: companyInsights || null,
-      industry_analysis: industryAnalysis || null, // Save AI-generated analysis
       archetype,   // Save new field
       axis_scores: axisScores, // Save new field
+      // Note: industry_analysis is not saved to DB, only returned in API response
     };
 
     const { success, data } = await saveAssessment(assessmentData);

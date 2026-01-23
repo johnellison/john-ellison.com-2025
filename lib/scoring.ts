@@ -262,18 +262,53 @@ export function generateRecommendations(
       timeframe: '6-12 months',
     });
   } else {
-    recommendations.push({
-      phase: 'Phase 1: Scale',
-      title: 'Enterprise AI Transformation',
-      description: 'Scale from 3-5 use cases to 10+ across departments.',
-      actions: [
-        'Develop AI center of excellence',
-        'Create cross-functional AI governance council',
-        'Build AI platform strategy and architecture',
-        'Deploy organization-wide change management',
-      ],
-      timeframe: '6-12 months',
-    });
+    // High maturity: Break into 4 sequential phases
+    recommendations.push(
+      {
+        phase: 'Phase 1',
+        title: 'AI Center of Excellence',
+        description: 'Establish centralized AI capabilities and governance.',
+        actions: [
+          'Define AI CoE charter and operating model',
+          'Recruit or designate AI leadership roles',
+          'Set up AI governance framework',
+        ],
+        timeframe: '0-3 months',
+      },
+      {
+        phase: 'Phase 2',
+        title: 'Cross-Functional Alignment',
+        description: 'Create governance structure and stakeholder buy-in.',
+        actions: [
+          'Form AI governance council with cross-functional leaders',
+          'Establish AI ethics and risk management policies',
+          'Define success metrics and KPIs',
+        ],
+        timeframe: '3-6 months',
+      },
+      {
+        phase: 'Phase 3',
+        title: 'Platform & Architecture',
+        description: 'Build scalable AI infrastructure and tooling.',
+        actions: [
+          'Design AI platform architecture (MLOps, data pipelines)',
+          'Select and implement AI/ML tooling stack',
+          'Create reusable AI components library',
+        ],
+        timeframe: '6-9 months',
+      },
+      {
+        phase: 'Phase 4',
+        title: 'Organization-Wide Scaling',
+        description: 'Deploy change management and expand AI across departments.',
+        actions: [
+          'Launch AI training programs for all employees',
+          'Scale from 3-5 to 10+ AI use cases',
+          'Implement continuous improvement feedback loops',
+        ],
+        timeframe: '9-12 months',
+      }
+    );
   }
 
   return recommendations;

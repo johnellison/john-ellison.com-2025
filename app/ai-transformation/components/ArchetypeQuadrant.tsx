@@ -96,8 +96,8 @@ export default function ArchetypeQuadrant({
             }}
           >
             <div className="absolute inset-0 p-2 flex flex-col items-center justify-center text-center">
-              <span className="text-[10px] font-medium text-white/40 mb-0.5">Visionary</span>
-              <span className="text-[10px] text-white/40">Architect</span>
+              <span className="text-[11px] md:text-xs font-medium text-white/60 mb-0.5">Visionary</span>
+              <span className="text-[11px] md:text-xs text-white/50">Architect</span>
             </div>
             {activeQuadrant === 'topLeft' && hasEnoughData && (
               <div
@@ -121,8 +121,8 @@ export default function ArchetypeQuadrant({
             }}
           >
             <div className="absolute inset-0 p-2 flex flex-col items-center justify-center text-center">
-              <span className="text-[10px] font-medium text-white/40 mb-0.5">Apex</span>
-              <span className="text-[10px] text-white/40">Integrator</span>
+              <span className="text-[11px] md:text-xs font-medium text-white/60 mb-0.5">Apex</span>
+              <span className="text-[11px] md:text-xs text-white/50">Integrator</span>
             </div>
             {activeQuadrant === 'topRight' && hasEnoughData && (
               <div
@@ -146,8 +146,8 @@ export default function ArchetypeQuadrant({
             }}
           >
             <div className="absolute inset-0 p-2 flex flex-col items-center justify-center text-center">
-              <span className="text-[10px] font-medium text-white/40 mb-0.5">Calculated</span>
-              <span className="text-[10px] text-white/40">Scout</span>
+              <span className="text-[11px] md:text-xs font-medium text-white/60 mb-0.5">Calculated</span>
+              <span className="text-[11px] md:text-xs text-white/50">Scout</span>
             </div>
             {activeQuadrant === 'bottomLeft' && hasEnoughData && (
               <div
@@ -171,8 +171,8 @@ export default function ArchetypeQuadrant({
             }}
           >
             <div className="absolute inset-0 p-2 flex flex-col items-center justify-center text-center">
-              <span className="text-[10px] font-medium text-white/40 mb-0.5">Tactical</span>
-              <span className="text-[10px] text-white/40">Powerhouse</span>
+              <span className="text-[11px] md:text-xs font-medium text-white/60 mb-0.5">Tactical</span>
+              <span className="text-[11px] md:text-xs text-white/50">Powerhouse</span>
             </div>
             {activeQuadrant === 'bottomRight' && hasEnoughData && (
               <div
@@ -223,13 +223,13 @@ export default function ArchetypeQuadrant({
         )}
 
         {/* Axis Labels */}
-        <div className="absolute -bottom-6 left-0 right-0 flex justify-between text-[10px] text-white/30">
+        <div className="absolute -bottom-6 left-0 right-0 flex justify-between text-xs text-white/50">
           <span>Low Ops</span>
           <span>High Ops</span>
         </div>
-        <div className="absolute -left-1 top-0 bottom-0 flex flex-col justify-between text-[10px] text-white/30 transform -translate-x-full pr-1">
-          <span className="transform -rotate-90 origin-right translate-y-4">High Vision</span>
-          <span className="transform -rotate-90 origin-right -translate-y-4">Low Vision</span>
+        <div className="absolute -left-1 top-0 bottom-0 flex flex-col justify-between text-xs text-white/50 transform -translate-x-full pr-2">
+          <span className="transform -rotate-90 origin-right translate-y-6">High Vision</span>
+          <span className="transform -rotate-90 origin-right -translate-y-6">Low Vision</span>
         </div>
       </div>
 
