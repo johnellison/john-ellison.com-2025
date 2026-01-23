@@ -147,9 +147,9 @@ Format as clean markdown:
       blockers,
       recommendations,
       company_insights: companyInsights || null,
-      archetype,   // Save new field
-      axis_scores: axisScores, // Save new field
-      // Note: industry_analysis is not saved to DB, only returned in API response
+      archetype,
+      axis_scores: axisScores,
+      industry_analysis: industryAnalysis || undefined, // AI-generated industry insights
     };
 
     const { success, data } = await saveAssessment(assessmentData);

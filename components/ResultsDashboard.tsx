@@ -710,12 +710,11 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                   )}
 
                   <div className="p-6 rounded-xl bg-white/5 border border-white/10 hover:bg-white/[0.07] transition-all">
-                    {/* Phase header with timeline */}
+                    {/* Phase header */}
                     <div className="flex items-center gap-4 mb-4">
                       <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-500/30">
                         <span className="text-sm font-semibold text-indigo-300">{rec.phase}</span>
                       </span>
-                      <span className="text-sm text-white/40">{rec.timeframe}</span>
                     </div>
 
                     {/* Title and description */}

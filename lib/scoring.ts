@@ -210,59 +210,111 @@ export function generateRecommendations(
   const recommendations: Recommendation[] = [];
 
   if (overallScore < 40) {
-    recommendations.push({
-      phase: 'Phase 1: Foundation',
-      title: 'Establish AI Strategy and Governance',
-      description: 'Build foundational strategy, assign executive sponsor, and create governance framework.',
-      actions: [
-        'Develop and document AI strategy with clear KPIs',
-        'Appoint C-suite AI sponsor',
-        'Create data governance framework with ownership',
-        'Establish responsible AI policies',
-      ],
-      timeframe: '2-3 months',
-    });
-
-    recommendations.push({
-      phase: 'Phase 2: Data Readiness',
-      title: 'Improve Data Quality and Accessibility',
-      description: 'Centralize data, improve quality monitoring, and catalog data assets.',
-      actions: [
-        'Implement data catalog and metadata management',
-        'Deploy automated data quality monitoring',
-        'Create data warehouse/lakehouse for centralized access',
-        'Establish data ownership and stewardship',
-      ],
-      timeframe: '3-6 months',
-    });
+    // Early stage: 4 phases from foundation to adoption
+    recommendations.push(
+      {
+        phase: 'Phase 1',
+        title: 'AI Strategy & Governance Foundation',
+        description: 'Build foundational strategy, assign executive sponsor, and create governance framework.',
+        actions: [
+          'Develop and document AI strategy with clear KPIs',
+          'Appoint C-suite AI sponsor and steering committee',
+          'Establish responsible AI policies and ethical guidelines',
+          'Create data governance framework with ownership',
+        ],
+        timeframe: '',
+      },
+      {
+        phase: 'Phase 2',
+        title: 'Data & Infrastructure Readiness',
+        description: 'Centralize data, improve quality monitoring, and build foundational infrastructure.',
+        actions: [
+          'Implement data catalog and metadata management',
+          'Deploy automated data quality monitoring',
+          'Create data warehouse/lakehouse for centralized access',
+          'Establish cloud infrastructure and security foundations',
+        ],
+        timeframe: '',
+      },
+      {
+        phase: 'Phase 3',
+        title: 'AI Product Sprints',
+        description: 'Run focused sprints to build and deploy initial AI use cases that demonstrate value.',
+        actions: [
+          'Identify 2-3 high-impact, low-complexity AI opportunities',
+          'Run rapid prototyping sprints with cross-functional teams',
+          'Build and deploy first production AI use case',
+          'Measure ROI and document learnings',
+        ],
+        timeframe: '',
+      },
+      {
+        phase: 'Phase 4',
+        title: 'Adoption & Integration',
+        description: 'Drive organization-wide AI adoption through training, change management, and scaling.',
+        actions: [
+          'Deploy AI literacy training across the organization',
+          'Create internal AI champion and ambassador program',
+          'Integrate AI tools into daily workflows',
+          'Establish feedback loops for continuous improvement',
+        ],
+        timeframe: '',
+      }
+    );
   } else if (overallScore < 60) {
-    recommendations.push({
-      phase: 'Phase 1: Acceleration',
-      title: 'Close Readiness Gaps',
-      description: 'Address specific blockers and accelerate AI adoption.',
-      actions: [
-        'Prioritize and fix highest-impact blockers',
-        'Build first production use case',
-        'Deploy change management program',
-        'Upskill teams with AI literacy training',
-      ],
-      timeframe: '3-6 months',
-    });
-
-    recommendations.push({
-      phase: 'Phase 2: Scale',
-      title: 'Deploy Additional Use Cases',
-      description: 'Expand from 1-2 use cases to 5-10 across the organization.',
-      actions: [
-        'Identify and prioritize next 2-3 use cases',
-        'Build reusable AI components',
-        'Create internal AI champion program',
-        'Establish MLOps for production deployment',
-      ],
-      timeframe: '6-12 months',
-    });
+    // Developing stage: 4 phases focused on acceleration
+    recommendations.push(
+      {
+        phase: 'Phase 1',
+        title: 'Close Readiness Gaps',
+        description: 'Address specific blockers and prepare for accelerated AI adoption.',
+        actions: [
+          'Prioritize and fix highest-impact blockers',
+          'Strengthen data quality and governance gaps',
+          'Deploy change management program',
+          'Upskill teams with AI literacy training',
+        ],
+        timeframe: '',
+      },
+      {
+        phase: 'Phase 2',
+        title: 'AI Product Sprints',
+        description: 'Run focused sprints to build and deploy AI use cases that demonstrate value.',
+        actions: [
+          'Identify and prioritize next 2-3 high-impact use cases',
+          'Run rapid prototyping sprints with cross-functional teams',
+          'Build first production use case with measurable ROI',
+          'Create reusable AI components and patterns',
+        ],
+        timeframe: '',
+      },
+      {
+        phase: 'Phase 3',
+        title: 'Scale & Operationalize',
+        description: 'Expand from initial use cases to multiple production deployments.',
+        actions: [
+          'Establish MLOps for production deployment and monitoring',
+          'Scale from 1-2 use cases to 5-10 across departments',
+          'Build internal AI champion program',
+          'Create self-service AI tools for business users',
+        ],
+        timeframe: '',
+      },
+      {
+        phase: 'Phase 4',
+        title: 'Enterprise Integration',
+        description: 'Embed AI capabilities into core business processes and culture.',
+        actions: [
+          'Integrate AI into strategic planning and decision-making',
+          'Deploy organization-wide AI training programs',
+          'Establish continuous improvement feedback loops',
+          'Build AI-first culture with visible leadership modeling',
+        ],
+        timeframe: '',
+      }
+    );
   } else {
-    // High maturity: Break into 4 sequential phases
+    // High maturity: 4 phases for enterprise scaling
     recommendations.push(
       {
         phase: 'Phase 1',
@@ -273,7 +325,7 @@ export function generateRecommendations(
           'Recruit or designate AI leadership roles',
           'Set up AI governance framework',
         ],
-        timeframe: '0-3 months',
+        timeframe: '',
       },
       {
         phase: 'Phase 2',
@@ -284,7 +336,7 @@ export function generateRecommendations(
           'Establish AI ethics and risk management policies',
           'Define success metrics and KPIs',
         ],
-        timeframe: '3-6 months',
+        timeframe: '',
       },
       {
         phase: 'Phase 3',
@@ -295,7 +347,7 @@ export function generateRecommendations(
           'Select and implement AI/ML tooling stack',
           'Create reusable AI components library',
         ],
-        timeframe: '6-9 months',
+        timeframe: '',
       },
       {
         phase: 'Phase 4',
@@ -306,7 +358,7 @@ export function generateRecommendations(
           'Scale from 3-5 to 10+ AI use cases',
           'Implement continuous improvement feedback loops',
         ],
-        timeframe: '9-12 months',
+        timeframe: '',
       }
     );
   }

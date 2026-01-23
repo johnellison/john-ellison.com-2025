@@ -66,6 +66,7 @@ export default function FlowAssessment({
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const containerRef = useRef<HTMLDivElement>(null);
   const hasCompletedRef = useRef(false);
+  const isProcessingRef = useRef(false); // Debounce rapid key presses
 
   // Get current dimension color
   const currentColor = DIMENSION_COLORS[currentDimension] || DIMENSION_COLORS[0];
@@ -120,18 +121,25 @@ export default function FlowAssessment({
     };
   }, [currentDimension, currentQuestion, dimensions, isComplete]);
 
-  // Handle answer selection with auto-advance
+  // Handle answer selection with auto-advance (debounced to prevent rapid key presses)
   const handleAnswer = useCallback((score: number) => {
-    if (isComplete) return;
+    if (isComplete || isProcessingRef.current) return;
 
     const info = getCurrentInfo();
     if (!info) return;
+
+    // Lock to prevent rapid key presses from triggering multiple advances
+    isProcessingRef.current = true;
 
     onAnswer(info.question.id, score);
 
     // Auto-advance after short delay
     setTimeout(() => {
       advance();
+      // Unlock after advance completes
+      setTimeout(() => {
+        isProcessingRef.current = false;
+      }, 250);
     }, 300);
   }, [isComplete, getCurrentInfo, onAnswer]);
 
@@ -194,30 +202,38 @@ export default function FlowAssessment({
     advance();
   }, [isComplete, advance]);
 
-  // Keyboard navigation
+  // Keyboard navigation (with debounce protection)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (isComplete || isSubmitting) return;
+      // Block all keyboard input while processing or complete
+      if (isComplete || isSubmitting || isProcessingRef.current) return;
 
       const info = getCurrentInfo();
       if (!info) return;
 
       // Number keys 1-4 to select answer
       if (['1', '2', '3', '4'].includes(e.key)) {
+        e.preventDefault(); // Prevent any default behavior
         const index = parseInt(e.key) - 1;
         if (index < info.question.options.length) {
           handleAnswer(info.question.options[index].score);
         }
       }
 
-      // 9 to skip
+      // 9 to skip (also debounced)
       if (e.key === '9') {
+        e.preventDefault();
+        isProcessingRef.current = true;
         skipQuestion();
+        setTimeout(() => {
+          isProcessingRef.current = false;
+        }, 400);
       }
 
       // Backspace/Escape to go back
       if (e.key === 'Backspace' || e.key === 'Escape') {
         if (currentQuestion > 0 || currentDimension > 0) {
+          e.preventDefault();
           goBack();
         }
       }

@@ -24,8 +24,9 @@ export interface Assessment {
   blockers: any[];
   recommendations: any[];
   company_insights?: any;
-  archetype?: any; // New field
-  axis_scores?: any; // New field
+  archetype?: any;
+  axis_scores?: any;
+  industry_analysis?: string; // AI-generated industry insights
 }
 
 export async function saveAssessment(assessment: Omit<Assessment, 'id' | 'created_at'>) {

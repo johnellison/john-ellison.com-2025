@@ -213,11 +213,6 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
       doc.setFontSize(9);
       doc.setTextColor(255, 255, 255);
       doc.text(rec.phase, 25, yPos + 1);
-
-      // Timeframe
-      doc.setFontSize(9);
-      doc.setTextColor(...lightText);
-      doc.text(rec.timeframe, 75, yPos + 1);
       yPos += 10;
 
       // Title and description
