@@ -67,7 +67,7 @@ export function CTASection() {
 
       <h2 className="cta-heading relative heading-section text-white mb-4 max-w-[70%] md:max-w-none">
         Ready to Harness The{' '}
-        <span className="text-gradient-prism">Power of AI ?</span>
+        <span className="text-gradient-prism">Power of AI?</span>
       </h2>
 
       <p className="cta-description relative type-lg text-white/60 mb-8 max-w-[60ch] mx-auto leading-relaxed">

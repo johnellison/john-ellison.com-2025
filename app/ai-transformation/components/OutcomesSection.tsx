@@ -11,7 +11,7 @@ const outcomes = [
     title: 'AI Systems That Get Used',
     description:
       'Deployed into daily operations, not stuck in pilot decks or demo folders.',
-    image: '/images/ai-transformation/outcomes-adoption-usage-v2.png',
+    image: '/images/ai-transformation/outcomes-adoption-usage-v3.png',
     heightClass: 'h-64',
     gradient: "from-blue-500/20 via-indigo-500/5 to-transparent",
   },
@@ -20,7 +20,7 @@ const outcomes = [
     title: '10–20% Increased Output',
     description:
       'Measurable productivity gains on the specific workflows where AI is integrated into daily work.',
-    image: '/images/ai-transformation/outcomes-productivity.png',
+    image: '/images/ai-transformation/outcomes-productivity-v4.png',
     heightClass: 'h-80',
     gradient: "from-violet-500/20 via-purple-500/5 to-transparent",
   },
@@ -29,7 +29,7 @@ const outcomes = [
     title: 'Reduced Operating Costs',
     description:
       'Concrete cost savings in support, back-office, or operations where AI automation is deployed.',
-    image: '/images/ai-transformation/outcomes-cost-reduction.png',
+    image: '/images/ai-transformation/outcomes-cost-reduction-v3.png',
     heightClass: 'h-56',
     gradient: "from-fuchsia-500/20 via-pink-500/5 to-transparent",
   },
@@ -38,7 +38,7 @@ const outcomes = [
     title: 'Faster Product Cycles',
     description:
       'Faster research, prototyping, and iteration—hours of work compressed into minutes, weeks into days.',
-    image: '/images/ai-transformation/outcomes-faster-cycles.png',
+    image: '/images/ai-transformation/outcomes-faster-cycles-v3.png',
     heightClass: 'h-72',
     gradient: "from-cyan-500/20 via-teal-500/5 to-transparent",
   },
@@ -47,7 +47,7 @@ const outcomes = [
     title: 'New Capabilities',
     description:
       "Internal tooling and customer-facing features that simply weren't feasible before AI.",
-    image: '/images/ai-transformation/outcomes-new-capabilities.png',
+    image: '/images/ai-transformation/outcomes-new-capabilities-v4.png',
     heightClass: 'h-64',
     gradient: "from-blue-500/20 via-indigo-500/5 to-transparent",
   },
@@ -56,7 +56,7 @@ const outcomes = [
     title: 'Governance Clarity',
     description:
       'Clear AI usage policies, security frameworks, and accountability structures that satisfy leadership and regulators.',
-    image: '/images/ai-transformation/outcomes-governance.png',
+    image: '/images/ai-transformation/outcomes-governance-v4.png',
     heightClass: 'h-48',
     gradient: "from-violet-500/20 via-purple-500/5 to-transparent",
   },

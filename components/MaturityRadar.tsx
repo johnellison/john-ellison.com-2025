@@ -55,8 +55,8 @@ export default function MaturityRadar({ dimensionScores, showColors = false }: M
                   y={y}
                   textAnchor={textAnchor}
                   fill={color}
-                  fontSize={12}
-                  fontWeight={showColors ? 500 : 400}
+                  fontSize={14}
+                  fontWeight={showColors ? 600 : 500}
                 >
                   {payload.value}
                 </text>

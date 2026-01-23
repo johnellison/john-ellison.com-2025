@@ -1,14 +1,5 @@
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
 import { AssessmentResult } from '@/types/assessment';
-
-// Extend jsPDF type for autoTable
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-    lastAutoTable: { finalY: number };
-  }
-}
 
 export function generateAssessmentPDF(result: AssessmentResult): void {
   const doc = new jsPDF();
@@ -18,7 +9,6 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
   const primaryColor: [number, number, number] = [124, 58, 237]; // Purple
   const darkText: [number, number, number] = [30, 30, 30];
   const lightText: [number, number, number] = [100, 100, 100];
-  const white: [number, number, number] = [255, 255, 255];
 
   // Header
   doc.setFontSize(24);
@@ -78,40 +68,49 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
   doc.text(`Operational Capability: ${result.axisScores.ops}/100`, 100, yPos);
   yPos += 15;
 
-  // Dimension Scores Table
+  // Dimension Scores - Manual table rendering
   doc.setFontSize(12);
   doc.setTextColor(...darkText);
   doc.text('Dimension Scores', 20, yPos);
-  yPos += 5;
+  yPos += 8;
 
-  const tableData = result.dimensionScores.map(d => [
-    d.dimension,
-    `${d.score}/100`,
-    d.score >= 70 ? 'Strong' : d.score >= 50 ? 'Developing' : 'Needs Work'
-  ]);
+  // Table header
+  doc.setFillColor(...primaryColor);
+  doc.rect(20, yPos, 170, 8, 'F');
+  doc.setFontSize(10);
+  doc.setTextColor(255, 255, 255);
+  doc.text('Dimension', 25, yPos + 6);
+  doc.text('Score', 120, yPos + 6);
+  doc.text('Status', 155, yPos + 6);
+  yPos += 10;
 
-  doc.autoTable({
-    startY: yPos,
-    head: [['Dimension', 'Score', 'Status']],
-    body: tableData,
-    theme: 'striped',
-    headStyles: {
-      fillColor: primaryColor,
-      textColor: white,
-      fontStyle: 'bold',
-    },
-    styles: {
-      fontSize: 10,
-      cellPadding: 5,
-    },
-    columnStyles: {
-      0: { cellWidth: 80 },
-      1: { cellWidth: 30, halign: 'center' },
-      2: { cellWidth: 40, halign: 'center' },
-    },
+  // Table rows
+  result.dimensionScores.forEach((d, i) => {
+    const status = d.score >= 70 ? 'Strong' : d.score >= 50 ? 'Developing' : 'Needs Work';
+    const bgColor: [number, number, number] = i % 2 === 0 ? [250, 250, 252] : [255, 255, 255];
+
+    doc.setFillColor(...bgColor);
+    doc.rect(20, yPos, 170, 7, 'F');
+
+    doc.setFontSize(9);
+    doc.setTextColor(...darkText);
+    doc.text(d.dimension, 25, yPos + 5);
+    doc.text(`${d.score}/100`, 120, yPos + 5);
+
+    // Color-code status
+    if (status === 'Strong') {
+      doc.setTextColor(22, 163, 74);
+    } else if (status === 'Developing') {
+      doc.setTextColor(202, 138, 4);
+    } else {
+      doc.setTextColor(220, 38, 38);
+    }
+    doc.text(status, 155, yPos + 5);
+
+    yPos += 7;
   });
 
-  yPos = doc.lastAutoTable.finalY + 15;
+  yPos += 10;
 
   // Company Insights (if available)
   if (result.companyInsights?.company_summary) {
@@ -134,7 +133,7 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
 
   // Industry Analysis (if available)
   if (result.industryAnalysis) {
-    if (yPos > 200) {
+    if (yPos > 180) {
       doc.addPage();
       yPos = 20;
     }
@@ -158,7 +157,7 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
 
   // Blockers
   if (result.blockers.length > 0) {
-    if (yPos > 220) {
+    if (yPos > 200) {
       doc.addPage();
       yPos = 20;
     }
@@ -192,7 +191,7 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
 
   // Roadmap
   if (result.recommendations.length > 0) {
-    if (yPos > 180) {
+    if (yPos > 160) {
       doc.addPage();
       yPos = 20;
     }
@@ -202,7 +201,7 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
     doc.text('Recommended Roadmap', 20, yPos);
     yPos += 12;
 
-    result.recommendations.forEach((rec, idx) => {
+    result.recommendations.forEach((rec) => {
       if (yPos > 240) {
         doc.addPage();
         yPos = 20;
@@ -212,7 +211,7 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
       doc.setFillColor(...primaryColor);
       doc.roundedRect(20, yPos - 4, 50, 8, 2, 2, 'F');
       doc.setFontSize(9);
-      doc.setTextColor(...white);
+      doc.setTextColor(255, 255, 255);
       doc.text(rec.phase, 25, yPos + 1);
 
       // Timeframe
@@ -271,7 +270,7 @@ export function generateAssessmentPDF(result: AssessmentResult): void {
 
   doc.setFontSize(12);
   doc.setTextColor(...primaryColor);
-  doc.textWithLink('Schedule Strategy Call →', 105, yPos, {
+  doc.textWithLink('Schedule Strategy Call', 105, yPos, {
     url: 'https://calendar.app.google/wirgV6a4Vcz7cZAcA',
     align: 'center',
   });

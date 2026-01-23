@@ -933,7 +933,7 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
           <div className="stat-label type-xs uppercase tracking-wider text-gray-500">Dimensions</div>
         </div>
         <div className="stat-item text-center">
-          <div className="stat-value type-lg font-bold text-white">10</div>
+          <div className="stat-value type-lg font-bold text-white">5-7</div>
           <div className="stat-label type-xs uppercase tracking-wider text-gray-500">Minutes</div>
         </div>
       </div>

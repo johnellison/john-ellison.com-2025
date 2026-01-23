@@ -33,7 +33,7 @@ const faqItems: FAQItem[] = [
   {
     question: 'What\'s the typical timeline?',
     answer:
-      'Phase 1 (AI Readiness & Strategy) takes 1-2 weeks. Phase 2 (AI Product Sprint) takes 2-4 weeks depending on complexity. Total engagement: 4-8 weeks from kickoff to deployed, adopted AI systems.',
+      'Phase 1 (AI Readiness & Strategy) takes 1-2 weeks. Phase 2 (AI Product Sprint) takes 2-4 weeks depending on complexity. Total engagement: 4-8 weeks from kickoff to deployed, adopted AI systems. We also provide ongoing retainers for supporting AI transformation beyond custom product integration.',
   },
   {
     question: 'Do you work with companies outside the US?',
@@ -119,9 +119,8 @@ export function FAQSection() {
           {faqItems.map((item, index) => (
             <div
               key={index}
-              className={`faq-item border-b border-white/[0.08] ${
-                index === 0 ? 'border-t' : ''
-              }`}
+              className={`faq-item border-b border-white/[0.08] ${index === 0 ? 'border-t' : ''
+                }`}
             >
               <button
                 onClick={() => toggleItem(index)}
@@ -131,19 +130,17 @@ export function FAQSection() {
                   {item.question}
                 </span>
                 <span
-                  className={`type-lg text-violet-400 transition-transform duration-300 ${
-                    activeIndex === index ? 'rotate-45' : ''
-                  }`}
+                  className={`type-lg text-violet-400 transition-transform duration-300 ${activeIndex === index ? 'rotate-45' : ''
+                    }`}
                 >
                   +
                 </span>
               </button>
               <div
-                className={`overflow-hidden transition-all duration-300 ease-out ${
-                  activeIndex === index
+                className={`overflow-hidden transition-all duration-300 ease-out ${activeIndex === index
                     ? 'max-h-80 pb-6'
                     : 'max-h-0 pb-0'
-                }`}
+                  }`}
               >
                 <p className="type-base text-white/60 leading-relaxed max-w-[70ch]">
                   {item.answer}
