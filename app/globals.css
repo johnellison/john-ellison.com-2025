@@ -118,6 +118,15 @@
    Maps to design system variables for consistent use in components
    ============================================ */
 
+/* Font Family Utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
 /* Font Sizes - matches CSS custom property scale */
 .type-xs {
   font-size: var(--text-xs);
