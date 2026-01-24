@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Link from 'next/link';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
 
@@ -22,6 +23,33 @@ export function WritingHero() {
 
   return (
     <section ref={heroRef} className="px-6 py-16 md:py-24">
+      {/* New Blog Banner */}
+      <Link
+        href="/blog"
+        className="block max-w-4xl mx-auto mb-8 p-4 rounded-xl bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 hover:border-purple-500/50 transition-all group"
+      >
+        <div className="flex items-center justify-center gap-3 text-center">
+          <span className="text-2xl">✨</span>
+          <div>
+            <span className="text-white font-medium">New!</span>{' '}
+            <span className="text-gray-300">
+              Check out the native blog at{' '}
+              <span className="text-[#a78bfa] group-hover:underline font-medium">
+                john-ellison.com/blog
+              </span>
+            </span>
+          </div>
+          <svg
+            className="w-5 h-5 text-[#a78bfa] transform group-hover:translate-x-1 transition-transform"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </div>
+      </Link>
+
       <div className="max-w-4xl mx-auto text-center writing-hero-content">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.05] border border-white/[0.1] mb-6">
