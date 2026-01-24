@@ -453,9 +453,14 @@
     color: rgba(255, 255, 255, 0.95);
 }
 
-.nav-links a:not(.nav-cta):hover::after {
+.nav-links a:not(.nav-cta):hover::after,
+.nav-links a:not(.nav-cta).active::after {
     width: 100%;
     animation: rainbowSlide 2s linear infinite;
+}
+
+.nav-links a.active {
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /* Contact CTA with rainbow border */
@@ -761,11 +766,13 @@
     transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-.nav-mobile-links a:hover {
+.nav-mobile-links a:hover,
+.nav-mobile-links a.active {
     color: rgba(255, 255, 255, 0.95);
 }
 
-.nav-mobile-links a:hover::after {
+.nav-mobile-links a:hover::after,
+.nav-mobile-links a.active::after {
     transform: scaleX(1);
     animation: rainbowSlide 2s linear infinite;
 }
@@ -943,4 +950,146 @@
     .nav-mobile-content {
         padding: 80px 1.5rem 1.5rem;
     }
+}
+
+/* ============================================
+   ABOUT PAGE ANIMATION ENHANCEMENTS
+   ============================================ */
+
+/* Prismatic ring spin animation for hero image */
+@keyframes prismatic-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-prismatic-spin {
+  animation: prismatic-spin 8s linear infinite;
+}
+
+/* Conic gradient for prismatic ring */
+.bg-conic-prism {
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 150, 150, 0.8),
+    rgba(255, 220, 120, 0.8),
+    rgba(150, 255, 200, 0.8),
+    rgba(150, 200, 255, 0.8),
+    rgba(180, 150, 255, 0.8),
+    rgba(255, 150, 150, 0.8)
+  );
+}
+
+/* Card glow hover effect */
+.card-glow-hover {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.card-glow-hover:hover {
+  box-shadow:
+    0 0 20px rgba(139, 92, 246, 0.15),
+    0 0 40px rgba(59, 130, 246, 0.1),
+    0 0 60px rgba(45, 212, 191, 0.05);
+}
+
+/* Animated gradient border for cards */
+.card-gradient-border {
+  position: relative;
+  background: transparent;
+}
+
+.card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.3),
+    rgba(59, 130, 246, 0.3),
+    rgba(45, 212, 191, 0.3)
+  );
+  border-radius: inherit;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card-gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Animated gradient text */
+.text-gradient-animated {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 150, 150, 1),
+    rgba(255, 220, 120, 1),
+    rgba(150, 255, 200, 1),
+    rgba(150, 200, 255, 1),
+    rgba(180, 150, 255, 1)
+  );
+  background-size: 200% 100%;
+  animation: rainbowSlide 3s linear infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Quote fade-in word animation helper */
+.quote-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.quote-word.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Prismatic divider line */
+.prismatic-divider {
+  position: relative;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 150, 150, 0.5) 10%,
+    rgba(255, 220, 120, 0.5) 25%,
+    rgba(150, 255, 200, 0.5) 50%,
+    rgba(150, 200, 255, 0.5) 75%,
+    rgba(180, 150, 255, 0.5) 90%,
+    transparent
+  );
+  background-size: 200% 100%;
+}
+
+.prismatic-divider.animated {
+  animation: rainbowSlide 4s linear infinite;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-prismatic-spin,
+  .text-gradient-animated,
+  .prismatic-divider.animated {
+    animation: none;
+  }
+
+  .quote-word {
+    opacity: 1;
+    transform: none;
+  }
 }

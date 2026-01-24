@@ -29,7 +29,7 @@ const journeyPhases = [
   {
     phase: 'Integrated',
     period: '2025+',
-    identity: 'John Ellison + John Dass',
+    identity: 'Regen AI',
     description: 'Returned with synthesis. Technology in service of transformation. AI as a tool for human flourishing. Regeneration as economic, ecological, psychological, and spiritual principle.',
     color: 'from-amber-500 to-orange-400',
   },
@@ -51,6 +51,36 @@ export function JourneySection() {
       opacity: 0,
       duration: 0.8,
       ease: 'power2.out',
+    });
+
+    // Timeline draw-on effect
+    gsap.fromTo(
+      '.timeline-line-fill',
+      { scaleX: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.journey-grid',
+          start: 'top 85%',
+          end: 'top 40%',
+          scrub: 1,
+        },
+        scaleX: 1,
+        ease: 'none',
+      }
+    );
+
+    // Animate phase dots sequentially
+    gsap.from('.phase-dot', {
+      scrollTrigger: {
+        trigger: '.journey-grid',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse',
+      },
+      scale: 0,
+      opacity: 0,
+      duration: 0.5,
+      stagger: 0.2,
+      ease: 'back.out(1.7)',
     });
 
     gsap.from('.journey-card', {
@@ -80,16 +110,40 @@ export function JourneySection() {
           </p>
         </div>
 
+        {/* Timeline connecting line (visible on lg screens) */}
+        <div className="hidden lg:block relative mb-8">
+          <div className="absolute top-1/2 left-[calc(12.5%)] right-[calc(12.5%)] h-[2px] -translate-y-1/2">
+            {/* Background line */}
+            <div className="absolute inset-0 bg-white/[0.08] rounded-full" />
+            {/* Animated fill */}
+            <div
+              className="timeline-line-fill absolute inset-0 origin-left rounded-full"
+              style={{
+                background: 'linear-gradient(90deg, rgba(59, 130, 246, 0.6), rgba(16, 185, 129, 0.6), rgba(139, 92, 246, 0.6), rgba(245, 158, 11, 0.6))'
+              }}
+            />
+          </div>
+          {/* Phase dots on the timeline */}
+          <div className="flex justify-between px-[calc(12.5%-6px)]">
+            {journeyPhases.map((phase) => (
+              <div
+                key={`dot-${phase.phase}`}
+                className={`phase-dot w-3 h-3 rounded-full bg-gradient-to-r ${phase.color} ring-4 ring-[#0c0c10]`}
+              />
+            ))}
+          </div>
+        </div>
+
         {/* Journey Timeline */}
         <div className="journey-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {journeyPhases.map((phase, index) => (
             <div
               key={phase.phase}
-              className="journey-card group relative p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300"
+              className="journey-card group relative p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] card-glow-hover transition-all duration-300"
             >
               {/* Phase indicator */}
               <div className="flex items-center gap-3 mb-4">
-                <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${phase.color}`} />
+                <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${phase.color} lg:hidden`} />
                 <span className="type-xs text-white/40 uppercase tracking-wider">{phase.period}</span>
               </div>
 

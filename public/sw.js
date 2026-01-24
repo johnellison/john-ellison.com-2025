@@ -4,7 +4,7 @@
  * Strategy: Network First with Cache Fallback
  */
 
-const CACHE_NAME = 'cosmos-layers-v1.0.0';
+const CACHE_NAME = 'cosmos-layers-v1.0.1';
 const RUNTIME_CACHE = 'cosmos-layers-runtime';
 
 // Critical assets to cache on install
@@ -72,6 +72,11 @@ self.addEventListener('fetch', event => {
     const { request } = event;
     const url = new URL(request.url);
 
+    // Only handle GET requests - Cache API doesn't support POST, PUT, etc.
+    if (request.method !== 'GET') {
+        return;
+    }
+
     // Skip cross-origin requests not in our external assets list
     if (url.origin !== location.origin &&
         !EXTERNAL_ASSETS.includes(request.url)) {
@@ -89,7 +94,7 @@ self.addEventListener('fetch', event => {
                 // Clone response before caching
                 const responseToCache = response.clone();
 
-                // Only cache successful responses
+                // Only cache successful GET responses
                 if (response.ok) {
                     caches.open(RUNTIME_CACHE)
                         .then(cache => {

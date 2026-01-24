@@ -1,14 +1,15 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
+import Image from 'next/image';
 
 const stats = [
-  { value: '16+', label: 'Years Building' },
-  { value: '300+', label: 'Founders Supported' },
-  { value: '$18M+', label: 'Capital Raised' },
-  { value: '2', label: 'Successful Exits' },
+  { value: 16, suffix: '+', label: 'Years Building' },
+  { value: 300, suffix: '+', label: 'Founders Supported' },
+  { value: 18, prefix: '$', suffix: 'M+', label: 'Capital Raised' },
+  { value: 2, suffix: '', label: 'Successful Exits' },
 ];
 
 const ventures = [
@@ -18,13 +19,15 @@ const ventures = [
     outcome: 'Acquired by OpenGov',
     description: 'Civic tech platform empowering community engagement in local government decision-making.',
     period: '2016-2018',
+    image: '/images/open-town-hall-mockup.jpeg',
   },
   {
     name: 'Goodery',
     role: 'Founder',
-    outcome: 'Active',
+    outcome: 'Acquired',
     description: 'Circular economy grocery connecting local growers with consumers through weekly organic produce subscriptions.',
-    period: '2020-Present',
+    period: '2020-2022',
+    image: '/images/Goodery-Wide-Light-Bg Large.jpeg',
   },
   {
     name: 'Toucan Protocol',
@@ -32,6 +35,7 @@ const ventures = [
     outcome: 'Series A',
     description: 'Carbon tokenization infrastructure bringing carbon credits on-chain for transparent climate action.',
     period: '2021-2022',
+    image: '/images/toucan-collage.jpeg',
   },
   {
     name: 'ReFi DAO',
@@ -39,11 +43,49 @@ const ventures = [
     outcome: '50+ Local Nodes',
     description: 'Global coordination network for regenerative finance, catalyzing the movement through community building.',
     period: '2022-2024',
+    image: '/images/refi-dao-cover-image.jpg',
   },
 ];
 
 export function VenturesSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [animatedValues, setAnimatedValues] = useState<number[]>(stats.map(() => 0));
+  const hasAnimated = useRef(false);
+
+  // Counter animation using IntersectionObserver for reliability
+  useEffect(() => {
+    if (!statsRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true;
+            stats.forEach((stat, index) => {
+              const obj = { value: 0 };
+              gsap.to(obj, {
+                value: stat.value,
+                duration: 2,
+                ease: 'power2.out',
+                onUpdate: () => {
+                  setAnimatedValues(prev => {
+                    const newValues = [...prev];
+                    newValues[index] = Math.round(obj.value);
+                    return newValues;
+                  });
+                },
+              });
+            });
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(statsRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(() => {
     if (!sectionRef.current) return;
@@ -101,14 +143,14 @@ export function VenturesSection() {
         </div>
 
         {/* Stats Grid */}
-        <div className="stats-grid grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
-          {stats.map((stat) => (
+        <div ref={statsRef} className="stats-grid grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+          {stats.map((stat, index) => (
             <div
               key={stat.label}
-              className="stat-item text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.06]"
+              className="stat-item text-center p-6 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-300"
             >
               <div className="type-2xl font-display font-bold text-gradient-prism mb-2">
-                {stat.value}
+                {stat.prefix || ''}{animatedValues[index]}{stat.suffix}
               </div>
               <div className="type-sm text-white/50">{stat.label}</div>
             </div>
@@ -120,23 +162,36 @@ export function VenturesSection() {
           {ventures.map((venture) => (
             <div
               key={venture.name}
-              className="venture-card group p-6 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300"
+              className="venture-card group rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-white/[0.12] card-glow-hover card-gradient-border transition-all duration-300 overflow-hidden"
             >
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h3 className="heading-card text-white group-hover:text-gradient-prism transition-all duration-300">
-                    {venture.name}
-                  </h3>
-                  <p className="type-sm text-white/50">{venture.role}</p>
-                </div>
-                <span className="px-3 py-1 text-xs rounded-full bg-white/[0.08] text-white/60 border border-white/[0.1]">
+              {/* Venture Image */}
+              <div className="relative h-40 overflow-hidden">
+                <Image
+                  src={venture.image}
+                  alt={venture.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <span className="absolute bottom-3 right-3 px-3 py-1 text-xs rounded-full bg-black/50 backdrop-blur-sm text-white/80 border border-white/[0.1]">
                   {venture.outcome}
                 </span>
               </div>
-              <p className="type-sm text-white/60 mb-3 leading-relaxed">
-                {venture.description}
-              </p>
-              <p className="type-xs text-white/30">{venture.period}</p>
+              {/* Content */}
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h3 className="heading-card text-white group-hover:text-gradient-prism transition-all duration-300">
+                      {venture.name}
+                    </h3>
+                    <p className="type-sm text-white/50">{venture.role}</p>
+                  </div>
+                </div>
+                <p className="type-sm text-white/60 mb-3 leading-relaxed">
+                  {venture.description}
+                </p>
+                <p className="type-xs text-white/30">{venture.period}</p>
+              </div>
             </div>
           ))}
         </div>

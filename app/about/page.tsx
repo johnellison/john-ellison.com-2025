@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
+import { PrismaticDivider } from '@/components/gsap/PrismaticDivider';
 import { AboutHero } from './components/AboutHero';
 import { JourneySection } from './components/JourneySection';
 import { VenturesSection } from './components/VenturesSection';
@@ -29,10 +30,15 @@ export default function AboutPage() {
 
       <main className="relative z-10 pt-20">
         <AboutHero />
+        <PrismaticDivider />
         <JourneySection />
+        <PrismaticDivider />
         <LifeSection />
+        <PrismaticDivider />
         <VenturesSection />
+        <PrismaticDivider />
         <CreationSection />
+        <PrismaticDivider />
         <NowSection />
       </main>
 

@@ -19,9 +19,9 @@ const lifeAspects = [
     color: 'from-purple-500 to-violet-400',
   },
   {
-    title: 'Builder',
-    description: 'On stage at Celo Connect. Sharing ideas that shape movements.',
-    image: '/images/john-e-on-stage-celo-connect.png',
+    title: 'Father',
+    description: 'Loving life as a father of two incredible young boys.',
+    image: '/images/emoji-john-jesse-reuben.jpg',
     color: 'from-green-500 to-emerald-400',
   },
 ];
@@ -74,6 +74,19 @@ export function LifeSection() {
         });
       }
     });
+
+    // Quote container fade-in animation (simpler, more reliable)
+    gsap.from('.quote-container', {
+      scrollTrigger: {
+        trigger: '.quote-container',
+        start: 'top 85%',
+        toggleActions: 'play none none reverse',
+      },
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      ease: 'power2.out',
+    });
   }, []);
 
   return (
@@ -125,7 +138,7 @@ export function LifeSection() {
         </div>
 
         {/* Quote */}
-        <div className="mt-20 py-16 relative">
+        <div className="quote-container mt-20 py-16 relative">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-emerald-500/10 to-blue-500/5 rounded-3xl" />
           <blockquote className="relative text-center max-w-4xl mx-auto px-6">
             <p className="text-2xl md:text-3xl lg:text-4xl font-display font-light text-white/90 leading-relaxed">
