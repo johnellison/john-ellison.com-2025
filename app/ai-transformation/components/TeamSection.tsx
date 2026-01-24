@@ -10,7 +10,7 @@ const teamMembers = [
     name: 'John Ellison',
     role: 'Product, AI & Behavior Design',
     photo: '/john-e-wedding-headshot.webp',
-    bio: '16 years building products. 300+ founders supported. $18M+ raised. Former design lead at major tech companies. Specializes in rapid AI product development using modern AI-assisted methodologies.',
+    bio: '16 years building products. 300+ founders supported. $18M+ raised. Led growth at Toucan Protocol and managed product at OpenGov. Specializes in rapid AI product development using modern AI-assisted methodologies. Certified Behavior Design teacher from Dr. BJ Fogg\'s teaching team out of Stanford University.',
   },
   {
     name: 'Fatma Ghedira',

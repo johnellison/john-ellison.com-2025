@@ -35,8 +35,8 @@ export function NowSection() {
           {/* Current Focus */}
           <div className="space-y-6 text-left md:text-center mb-12">
             <p className="type-lg text-white/70 leading-relaxed max-w-3xl mx-auto">
-              After a year of spiritual sabbatical, I&apos;ve returned to building—this time
-              with <span className="text-white font-medium">AI Transformation consulting</span> as my focus.
+              After a year of sabbatical, I&apos;ve returned to building—this time
+              with <span className="text-white font-medium">AI Transformation</span> as my focus.
               Helping companies not just adopt AI tools, but truly transform how they work.
             </p>
 
@@ -52,17 +52,6 @@ export function NowSection() {
               </a>
               . Real-time documentation of a regenerative entrepreneur&apos;s journey
               with Claude, vibe coding, and the frontier of human-AI collaboration.
-            </p>
-          </div>
-
-          {/* The Whole Person */}
-          <div className="mb-12 p-8 rounded-2xl bg-white/[0.03] border border-white/[0.06]">
-            <h3 className="heading-card text-white mb-4">The Whole Person</h3>
-            <p className="type-base text-white/60 leading-relaxed">
-              Beyond the work, I&apos;m a surfer chasing waves, a musician releasing songs as John Dass,
-              and a seeker walking ancient paths. The through-line is <strong className="text-white">regeneration</strong>—
-              not just as an economic principle, but as psychological healing, ecological restoration,
-              and spiritual practice. Integration of ancient wisdom with modern innovation.
             </p>
           </div>
 

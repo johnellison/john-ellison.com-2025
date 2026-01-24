@@ -9,7 +9,7 @@ const journeyPhases = [
     phase: 'Builder',
     period: '2015–2021',
     identity: 'Founder & technologist',
-    description: 'Built products, raised capital, scaled teams. Founded Peak Democracy (acquired by OpenGov) and Goody (sold). Learned the craft of turning vision into shipped software.',
+    description: 'Built products, raised capital, scaled teams. UX at Clearleft. Led product at Peak Democracy (acquired by OpenGov) and founded Goodery (acquired by Sumit Jain). Learned the craft of turning vision into working software.',
     color: 'from-blue-500 to-cyan-400',
   },
   {
@@ -20,16 +20,16 @@ const journeyPhases = [
     color: 'from-green-500 to-emerald-400',
   },
   {
-    phase: 'Seeker',
+    phase: 'Sabbatical',
     period: '2024–2025',
-    identity: 'Artist & spiritual inquirer',
-    description: 'Stepped back to step forward. Released music as John Dass, walked 854km to Maha Kumbh Mela, explored the intersection of ancient wisdom and modern consciousness.',
+    identity: 'Music, spirituality, and adventure',
+    description: 'Stepped back to step forward. Released music as John Dass, travelled 854km to Maha Kumbh Mela, explored the intersection of ancient wisdom and modern consciousness.',
     color: 'from-purple-500 to-violet-400',
   },
   {
     phase: 'Integrated',
     period: '2025+',
-    identity: 'Regen AI',
+    identity: 'AI Transformation',
     description: 'Returned with synthesis. Technology in service of transformation. AI as a tool for human flourishing. Regeneration as economic, ecological, psychological, and spiritual principle.',
     color: 'from-amber-500 to-orange-400',
   },
@@ -105,8 +105,7 @@ export function JourneySection() {
           <p className="type-sm uppercase tracking-widest text-white/40 mb-4">The Journey</p>
           <h2 className="heading-section mb-4">From Ashes to Regeneration</h2>
           <p className="type-base text-white/60 max-w-2xl mx-auto">
-            A decade of building, burning out, and being reborn. Each phase shaped
-            who I am today—a technologist with soul, a seeker who ships.
+            Finding my way as a founder, a father and a leader in the age of AI and climate collapse. Believing that technology can be used to build sustainable solutions for people and the planet.
           </p>
         </div>
 

@@ -6,6 +6,8 @@ dist/
 .next/
 out/
 build/
+.turbo/
+coverage/
 
 # IDE
 .idea/

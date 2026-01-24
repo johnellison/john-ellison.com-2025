@@ -4,6 +4,7 @@ import Link from 'next/link';
 import type { MDXComponents } from 'mdx/types';
 import rehypeSlug from 'rehype-slug';
 import rehypePrettyCode from 'rehype-pretty-code';
+import remarkUnwrapImages from 'remark-unwrap-images';
 
 // Custom components passed to MDX
 const components: MDXComponents = {
@@ -83,6 +84,7 @@ export function PostContent({ source }: { source: string }) {
                 components={components}
                 options={{
                     mdxOptions: {
+                        remarkPlugins: [remarkUnwrapImages],
                         rehypePlugins: [
                             rehypeSlug,
                             [rehypePrettyCode, { theme: 'one-dark-pro' }]

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Navigation from '@/components/Navigation';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
 import { HeroSection } from './components/HeroSection';
 import { ProblemSection } from './components/ProblemSection';
@@ -12,8 +13,7 @@ import { AssessmentSection } from './components/AssessmentSection';
 import { FAQSection } from './components/FAQSection';
 import { CTASection } from './components/CTASection';
 import { FooterSection } from './components/FooterSection';
-
-export const dynamic = 'force-static';
+import ExitIntentPopup from '@/components/ExitIntentPopup';
 
 export const metadata: Metadata = {
   title: 'AI Transformation — From AI Curiosity to Systems Deployed in 4-8 Weeks',
@@ -38,6 +38,7 @@ export default function AITransformationPage() {
   return (
     <>
       <RainbowGrid />
+      <Navigation />
 
       <main className="relative z-10">
         <HeroSection />
@@ -53,6 +54,9 @@ export default function AITransformationPage() {
         <CTASection />
         <FooterSection />
       </main>
+
+      {/* Exit Intent Popup for Whitepaper */}
+      <ExitIntentPopup />
     </>
   );
 }

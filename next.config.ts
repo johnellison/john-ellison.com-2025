@@ -11,10 +11,38 @@ const nextConfig: NextConfig = {
   // output: 'standalone', // disabled for development testing
   poweredByHeader: false,
 
+  // 301 Redirects for deprecated routes
+  async redirects() {
+    return [
+      // Home page redirects to AI Transformation
+      {
+        source: '/',
+        destination: '/ai-transformation',
+        permanent: false, // Use temporary redirect so we can change later if needed
+      },
+      // Sprint page redirects to AI Transformation
+      {
+        source: '/sprint',
+        destination: '/ai-transformation',
+        permanent: true,
+      },
+      {
+        source: '/sprint.html',
+        destination: '/ai-transformation',
+        permanent: true,
+      },
+      // Case studies redirect to Work page
+      {
+        source: '/case-studies',
+        destination: '/work',
+        permanent: true,
+      },
+    ];
+  },
+
   // Rewrites for backwards compatibility with .html URLs
   async rewrites() {
     return [
-      { source: '/sprint.html', destination: '/sprint' },
       { source: '/contact.html', destination: '/contact' },
       { source: '/splash.html', destination: '/splash' },
       { source: '/ai-transformation.html', destination: '/ai-transformation' },

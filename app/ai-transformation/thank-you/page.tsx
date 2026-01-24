@@ -61,13 +61,13 @@ export default function ThankYouPage() {
 
   return (
     <main className="min-h-screen bg-black">
-      <div className="max-w-2xl mx-auto px-4 py-20">
+      <div className="max-w-2xl mx-auto px-4 py-15">
         {/* Success Message */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20 mb-6">
             <CheckCircle className="w-8 h-8 text-green-400" />
           </div>
-          <h1 className="text-2xl md:text-3xl font-display font-semibold text-white mb-4">
+          <h1 className="text-lg md:text-xl font-display font-semibold text-white mb-4">
             Your whitepaper is downloading
           </h1>
           <p className="text-lg text-white/60">
@@ -101,7 +101,7 @@ export default function ThankYouPage() {
             {/* X (Twitter) */}
             <button
               onClick={shareToTwitter}
-              className="inline-flex items-center gap-2 px-5 py-3 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-white/20 transition-all font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-white rounded-lg hover:bg-white/10 hover:border-white/20 transition-all font-medium"
             >
               <Twitter className="w-5 h-5" />
               Share on X
@@ -110,25 +110,25 @@ export default function ThankYouPage() {
             {/* LinkedIn */}
             <button
               onClick={shareToLinkedIn}
-              className="inline-flex items-center gap-2 px-5 py-3 bg-[#0A66C2]/20 border border-[#0A66C2]/30 text-[#5BA3E8] rounded-lg hover:bg-[#0A66C2]/30 hover:border-[#0A66C2]/50 transition-all font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#0A66C2]/20 border border-[#0A66C2]/30 text-[#5BA3E8] rounded-lg hover:bg-[#0A66C2]/30 hover:border-[#0A66C2]/50 transition-all font-medium"
             >
               <Linkedin className="w-5 h-5" />
-              Share on LinkedIn
+              Share on LI
             </button>
 
             {/* Facebook */}
             <button
               onClick={shareToFacebook}
-              className="inline-flex items-center gap-2 px-5 py-3 bg-[#1877F2]/20 border border-[#1877F2]/30 text-[#6BA8F5] rounded-lg hover:bg-[#1877F2]/30 hover:border-[#1877F2]/50 transition-all font-medium"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-[#1877F2]/20 border border-[#1877F2]/30 text-[#6BA8F5] rounded-lg hover:bg-[#1877F2]/30 hover:border-[#1877F2]/50 transition-all font-medium"
             >
               <Facebook className="w-5 h-5" />
-              Share on Facebook
+              Share on FB
             </button>
 
             {/* Copy Link */}
             <button
               onClick={copyLink}
-              className={`inline-flex items-center gap-2 px-5 py-3 border rounded-lg transition-all font-medium ${copied
+              className={`inline-flex items-center gap-2 px-4 py-2 border rounded-lg transition-all font-medium ${copied
                 ? 'bg-green-500/10 border-green-500/30 text-green-400'
                 : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/10 hover:border-white/20 hover:text-white'
                 }`}

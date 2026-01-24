@@ -10,8 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
     "@hookform/resolvers": "^5.2.2",
     "@react-pdf/renderer": "^4.3.2",
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.91.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tanstack/react-table": "^8.21.3",
@@ -34,7 +36,9 @@
     "rehype-pretty-code": "^0.14.1",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "^4.0.1",
+    "remark-unwrap-images": "^4.0.1",
     "resend": "^6.8.0",
+    "sharp": "^0.34.5",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^4.3.5",

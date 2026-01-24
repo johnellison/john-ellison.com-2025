@@ -171,6 +171,14 @@ Format as clean markdown:
       archetype,
     }).catch(err => console.error('Background email error:', err));
 
+    // Schedule nurture sequence emails
+    scheduleNurtureSequence(companyData.email, companyData.name, {
+      overallScore,
+      readiness,
+      archetype,
+      blockers,
+    }).catch(err => console.error('Nurture sequence error:', err));
+
     return NextResponse.json({
       success: true,
       assessmentId: data?.[0]?.id,
@@ -217,6 +225,299 @@ async function sendAssessmentEmail(email: string, report: any) {
   } catch (err) {
     console.error('Exception sending email:', err);
   }
+}
+
+// Schedule nurture sequence emails
+async function scheduleNurtureSequence(
+  email: string,
+  companyName: string,
+  report: {
+    overallScore: number;
+    readiness: any;
+    archetype: any;
+    blockers: any[];
+  }
+) {
+  if (!resend) {
+    console.warn('RESEND_API_KEY not configured. Skipping nurture sequence.');
+    return;
+  }
+
+  const baseUrl = 'https://john-ellison.com';
+  const whitepaperUrl = `${baseUrl}/ai-transformation-whitepaper.pdf`;
+  const assessmentUrl = `${baseUrl}/ai-transformation`;
+  const calendarUrl = 'https://calendar.app.google/wirgV6a4Vcz7cZAcA';
+
+  // Day 2: "One thing I'd prioritize" + whitepaper offer
+  const day2Date = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+
+  // Day 5: Case study
+  const day5Date = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
+
+  // Day 10: Whitepaper delivery
+  const day10Date = new Date(Date.now() + 10 * 24 * 60 * 60 * 1000);
+
+  // Day 14: Final call invitation
+  const day14Date = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
+
+  const topBlocker = report.blockers[0];
+  const priorityArea = topBlocker?.dimension || 'Data Readiness';
+
+  try {
+    // Day 2 Email
+    await resend.emails.send({
+      from: 'John Ellison <no-reply@updates.john-ellison.com>',
+      to: email,
+      subject: `One thing I'd prioritize for ${companyName}`,
+      scheduledAt: day2Date.toISOString(),
+      html: generateDay2Email(companyName, priorityArea, report.overallScore, whitepaperUrl),
+    });
+
+    // Day 5 Email
+    await resend.emails.send({
+      from: 'John Ellison <no-reply@updates.john-ellison.com>',
+      to: email,
+      subject: `How a company like ${companyName} achieved 40% faster AI deployment`,
+      scheduledAt: day5Date.toISOString(),
+      html: generateDay5Email(companyName, report.archetype.name, calendarUrl),
+    });
+
+    // Day 10 Email
+    await resend.emails.send({
+      from: 'John Ellison <no-reply@updates.john-ellison.com>',
+      to: email,
+      subject: 'The complete AI transformation research (100+ studies)',
+      scheduledAt: day10Date.toISOString(),
+      html: generateDay10Email(companyName, whitepaperUrl, assessmentUrl),
+    });
+
+    // Day 14 Email
+    await resend.emails.send({
+      from: 'John Ellison <no-reply@updates.john-ellison.com>',
+      to: email,
+      subject: `Quick question about ${companyName}'s AI journey`,
+      scheduledAt: day14Date.toISOString(),
+      html: generateDay14Email(companyName, report.overallScore, report.archetype.name, calendarUrl),
+    });
+
+    console.log(`Nurture sequence scheduled for ${email}`);
+  } catch (err) {
+    console.error('Error scheduling nurture emails:', err);
+  }
+}
+
+function generateDay2Email(companyName: string, priorityArea: string, score: number, whitepaperUrl: string): string {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, sans-serif; background: #0c0c10; color: #fff; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto;">
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Hi there,
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            I've been reviewing ${companyName}'s assessment results, and I wanted to share something specific.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Based on your score of ${score}/100, if I were sitting in your chair, I'd focus first on <strong style="color: #7c3aed;">${priorityArea}</strong>.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Here's why: Organizations that nail this dimension first see 40% faster time-to-value on their AI initiatives. It's the foundation everything else builds on.
+          </p>
+          <div style="background: rgba(124, 58, 237, 0.1); padding: 24px; border-radius: 12px; margin: 24px 0; border-left: 3px solid #7c3aed;">
+            <p style="color: rgba(255,255,255,0.9); font-size: 15px; line-height: 1.6; margin: 0;">
+              <strong>Quick win:</strong> Start by auditing your current state in ${priorityArea.toLowerCase()}. What exists? What's missing? What's the gap between where you are and where you need to be?
+            </p>
+          </div>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            I've put together a detailed breakdown of the 10 barriers that derail AI initiatives in our whitepaper. ${priorityArea} is often where organizations struggle most.
+          </p>
+          <p style="margin: 24px 0;">
+            <a href="${whitepaperUrl}" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+              Get the Whitepaper
+            </a>
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Talk soon,<br/>
+            John
+          </p>
+          <p style="color: rgba(255,255,255,0.4); font-size: 13px; margin-top: 40px;">
+            John Ellison | AI Transformation Partner<br/>
+            <a href="https://john-ellison.com" style="color: rgba(255,255,255,0.4);">john-ellison.com</a>
+          </p>
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+function generateDay5Email(companyName: string, archetype: string, calendarUrl: string): string {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, sans-serif; background: #0c0c10; color: #fff; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto;">
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Hi there,
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Since ${companyName} came out as a <strong style="color: #7c3aed;">${archetype}</strong>, I thought you'd find this relevant.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Last quarter, we worked with a company in a similar position. They had strong vision but were stuck in pilot purgatory—lots of experiments, nothing in production.
+          </p>
+          <div style="background: rgba(255,255,255,0.05); padding: 24px; border-radius: 12px; margin: 24px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <h3 style="color: #fff; font-size: 18px; margin: 0 0 16px 0;">The Transformation</h3>
+            <ul style="color: rgba(255,255,255,0.7); padding-left: 20px; margin: 0;">
+              <li style="margin-bottom: 8px;">Identified 3 high-impact use cases (instead of 15 scattered pilots)</li>
+              <li style="margin-bottom: 8px;">Established data governance foundation first</li>
+              <li style="margin-bottom: 8px;">Deployed first production AI system in 8 weeks</li>
+              <li style="margin-bottom: 8px;">Achieved 40% faster deployment vs. industry average</li>
+            </ul>
+          </div>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            The key insight? They stopped trying to boil the ocean. Focus beats breadth every time.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Want to explore what a focused approach could look like for ${companyName}?
+          </p>
+          <p style="margin: 24px 0;">
+            <a href="${calendarUrl}" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+              Book a Strategy Call
+            </a>
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            John
+          </p>
+          <p style="color: rgba(255,255,255,0.4); font-size: 13px; margin-top: 40px;">
+            John Ellison | AI Transformation Partner<br/>
+            <a href="https://john-ellison.com" style="color: rgba(255,255,255,0.4);">john-ellison.com</a>
+          </p>
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+function generateDay10Email(companyName: string, whitepaperUrl: string, assessmentUrl: string): string {
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, sans-serif; background: #0c0c10; color: #fff; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto;">
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Hi there,
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            I mentioned our AI transformation research earlier. Here's the full breakdown.
+          </p>
+          <div style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(59, 130, 246, 0.2)); padding: 32px; border-radius: 16px; text-align: center; margin: 24px 0; border: 1px solid rgba(124, 58, 237, 0.3);">
+            <h2 style="font-size: 24px; font-weight: 700; margin: 0 0 12px 0; color: #fff;">AI Transformation: Optimism vs. Reality</h2>
+            <p style="font-size: 15px; color: rgba(255,255,255,0.7); margin: 0 0 20px 0;">
+              100+ studies synthesized into actionable insights
+            </p>
+            <a href="${whitepaperUrl}" style="display: inline-block; background: #fff; color: #7c3aed; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+              Download Whitepaper (PDF)
+            </a>
+          </div>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 16px 0;">
+            Inside you'll find:
+          </p>
+          <ul style="color: rgba(255,255,255,0.7); padding-left: 20px; margin: 0 0 24px 0;">
+            <li style="margin-bottom: 8px;">Why 95% of AI pilots never reach production</li>
+            <li style="margin-bottom: 8px;">The 10 barriers that consistently derail programs</li>
+            <li style="margin-bottom: 8px;">What the top 6% of organizations do differently</li>
+            <li style="margin-bottom: 8px;">A practical 5-phase implementation roadmap</li>
+            <li style="margin-bottom: 8px;">Pre-deployment governance checklist</li>
+          </ul>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Combined with your <a href="${assessmentUrl}" style="color: #7c3aed;">assessment results</a>, this gives you a complete picture of where ${companyName} stands—and what to do next.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            John
+          </p>
+          <p style="color: rgba(255,255,255,0.4); font-size: 13px; margin-top: 40px;">
+            John Ellison | AI Transformation Partner<br/>
+            <a href="https://john-ellison.com" style="color: rgba(255,255,255,0.4);">john-ellison.com</a>
+          </p>
+        </div>
+      </body>
+    </html>
+  `;
+}
+
+function generateDay14Email(companyName: string, score: number, archetype: string, calendarUrl: string): string {
+  const readinessMessage = score >= 70
+    ? "Your strong foundation means you could move to production quickly with the right focus."
+    : score >= 50
+    ? "You've got solid building blocks. A targeted approach could unlock significant value."
+    : "Starting now puts you ahead of 80% of organizations still figuring this out.";
+
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body style="font-family: -apple-system, sans-serif; background: #0c0c10; color: #fff; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto;">
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Hi there,
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            It's been a couple weeks since ${companyName} took our AI Readiness Assessment.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            I've been thinking about your results—${score}/100 overall with a <strong style="color: #7c3aed;">${archetype}</strong> profile.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            ${readinessMessage}
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            I'd love to spend 30 minutes walking through your results together. No pitch—just honest perspective on what I'd do in your position.
+          </p>
+          <div style="background: rgba(124, 58, 237, 0.1); padding: 24px; border-radius: 12px; margin: 24px 0; border: 1px solid rgba(124, 58, 237, 0.2);">
+            <p style="color: rgba(255,255,255,0.9); font-size: 15px; line-height: 1.6; margin: 0 0 16px 0;">
+              <strong>In the call, we'd cover:</strong>
+            </p>
+            <ul style="color: rgba(255,255,255,0.7); padding-left: 20px; margin: 0;">
+              <li style="margin-bottom: 6px;">Your top priority based on the assessment</li>
+              <li style="margin-bottom: 6px;">Quick wins you could execute in the next 30 days</li>
+              <li style="margin-bottom: 6px;">What a realistic 6-month roadmap looks like</li>
+            </ul>
+          </div>
+          <p style="margin: 24px 0;">
+            <a href="${calendarUrl}" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #3b82f6); color: #fff; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+              Book a 30-Minute Call
+            </a>
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            Either way, I hope the assessment was useful. Always happy to chat if questions come up.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.7; margin: 0 0 20px 0;">
+            John
+          </p>
+          <p style="color: rgba(255,255,255,0.4); font-size: 13px; margin-top: 40px;">
+            John Ellison | AI Transformation Partner<br/>
+            <a href="https://john-ellison.com" style="color: rgba(255,255,255,0.4);">john-ellison.com</a>
+          </p>
+        </div>
+      </body>
+    </html>
+  `;
 }
 
 function generateEmailContent(report: any): string {

@@ -2,10 +2,10 @@
 
 import { useRef, useState } from 'react';
 import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
-import Link from 'next/link';
 
 export default function ContactPage() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -177,6 +177,8 @@ export default function ContactPage() {
                     </div>
                 </div>
             </main>
+
+            <Footer />
         </>
     );
 }

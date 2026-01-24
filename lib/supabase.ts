@@ -119,3 +119,56 @@ export async function getAssessment(id: string) {
     return null;
   }
 }
+
+export interface WhitepaperLead {
+  id: string;
+  created_at: string;
+  email: string;
+  source: string;
+  whitepaper_sent: boolean;
+  nurture_sequence_started: boolean;
+}
+
+export async function saveWhitepaperLead(email: string, source: string) {
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+      .from('whitepaper_leads')
+      .upsert(
+        {
+          email,
+          source,
+          whitepaper_sent: false,
+          nurture_sequence_started: false
+        },
+        { onConflict: 'email' }
+      )
+      .select();
+
+    if (error) {
+      console.error('Error saving whitepaper lead:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data };
+  } catch (err) {
+    console.error('Exception saving whitepaper lead:', err);
+    return { success: false, error: String(err) };
+  }
+}
+
+export async function markWhitepaperSent(email: string) {
+  try {
+    const supabase = getSupabaseClient();
+    const { error } = await supabase
+      .from('whitepaper_leads')
+      .update({ whitepaper_sent: true })
+      .eq('email', email);
+
+    if (error) {
+      console.error('Error marking whitepaper sent:', error);
+    }
+  } catch (err) {
+    console.error('Exception marking whitepaper sent:', err);
+  }
+}

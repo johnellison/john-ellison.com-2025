@@ -2,12 +2,20 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+
+  // Check if a link is active
+  const isActive = (path: string) => {
+    if (path === '/') return pathname === '/';
+    return pathname?.startsWith(path);
+  };
 
   return (
     <>
@@ -15,7 +23,7 @@ export default function Navigation() {
           TOP NAVIGATION
           ======================================== */}
       <nav className="site-nav" id="siteNav">
-        <a href="/" className="nav-logo">
+        <Link href="/" className="nav-logo">
           <img
             src="/je-logo.webp"
             srcSet="/je-logo.webp 1x, /je-logo.webp 2x, /je-logo.webp 3x"
@@ -23,15 +31,15 @@ export default function Navigation() {
             width={48}
             height={48}
           />
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="nav-links" id="desktopNav" aria-label="Desktop navigation">
-          <a href="/#scene2">Challenges</a>
-          <a href="/#scene3">Experience</a>
-          <a href="/#scenePodcast">Podcast</a>
-          <Link href="/ai-transformation">AI Transformation</Link>
-          <a href="/#scene5">Regeneration</a>
+          <Link href="/ai-transformation" className={isActive('/ai-transformation') ? 'active' : ''}>AI Transformation</Link>
+          <Link href="/about" className={isActive('/about') ? 'active' : ''}>About</Link>
+          <Link href="/writing" className={isActive('/writing') ? 'active' : ''}>Writing</Link>
+          <Link href="/work" className={isActive('/work') ? 'active' : ''}>Work</Link>
+          <Link href="/podcast" className={isActive('/podcast') ? 'active' : ''}>Podcast</Link>
           <Link href="/contact" className="nav-cta">Work With Me</Link>
         </nav>
 
@@ -84,11 +92,11 @@ export default function Navigation() {
       >
         <div className="nav-mobile-content">
           <div className="nav-mobile-links">
-            <a href="/#scene2" onClick={closeMenu}>Challenges</a>
-            <a href="/#scene3" onClick={closeMenu}>Experience</a>
-            <a href="/#scenePodcast" onClick={closeMenu}>Podcast</a>
-            <Link href="/ai-transformation" onClick={closeMenu}>AI Transformation</Link>
-            <a href="/#scene5" onClick={closeMenu}>Regeneration</a>
+            <Link href="/ai-transformation" onClick={closeMenu} className={isActive('/ai-transformation') ? 'active' : ''}>AI Transformation</Link>
+            <Link href="/about" onClick={closeMenu} className={isActive('/about') ? 'active' : ''}>About</Link>
+            <Link href="/writing" onClick={closeMenu} className={isActive('/writing') ? 'active' : ''}>Writing</Link>
+            <Link href="/work" onClick={closeMenu} className={isActive('/work') ? 'active' : ''}>Work</Link>
+            <Link href="/podcast" onClick={closeMenu} className={isActive('/podcast') ? 'active' : ''}>Podcast</Link>
             <Link href="/contact" className="nav-cta" onClick={closeMenu}>Work With Me</Link>
           </div>
 

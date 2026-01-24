@@ -97,8 +97,8 @@ export function LifeSection() {
           <p className="type-sm uppercase tracking-widest text-white/40 mb-4">The Whole Person</p>
           <h2 className="heading-section mb-4">Beyond the Work</h2>
           <p className="type-base text-white/60 max-w-2xl mx-auto">
-            Surfer, musician, seeker. Integration of ancient wisdom and modern technology.
-            The through-line: Regeneration as economic, ecological, psychological, and spiritual principle.
+            Father, husband, musician, surfer, seeker. Integrating ancient wisdom and modern technology.
+            The through-line: Regeneration as the only viable option.
           </p>
         </div>
 
