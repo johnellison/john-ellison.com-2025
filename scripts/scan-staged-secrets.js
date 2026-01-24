@@ -1,6 +1,6 @@
 const { execFileSync } = require("node:child_process");
 
-const allowlist = /(example|sample|changeme|replace|placeholder|\byour[-_]|<your_|YOUR_|REPLACE_|CHANGEME)/i;
+const allowlist = /(example|sample|changeme|replace|placeholder|\byour[-_]|<your_|YOUR_|REPLACE_|CHANGEME|\bkeywords?\s*[:=]|\bsubject\s*[:=])/i;
 
 const patterns = [
   {
