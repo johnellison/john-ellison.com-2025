@@ -506,4 +506,47 @@ docs/
 
 ---
 
+## Maintenance & Deployment
+
+### Static PDF Location
+
+The whitepaper PDF is served as a **static file** for instant downloads:
+
+```
+public/downloads/AI-Transformation-Whitepaper.pdf
+```
+
+### Regenerating the PDF
+
+When you update the whitepaper content (in `lib/whitepaper-content.ts` or PDF components), regenerate the static file:
+
+```bash
+# With dev server running
+curl http://localhost:3000/api/whitepaper/generate -o public/downloads/AI-Transformation-Whitepaper.pdf
+
+# Verify the output
+file public/downloads/AI-Transformation-Whitepaper.pdf
+# Should output: PDF document, version 1.3, ~39 pages
+```
+
+### User Flow
+
+1. User submits email (exit intent popup or results page)
+2. Email request fires in background (fire-and-forget)
+3. User redirects immediately to `/ai-transformation/thank-you`
+4. Thank-you page auto-downloads static PDF from `/downloads/AI-Transformation-Whitepaper.pdf`
+5. Social share buttons encourage distribution
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `public/downloads/AI-Transformation-Whitepaper.pdf` | Static PDF served to users |
+| `app/api/whitepaper/generate/route.ts` | API endpoint for regenerating PDF |
+| `app/ai-transformation/thank-you/page.tsx` | Download + social share page |
+| `components/pdf/WhitepaperPDF.tsx` | React-PDF document assembly |
+| `lib/whitepaper-content.ts` | Structured content data |
+
+---
+
 *Last updated: January 2026*

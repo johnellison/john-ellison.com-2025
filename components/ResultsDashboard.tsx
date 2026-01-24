@@ -3,7 +3,7 @@
 import { AssessmentResult, CompanyInsights } from '@/types/assessment';
 import MaturityRadar from './MaturityRadar';
 import ArchetypeQuadrant from '@/app/ai-transformation/components/ArchetypeQuadrant';
-import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail, Globe, Download, CheckCircle, TrendingUp, Info, Search, Linkedin, XCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Share2, ArrowRight, AlertTriangle, CheckCircle2, X, Mail, Globe, Download, CheckCircle, TrendingUp, Info, Search, Linkedin, XCircle, AlertCircle, Sparkles, FileText, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -106,6 +106,8 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
   const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData, companyInsights, industryAnalysis } = result;
   const [showEmailSent, setShowEmailSent] = useState(true);
   const [logoError, setLogoError] = useState(false);
+  const [whitepaperSending, setWhitepaperSending] = useState(false);
+  const [whitepaperSent, setWhitepaperSent] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
 
   const transformationOpportunity = calculateTransformationOpportunity(overallScore);
@@ -140,6 +142,28 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
 
   const handleDownloadPDF = () => {
     generateAssessmentPDF(result);
+  };
+
+  const handleWhitepaperDownload = () => {
+    if (whitepaperSending || whitepaperSent) return;
+
+    setWhitepaperSending(true);
+    setWhitepaperSent(true);
+
+    // Fire the email request in background (don't await)
+    fetch('/api/whitepaper', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: companyData.email,
+        source: 'assessment-results'
+      }),
+    }).catch(() => {
+      // Silently fail - user will still get PDF download on thank-you page
+    });
+
+    // Redirect immediately to thank-you page (PDF downloads there)
+    window.location.href = '/ai-transformation/thank-you';
   };
 
   const logoUrl = getCompanyLogoUrl(companyData.website, companyInsights);
@@ -736,6 +760,69 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
             </div>
           </div>
         )}
+
+        {/* Whitepaper Upgrade Card */}
+        <div className="mb-12">
+          <div className="p-6 md:p-8 rounded-2xl bg-gradient-to-br from-purple-900/30 to-blue-900/30 border border-purple-500/20">
+            <div className="flex flex-col md:flex-row gap-6 items-start">
+              {/* Icon */}
+              <div className="w-14 h-14 shrink-0 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 flex items-center justify-center">
+                <FileText className="w-7 h-7 text-purple-400" />
+              </div>
+
+              {/* Content */}
+              <div className="flex-1">
+                <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
+                  Want the Full Research?
+                </h3>
+                <p className="type-sm text-white/60 mb-4">
+                  Our comprehensive whitepaper synthesizes 100+ studies on AI transformation—why 80% fail and what the top 6% do differently.
+                </p>
+
+                {/* Highlights */}
+                <div className="grid sm:grid-cols-2 gap-2 mb-5">
+                  {[
+                    'Detailed failure analysis (10 barriers)',
+                    'High performer characteristics',
+                    '5-phase implementation roadmap',
+                    'Pre-deployment governance checklist',
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-2 type-sm text-white/70">
+                      <CheckCircle className="w-4 h-4 text-green-400 shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Action */}
+                {whitepaperSent ? (
+                  <div className="flex items-center gap-2 text-green-400 type-sm">
+                    <CheckCircle className="w-5 h-5" />
+                    <span>Whitepaper sent to {companyData.email}</span>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleWhitepaperDownload}
+                    disabled={whitepaperSending}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 text-white font-medium rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {whitepaperSending ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-4 h-4" />
+                        Send Me the Whitepaper
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* CTA */}
         <div className="p-8 rounded-2xl bg-gradient-to-br from-indigo-900/40 to-violet-900/40 border border-indigo-500/20 text-center">
