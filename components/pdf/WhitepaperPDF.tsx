@@ -108,7 +108,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 1</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 1</Text>
         </View>
 
         <MaturityTable
@@ -144,7 +144,7 @@ export default function WhitepaperPDF() {
               </Text>
               {category.impacts.map((impact, i) => (
                 <View key={i} style={{ flexDirection: 'row', marginBottom: 4 }}>
-                  <Text style={{ fontSize: 14, fontWeight: 700, color: colors.textPrimary, width: 60 }}>
+                  <Text style={{ fontSize: 14, fontWeight: 700, color: colors.teal, width: 60 }}>
                     {impact.metric}
                   </Text>
                   <Text style={{ flex: 1, fontSize: 10, color: colors.textSecondary }}>
@@ -161,7 +161,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 2</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 2</Text>
         </View>
 
         <WhitepaperTable
@@ -181,7 +181,7 @@ export default function WhitepaperPDF() {
           {industryROIData.data.map((item, idx) => (
             <View key={idx} style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center' }}>
               <Text style={{ width: 120, fontSize: 10, color: colors.textPrimary }}>{item.function}</Text>
-              <View style={{ flex: 1, height: 24, backgroundColor: colors.surfaceAlt, borderRadius: 4, overflow: 'hidden' }}>
+              <View style={{ flex: 1, height: 24, backgroundColor: colors.surface, borderRadius: 4, overflow: 'hidden' }}>
                 <View style={{
                   width: `${item.revenueIncrease}%`,
                   height: '100%',
@@ -208,7 +208,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 2</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 2</Text>
         </View>
 
         <Text style={styles.subsectionTitle}>Which Use Cases Deliver Value First?</Text>
@@ -217,8 +217,10 @@ export default function WhitepaperPDF() {
           <View key={idx} style={{
             marginBottom: 16,
             padding: 16,
-            backgroundColor: idx === 0 ? colors.maturityOptimized : colors.surface,
+            backgroundColor: idx === 0 ? 'rgba(45,212,191,0.1)' : colors.surface,
             borderRadius: 8,
+            borderWidth: 1,
+            borderColor: idx === 0 ? 'rgba(45,212,191,0.3)' : colors.borderMedium,
           }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
               <Text style={{ fontSize: 12, fontWeight: 600, color: colors.textPrimary }}>{tier.tier}</Text>
@@ -265,7 +267,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 3</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 3</Text>
         </View>
 
         <Text style={styles.subsectionTitle}>Top 10 AI Adoption Barriers</Text>
@@ -292,7 +294,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 3</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 3</Text>
         </View>
 
         <Text style={styles.subsectionTitle}>"Learning Gap" vs. "Model Gap": The Core Issue</Text>
@@ -302,13 +304,27 @@ export default function WhitepaperPDF() {
         </Paragraph>
 
         <View style={{ flexDirection: 'row', gap: 16, marginVertical: 20 }}>
-          <View style={{ flex: 1, padding: 20, backgroundColor: '#fef2f2', borderRadius: 8 }}>
+          <View style={{
+            flex: 1,
+            padding: 20,
+            backgroundColor: 'rgba(239,68,68,0.1)',
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: 'rgba(239,68,68,0.2)',
+          }}>
             <Text style={{ fontSize: 10, fontWeight: 600, color: colors.red, marginBottom: 8 }}>INDUSTRY BELIEF</Text>
             <Text style={{ fontSize: 11, color: colors.textPrimary }}>
               The problem is model quality - we need better LLMs.
             </Text>
           </View>
-          <View style={{ flex: 1, padding: 20, backgroundColor: '#d1fae5', borderRadius: 8 }}>
+          <View style={{
+            flex: 1,
+            padding: 20,
+            backgroundColor: 'rgba(34,197,94,0.1)',
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: 'rgba(34,197,94,0.2)',
+          }}>
             <Text style={{ fontSize: 10, fontWeight: 600, color: colors.green, marginBottom: 8 }}>REALITY</Text>
             <Text style={{ fontSize: 11, color: colors.textPrimary }}>
               The problem is a "learning gap." Generic tools work for individuals but fail in enterprise.
@@ -346,6 +362,8 @@ export default function WhitepaperPDF() {
               padding: 12,
               backgroundColor: colors.surface,
               borderRadius: 6,
+              borderWidth: 1,
+              borderColor: colors.borderMedium,
             }}>
               <View style={{
                 width: 28,
@@ -402,7 +420,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 5</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 5</Text>
         </View>
 
         <TimelineTable
@@ -486,7 +504,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 7</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 7</Text>
         </View>
 
         {criticalSuccessFactors.slice(4).map((factor) => (
@@ -517,8 +535,10 @@ export default function WhitepaperPDF() {
             padding: 12,
             backgroundColor: colors.surface,
             borderRadius: 6,
+            borderWidth: 1,
+            borderColor: colors.borderMedium,
           }}>
-            <Text style={{ fontSize: 11, fontWeight: 600, color: colors.textPrimary, marginBottom: 8 }}>
+            <Text style={{ fontSize: 11, fontWeight: 600, color: colors.violet, marginBottom: 8 }}>
               Dimension {idx + 1}: {dimension.name}
             </Text>
             {dimension.questions.map((q, i) => (
@@ -533,7 +553,7 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Section 8</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Section 8</Text>
         </View>
 
         <Text style={styles.subsectionTitle}>Scoring Guide</Text>
@@ -608,12 +628,21 @@ export default function WhitepaperPDF() {
       <Page size="A4" style={styles.page}>
         <View style={styles.pageHeader}>
           <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
-          <Text style={styles.pageHeaderTitle}>Conclusion</Text>
+          <Text style={{ fontSize: 9, color: colors.violet, textTransform: 'uppercase', letterSpacing: 2 }}>Conclusion</Text>
         </View>
 
-        <Text style={{ fontSize: 20, fontWeight: 700, color: colors.textPrimary, marginBottom: 20 }}>
-          Recommendations by Readiness Score
-        </Text>
+        <View style={{ marginBottom: 20 }}>
+          <View style={{
+            width: 40,
+            height: 3,
+            backgroundColor: colors.violet,
+            marginBottom: 16,
+            borderRadius: 2,
+          }} />
+          <Text style={{ fontSize: 20, fontWeight: 700, color: colors.textPrimary }}>
+            Recommendations by Readiness Score
+          </Text>
+        </View>
 
         {recommendationsByScore.map((rec, idx) => (
           <View key={idx} style={{
@@ -621,16 +650,19 @@ export default function WhitepaperPDF() {
             padding: 20,
             backgroundColor: colors.surface,
             borderRadius: 8,
-            borderLeft: `4px solid ${idx === 0 ? colors.red : idx === 1 ? colors.amber : colors.green}`,
+            borderLeftWidth: 4,
+            borderLeftColor: idx === 0 ? colors.red : idx === 1 ? colors.amber : colors.green,
+            borderWidth: 1,
+            borderColor: colors.borderMedium,
           }}>
             <Text style={{ fontSize: 16, fontWeight: 700, color: colors.textPrimary, marginBottom: 8 }}>
               Score {rec.scoreRange}
             </Text>
             <Text style={{ fontSize: 10, color: colors.textSecondary, marginBottom: 4 }}>
-              <Text style={{ fontWeight: 600 }}>Priority: </Text>{rec.priority}
+              <Text style={{ fontWeight: 600, color: colors.textPrimary }}>Priority: </Text>{rec.priority}
             </Text>
             <Text style={{ fontSize: 10, color: colors.textSecondary, marginBottom: 4 }}>
-              <Text style={{ fontWeight: 600 }}>Quick Wins: </Text>{rec.quickWins || rec.agenda}
+              <Text style={{ fontWeight: 600, color: colors.textPrimary }}>Quick Wins: </Text>{rec.quickWins || rec.agenda}
             </Text>
             {rec.defer && (
               <Text style={{ fontSize: 10, color: colors.textMuted }}>

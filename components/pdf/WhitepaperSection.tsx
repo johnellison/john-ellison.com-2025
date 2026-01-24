@@ -1,5 +1,5 @@
 import { Page, View, Text } from '@react-pdf/renderer';
-import { whitepaperStyles as styles } from './WhitepaperStyles';
+import { whitepaperStyles as styles, colors } from './WhitepaperStyles';
 import { ReactNode } from 'react';
 
 interface WhitepaperSectionProps {

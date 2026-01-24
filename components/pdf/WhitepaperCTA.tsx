@@ -22,6 +22,17 @@ export default function WhitepaperCTA({ pageNumber }: WhitepaperCTAProps) {
 
       {/* CTA Content */}
       <View style={styles.ctaContainer}>
+        {/* Prismatic accent */}
+        <View style={{
+          flexDirection: 'row',
+          gap: 4,
+          marginBottom: 24,
+        }}>
+          <View style={{ width: 24, height: 4, backgroundColor: colors.violet, borderRadius: 2 }} />
+          <View style={{ width: 24, height: 4, backgroundColor: colors.blue, borderRadius: 2 }} />
+          <View style={{ width: 24, height: 4, backgroundColor: colors.teal, borderRadius: 2 }} />
+        </View>
+
         <Text style={styles.ctaTitle}>Ready to Be in the 20%?</Text>
         <Text style={styles.ctaSubtitle}>
           The AI transformation window is real and accelerating.
@@ -39,7 +50,7 @@ export default function WhitepaperCTA({ pageNumber }: WhitepaperCTAProps) {
           <Text style={{
             fontSize: 12,
             fontWeight: 600,
-            color: colors.textPrimary,
+            color: colors.violet,
             marginBottom: 16,
             textAlign: 'center',
           }}>
@@ -56,9 +67,11 @@ export default function WhitepaperCTA({ pageNumber }: WhitepaperCTAProps) {
           <View style={{
             marginTop: 20,
             padding: 16,
-            backgroundColor: colors.white,
+            backgroundColor: colors.surface,
             borderRadius: 6,
             alignItems: 'center',
+            borderWidth: 1,
+            borderColor: colors.borderMedium,
           }}>
             <Text style={{ fontSize: 10, color: colors.textMuted, marginBottom: 4 }}>
               Normally valued at $10K - Complimentary for a limited time
@@ -79,7 +92,7 @@ export default function WhitepaperCTA({ pageNumber }: WhitepaperCTAProps) {
   );
 }
 
-// References Page
+// References Page - Dark Mode
 interface Reference {
   source: string;
   title: string;
@@ -99,33 +112,43 @@ export function ReferencesPage({ references, pageNumber }: ReferencesPageProps) 
         <Text style={styles.pageHeaderTitle}>AI Transformation: Optimism vs. Reality</Text>
       </View>
 
-      <Text style={{
-        fontSize: 20,
-        fontWeight: 700,
-        color: colors.textPrimary,
-        marginBottom: 24,
-      }}>
-        References & Data Sources
-      </Text>
+      {/* Title with accent */}
+      <View style={{ marginBottom: 24 }}>
+        <View style={{
+          width: 40,
+          height: 3,
+          backgroundColor: colors.violet,
+          marginBottom: 16,
+          borderRadius: 2,
+        }} />
+        <Text style={{
+          fontSize: 20,
+          fontWeight: 700,
+          color: colors.textPrimary,
+        }}>
+          References & Data Sources
+        </Text>
+      </View>
 
       <View>
         {references.map((ref, index) => (
           <View key={index} style={{
             marginBottom: 12,
             paddingBottom: 12,
-            borderBottom: index < references.length - 1 ? `1px solid ${colors.tableBorder}` : 'none',
+            borderBottomWidth: index < references.length - 1 ? 1 : 0,
+            borderBottomColor: colors.borderSubtle,
           }}>
             <Text style={{
               fontSize: 10,
               fontWeight: 600,
-              color: colors.textPrimary,
+              color: colors.violet,
               marginBottom: 4,
             }}>
               {ref.source}
             </Text>
             <Text style={{
               fontSize: 10,
-              color: colors.textSecondary,
+              color: colors.textPrimary,
               marginBottom: 2,
             }}>
               "{ref.title}"

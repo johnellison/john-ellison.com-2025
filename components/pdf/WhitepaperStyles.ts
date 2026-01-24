@@ -3,40 +3,51 @@ import { StyleSheet } from '@react-pdf/renderer';
 // Import font registration from PDFStyles (fonts are registered there)
 import './PDFStyles';
 
-// === BRAND COLORS (from /app/brand) ===
+// === DESIGN SYSTEM COLORS ===
+// Prismatic gradient: #7c3aed → #3b82f6 → #2dd4bf
+// Warm gradient: #ef4444 → #f59e0b → #fcd34d
+
 export const colors = {
-  // Backgrounds
+  // Backgrounds (warm paper tones)
   white: '#ffffff',
-  surface: '#f8fafc',
-  surfaceAlt: '#f1f5f9',
+  paper: '#faf9f7',           // Warm paper color
+  surface: '#f5f4f2',         // Cards, elevated surfaces
+  surfaceAlt: '#efeee9',      // Alternate surface
 
   // Text
-  textPrimary: '#0f172a',    // slate-900
-  textSecondary: '#475569',  // slate-600
-  textMuted: '#94a3b8',      // slate-400
-  textLight: '#cbd5e1',      // slate-300
+  textPrimary: '#1a1a1a',     // Near black
+  textSecondary: '#4a4a4a',   // Dark gray
+  textMuted: '#7a7a7a',       // Medium gray
+  textLight: '#a0a0a0',       // Light gray
 
-  // Brand Accent (Prismatic)
-  violet: '#7c3aed',         // violet-600
-  blue: '#3b82f6',           // blue-500
-  teal: '#2dd4bf',           // teal-400
+  // Prismatic Gradient (primary brand colors)
+  violet: '#7c3aed',
+  blue: '#3b82f6',
+  teal: '#2dd4bf',
 
-  // Status Colors
-  red: '#ef4444',            // red-500
-  green: '#22c55e',          // green-500
-  amber: '#f59e0b',          // amber-500
+  // Warm Gradient (for warnings, alerts, emphasis)
+  red: '#ef4444',
+  amber: '#f59e0b',
+  yellow: '#fcd34d',
+
+  // Legacy alias (use amber instead)
+  green: '#f59e0b',           // Mapped to amber - no bright green in design system
+
+  // Borders
+  borderSubtle: '#e5e4e0',
+  borderMedium: '#d0cfcb',
 
   // Table colors
-  tableHeader: '#f1f5f9',
-  tableBorder: '#e2e8f0',
-  tableRowAlt: '#f8fafc',
+  tableHeader: '#f0efeb',
+  tableBorder: '#e5e4e0',
+  tableRowAlt: '#faf9f7',
 
-  // Maturity levels
-  maturityNascent: '#fef2f2',    // red-50
-  maturityEmerging: '#fef3c7',   // amber-100
-  maturityDeveloping: '#fef9c3', // yellow-100
-  maturityAdvanced: '#d1fae5',   // green-100
-  maturityOptimized: '#cffafe',  // cyan-100
+  // Maturity levels (using design system tints)
+  maturityNascent: '#fef2f2',     // Light red tint
+  maturityEmerging: '#fef3c7',    // Light amber tint
+  maturityDeveloping: '#fef9c3',  // Light yellow tint
+  maturityAdvanced: '#e0f2fe',    // Light blue tint (was green)
+  maturityOptimized: '#f3e8ff',   // Light violet tint (was cyan)
 };
 
 export const whitepaperStyles = StyleSheet.create({
@@ -45,7 +56,7 @@ export const whitepaperStyles = StyleSheet.create({
     padding: 50,
     paddingBottom: 70,
     fontFamily: 'Inter',
-    backgroundColor: colors.white,
+    backgroundColor: colors.paper,
     color: colors.textPrimary,
     fontSize: 11,
     lineHeight: 1.6,
@@ -53,7 +64,7 @@ export const whitepaperStyles = StyleSheet.create({
   coverPage: {
     padding: 0,
     fontFamily: 'Inter',
-    backgroundColor: colors.white,
+    backgroundColor: colors.paper,
     color: colors.textPrimary,
   },
 
@@ -68,8 +79,8 @@ export const whitepaperStyles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    height: 8,
-    backgroundColor: colors.violet,
+    height: 6,
+    flexDirection: 'row',
   },
   coverLogo: {
     fontSize: 12,
@@ -137,7 +148,7 @@ export const whitepaperStyles = StyleSheet.create({
   },
   tocPages: {
     fontSize: 12,
-    color: colors.textMuted,
+    color: colors.violet,
   },
 
   // === HEADERS ===
@@ -341,7 +352,7 @@ export const whitepaperStyles = StyleSheet.create({
   insightTitle: {
     fontSize: 12,
     fontWeight: 600,
-    color: colors.textPrimary,
+    color: colors.violet,
     marginBottom: 12,
     textTransform: 'uppercase',
     letterSpacing: 1,
@@ -439,7 +450,7 @@ export const whitepaperStyles = StyleSheet.create({
   },
   pageNumber: {
     fontSize: 9,
-    color: colors.textMuted,
+    color: colors.violet,
   },
 
   // === CTA PAGE ===
@@ -494,7 +505,7 @@ export const whitepaperStyles = StyleSheet.create({
   },
   ctaCheckmark: {
     fontSize: 12,
-    color: colors.green,
+    color: colors.teal,
     marginRight: 12,
     fontWeight: 700,
   },
@@ -521,7 +532,7 @@ export const whitepaperStyles = StyleSheet.create({
   },
   comparisonTruth: {
     flex: 1,
-    backgroundColor: '#d1fae5',
+    backgroundColor: '#e0f2fe',    // Light blue tint (from prismatic)
     padding: 16,
     borderRadius: 8,
     marginLeft: 8,
@@ -537,7 +548,7 @@ export const whitepaperStyles = StyleSheet.create({
     color: colors.red,
   },
   comparisonTruthLabel: {
-    color: colors.green,
+    color: colors.blue,
   },
   comparisonText: {
     fontSize: 10,
@@ -594,7 +605,7 @@ export const whitepaperStyles = StyleSheet.create({
   },
   timelineDeliverable: {
     fontSize: 10,
-    color: colors.textSecondary,
+    color: colors.teal,
   },
 
   // === CHECKLIST ===
@@ -607,7 +618,7 @@ export const whitepaperStyles = StyleSheet.create({
   checklistCategoryTitle: {
     fontSize: 12,
     fontWeight: 600,
-    color: colors.textPrimary,
+    color: colors.violet,
     marginBottom: 12,
     paddingBottom: 8,
     borderBottom: `1px solid ${colors.tableBorder}`,
