@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
 import { PrismaticDivider } from '@/components/gsap/PrismaticDivider';
 import { AboutHero } from './components/AboutHero';
@@ -26,8 +24,6 @@ export default function AboutPage() {
   return (
     <>
       <RainbowGrid />
-      <Navigation />
-
       <main className="relative z-10 pt-20">
         <AboutHero />
         <PrismaticDivider />
@@ -41,8 +37,6 @@ export default function AboutPage() {
         <PrismaticDivider />
         <NowSection />
       </main>
-
-      <Footer />
     </>
   );
 }

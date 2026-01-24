@@ -52,17 +52,17 @@ function EpisodeGrid({
 
   const colorClasses = accentColor === 'emerald'
     ? {
-        border: 'hover:border-emerald-500/30',
-        badge: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-        link: 'text-emerald-400 group-hover:text-emerald-300',
-        spinner: 'border-t-emerald-500',
-      }
+      border: 'hover:border-emerald-500/30',
+      badge: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+      link: 'text-emerald-400 group-hover:text-emerald-300',
+      spinner: 'border-t-emerald-500',
+    }
     : {
-        border: 'hover:border-purple-500/30',
-        badge: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-        link: 'text-purple-400 group-hover:text-purple-300',
-        spinner: 'border-t-purple-500',
-      };
+      border: 'hover:border-purple-500/30',
+      badge: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+      link: 'text-purple-400 group-hover:text-purple-300',
+      spinner: 'border-t-purple-500',
+    };
 
   if (loading) {
     return (
@@ -122,7 +122,7 @@ function EpisodeGrid({
                 alt={episode.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
-                unoptimized
+                sizes="(max-width: 768px) 100vw, 33vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               {episode.duration && (
@@ -229,7 +229,7 @@ export function PodcastContent() {
 
     gsap.from('.content-title', {
       scrollTrigger: {
-        trigger: sectionRef.current,
+        trigger: '.content-title',
         start: 'top 80%',
         toggleActions: 'play none none reverse',
       },
@@ -258,15 +258,7 @@ export function PodcastContent() {
       <div className="max-w-6xl mx-auto">
         {/* The John Ellison Show Section */}
         <div className="mb-20">
-          <div className="content-title mb-10">
-            <p className="type-sm uppercase tracking-widest text-white/40 mb-3">Ancient Wisdom Meets Modern Technology</p>
-            <h2 className="heading-section mb-4">
-              The John Ellison <span className="text-gradient-prism">Show</span>
-            </h2>
-            <p className="type-base text-white/60 max-w-2xl">
-              Exploring how we build regenerative futures through AI, Indigenous knowledge, and first principles thinking.
-            </p>
-          </div>
+
 
           <div className="episodes-grid">
             <EpisodeGrid

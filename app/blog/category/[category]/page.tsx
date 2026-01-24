@@ -16,6 +16,10 @@ const CATEGORY_INFO: Record<string, { title: string; description: string }> = {
         title: 'Building in Public',
         description: 'Claude tutorials, vibe coding experiments, and documenting the journey of building with AI.',
     },
+    'artificial-intelligence': {
+        title: 'Artificial Intelligence',
+        description: 'Exploring the philosophical, social, and practical implications of AI for humanity.',
+    },
 };
 
 export async function generateStaticParams() {

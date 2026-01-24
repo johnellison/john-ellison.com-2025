@@ -17,7 +17,7 @@ const CACHE_DURATION = 60 * 60;
 export async function GET() {
   try {
     // The John Ellison Show RSS feed (using CORS proxy for server-side fetch)
-    const feedUrl = 'https://anchor.fm/s/be4ca48c/podcast/rss';
+    const feedUrl = 'https://anchor.fm/s/10db3ec88/podcast/rss';
 
     const response = await fetch(feedUrl, {
       next: { revalidate: CACHE_DURATION },

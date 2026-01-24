@@ -17,7 +17,7 @@ const CACHE_DURATION = 60 * 60;
 export async function GET() {
   try {
     // ReFi Podcast RSS feed (from Anchor)
-    const feedUrl = 'https://anchor.fm/s/73ce3f84/podcast/rss';
+    const feedUrl = 'https://anchor.fm/s/be4ca48c/podcast/rss';
 
     const response = await fetch(feedUrl, {
       next: { revalidate: CACHE_DURATION },

@@ -116,6 +116,7 @@ export function LifeSection() {
                   alt={aspect.title}
                   fill
                   className="life-image object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80" />

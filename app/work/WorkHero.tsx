@@ -50,7 +50,7 @@ export function WorkHero() {
             <span className="text-gradient-prism">Work</span>
           </h1>
           <p className="work-hero-desc type-lg text-white/60 max-w-2xl mx-auto leading-relaxed">
-            From civic tech to climate finance, from solo builds to 50+ person movements.
+            From civic tech to climate finance, from solo builds to global movements.
             Here are the projects and ventures that shaped my craft.
           </p>
         </div>

@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   },
 };
 
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -20,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Navigation />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

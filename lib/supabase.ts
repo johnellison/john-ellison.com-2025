@@ -172,3 +172,38 @@ export async function markWhitepaperSent(email: string) {
     console.error('Exception marking whitepaper sent:', err);
   }
 }
+
+export interface Subscriber {
+  id: string;
+  created_at: string;
+  email: string;
+  source: string;
+  status: string;
+}
+
+export async function saveSubscriber(email: string, source: string = 'website') {
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+      .from('subscribers')
+      .upsert(
+        {
+          email,
+          source,
+          status: 'active'
+        },
+        { onConflict: 'email' }
+      )
+      .select();
+
+    if (error) {
+      console.error('Error saving subscriber:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true, data };
+  } catch (err) {
+    console.error('Exception saving subscriber:', err);
+    return { success: false, error: String(err) };
+  }
+}

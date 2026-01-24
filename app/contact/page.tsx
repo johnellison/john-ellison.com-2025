@@ -1,8 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
@@ -60,7 +58,6 @@ export default function ContactPage() {
     return (
         <>
             <RainbowGrid />
-            <Navigation />
 
             <main ref={containerRef} className="relative min-h-screen flex items-center justify-center p-6 pt-24 pb-12 z-10">
                 <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
@@ -158,8 +155,8 @@ export default function ContactPage() {
                                         type="submit"
                                         disabled={status === 'loading' || status === 'success'}
                                         className={`w-full py-4 rounded-lg font-bold uppercase tracking-wider transition-all transform hover:-translate-y-1 hover:shadow-lg ${status === 'success'
-                                                ? 'bg-green-500 text-white cursor-default'
-                                                : 'bg-white text-black hover:bg-gray-200'
+                                            ? 'bg-green-500 text-white cursor-default'
+                                            : 'bg-white text-black hover:bg-gray-200'
                                             }`}
                                     >
                                         {status === 'loading' ? 'Sending...' : status === 'success' ? 'Message Sent!' : 'Send Message'}
@@ -177,8 +174,6 @@ export default function ContactPage() {
                     </div>
                 </div>
             </main>
-
-            <Footer />
         </>
     );
 }

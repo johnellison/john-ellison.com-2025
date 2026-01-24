@@ -200,6 +200,7 @@ export function ApproachSection() {
                   alt={item.title}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
 

@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogPostMetadata } from '@/types/blog';
@@ -16,9 +18,13 @@ export function PostCard({ post }: { post: BlogPostMetadata }) {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                     <div className="absolute bottom-4 left-4 z-10">
-                        <span className="px-3 py-1 text-xs font-medium text-white bg-black/50 backdrop-blur-md rounded-full border border-white/20 shadow-sm uppercase tracking-wider">
-                            {post.category?.replace('-', ' ')}
-                        </span>
+                        <Link
+                            href={`/blog/category/${post.category}`}
+                            className="relative z-20 px-3 py-1 text-xs font-medium text-white/90 bg-white/10 backdrop-blur-md rounded-full border border-white/10 shadow-sm uppercase tracking-wider hover:bg-white/20 hover:text-white transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {post.category?.replace(/-/g, ' ')}
+                        </Link>
                     </div>
                 </div>
 

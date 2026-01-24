@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Navigation from '@/components/Navigation';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
 import { HeroSection } from './components/HeroSection';
 import { ProblemSection } from './components/ProblemSection';
@@ -12,7 +11,6 @@ import { OutcomesSection } from './components/OutcomesSection';
 import { AssessmentSection } from './components/AssessmentSection';
 import { FAQSection } from './components/FAQSection';
 import { CTASection } from './components/CTASection';
-import { FooterSection } from './components/FooterSection';
 import ExitIntentPopup from '@/components/ExitIntentPopup';
 
 export const metadata: Metadata = {
@@ -38,8 +36,6 @@ export default function AITransformationPage() {
   return (
     <>
       <RainbowGrid />
-      <Navigation />
-
       <main className="relative z-10">
         <HeroSection />
         <ProblemSection />
@@ -52,7 +48,6 @@ export default function AITransformationPage() {
         <AssessmentSection />
         <FAQSection />
         <CTASection />
-        <FooterSection />
       </main>
 
       {/* Exit Intent Popup for Whitepaper */}

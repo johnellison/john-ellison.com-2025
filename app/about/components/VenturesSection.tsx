@@ -15,7 +15,7 @@ const stats = [
 const ventures = [
   {
     name: 'Peak Democracy',
-    role: 'Founder',
+    role: 'Product Manager',
     outcome: 'Acquired by OpenGov',
     description: 'Civic tech platform empowering community engagement in local government decision-making.',
     period: '2016-2018',

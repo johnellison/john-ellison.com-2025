@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
+import { getPostBySlug } from '@/lib/blog/content';
 import { WritingHero } from './WritingHero';
 import { PostsGrid } from './PostsGrid';
 import { RegeneraGrid } from './RegeneraGrid';
@@ -18,14 +17,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WritingPage() {
+export default async function WritingPage() {
+  const featuredPost = await getPostBySlug('the-8-month-window');
+
   return (
     <>
       <RainbowGrid />
-      <Navigation />
-
       <main className="relative z-10 pt-20">
-        <WritingHero />
+        <WritingHero featuredPost={featuredPost} />
         <PostsGrid />
 
         {/* Divider */}
@@ -35,8 +34,6 @@ export default function WritingPage() {
 
         <RegeneraGrid />
       </main>
-
-      <Footer />
     </>
   );
 }

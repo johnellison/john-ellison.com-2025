@@ -20,7 +20,7 @@ const projects = [
     title: 'Interbeing',
     subtitle: 'AI Companion App',
     description: 'Designed and built an AI companion app exploring the intersection of technology and spiritual practice. Built with Claude and React Native.',
-    image: '/images/pravos-cover-image-large.jpeg',
+    image: '/images/interbeing-desert-mockup-16x9 Large.jpeg',
     href: '/case-studies/interbeing',
     tags: ['AI', 'Mobile', 'Design'],
     year: '2024',
@@ -100,6 +100,7 @@ export function ProjectsGrid() {
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                   </div>

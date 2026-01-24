@@ -6,8 +6,62 @@ import rehypeSlug from 'rehype-slug';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkUnwrapImages from 'remark-unwrap-images';
 
+// ... (imports)
+
+// Helper to inject the callout safely
+function injectSignupCallout(content: string): string {
+    // If already manually included, don't inject
+    if (content.includes('<SignupCallout')) return content;
+
+    const lines = content.split('\n');
+    let inCodeBlock = false;
+    let paragraphCount = 0;
+    let injectionIndex = -1;
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        // Toggle code block status
+        if (line.startsWith('```')) {
+            inCodeBlock = !inCodeBlock;
+        }
+
+        // Count paragraphs (non-empty lines outside code blocks/headers/lists)
+        // This is a naive heuristic but works for most standard markdown content
+        if (!inCodeBlock && line.length > 0 && !line.startsWith('#') && !line.startsWith('-') && !line.startsWith('1.')) {
+            // We consider a block of text separated by newlines as a paragraph
+            // If the previous line was empty, it's a new paragraph
+            if (i === 0 || lines[i - 1].trim().length === 0) {
+                paragraphCount++;
+            }
+        }
+
+        // Inject after 3rd paragraph
+        if (paragraphCount === 3 && injectionIndex === -1 && !inCodeBlock) {
+            // Find the end of this paragraph
+            let j = i;
+            while (j < lines.length && lines[j].trim().length > 0) {
+                j++;
+            }
+            injectionIndex = j;
+            break;
+        }
+    }
+
+    if (injectionIndex !== -1) {
+        const newLines = [...lines];
+        newLines.splice(injectionIndex, 0, '\n\n<SignupCallout />\n\n');
+        return newLines.join('\n');
+    }
+
+    return content;
+}
+
+import { SignupCallout } from './SignupCallout';
+
 // Custom components passed to MDX
 const components: MDXComponents = {
+    SignupCallout,
     Image: (props: any) => (
         <div className="my-8 rounded-lg overflow-hidden border border-white/10 bg-white/5">
             <Image
@@ -24,11 +78,16 @@ const components: MDXComponents = {
         </div>
     ),
     img: (props: any) => (
-        <div className="my-8 rounded-lg overflow-hidden border border-white/10 bg-white/5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img {...props} className="w-full h-auto object-cover" alt={props.alt || ''} />
+        <div className="my-8 rounded-lg overflow-hidden border border-white/10 bg-white/5 aspect-video relative">
+            <Image
+                src={props.src}
+                alt={props.alt || ''}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+            />
             {props.alt && (
-                <div className="text-center text-sm text-gray-500 mt-2 px-4 italic">
+                <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm py-2 px-4 text-center text-xs text-gray-300">
                     {props.alt}
                 </div>
             )}
@@ -50,7 +109,7 @@ const components: MDXComponents = {
     },
     hr: () => <hr className="border-white/10 my-12" />,
     blockquote: (props: any) => (
-        <blockquote className="border-l-4 border-[#a78bfa] bg-white/5 py-4 px-6 rounded-r-lg italic text-gray-200 my-8 shadow-sm">
+        <blockquote className="border-l-4 border-[#a78bfa] bg-white/5 py-4 px-6 rounded-r-lg italic text-gray-200 my-8 shadow-sm [&>*]:!my-0">
             {props.children}
         </blockquote>
     ),
@@ -69,6 +128,8 @@ const components: MDXComponents = {
 };
 
 export function PostContent({ source }: { source: string }) {
+    const contentWithCallout = injectSignupCallout(source);
+
     return (
         <article className="prose prose-invert prose-lg max-w-none 
       prose-headings:font-display prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-white
@@ -80,7 +141,7 @@ export function PostContent({ source }: { source: string }) {
       prose-img:m-0
     ">
             <MDXRemote
-                source={source}
+                source={contentWithCallout}
                 components={components}
                 options={{
                     mdxOptions: {

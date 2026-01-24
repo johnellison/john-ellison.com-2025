@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { RainbowGrid } from '@/components/gsap/RainbowGrid';
 import { WorkHero } from './WorkHero';
 import { ProjectsGrid } from './ProjectsGrid';
@@ -23,16 +21,12 @@ export default function WorkPage() {
   return (
     <>
       <RainbowGrid />
-      <Navigation />
-
       <main className="relative z-10 pt-20">
         <WorkHero />
         <ProjectsGrid />
         <VenturesGrid />
         <AngelInvestingSection />
       </main>
-
-      <Footer />
     </>
   );
 }

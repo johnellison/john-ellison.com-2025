@@ -8,7 +8,7 @@ import Image from 'next/image';
 const ventures = [
   {
     name: 'Peak Democracy',
-    role: 'Founder',
+    role: 'Product Manager',
     outcome: 'Acquired by OpenGov',
     description: 'Civic tech platform empowering community engagement in local government decision-making.',
     period: '2016-2018',
@@ -110,10 +110,10 @@ export function VenturesGrid() {
             const WrapperComponent = isExternal ? 'a' : 'div';
             const wrapperProps = isExternal
               ? {
-                  href: venture.href,
-                  target: '_blank',
-                  rel: 'noopener noreferrer',
-                }
+                href: venture.href,
+                target: '_blank',
+                rel: 'noopener noreferrer',
+              }
               : {};
 
             return (
@@ -129,13 +129,13 @@ export function VenturesGrid() {
                     alt={venture.name}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <span className={`absolute top-3 right-3 px-3 py-1 text-xs rounded-full border backdrop-blur-sm ${
-                    venture.outcome === 'Active'
-                      ? 'bg-green-500/20 text-green-400 border-green-500/30'
-                      : 'bg-black/40 text-white/80 border-white/20'
-                  }`}>
+                  <span className={`absolute top-3 right-3 px-3 py-1 text-xs rounded-full border backdrop-blur-sm ${venture.outcome === 'Active'
+                    ? 'bg-green-500/20 text-green-400 border-green-500/30'
+                    : 'bg-black/40 text-white/80 border-white/20'
+                    }`}>
                     {venture.outcome}
                   </span>
                 </div>

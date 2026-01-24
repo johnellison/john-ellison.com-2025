@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
 
@@ -94,78 +95,94 @@ export function HeroSection() {
         {/* Top Left - Speaking/Authority */}
         <div className="hero-image-desktop absolute top-[15%] left-[5%] w-[18vw] max-w-[280px] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[-3deg]">
           <div className="absolute inset-0 bg-violet-900/10 mix-blend-overlay z-10" />
-          <img
+          <Image
             src="/images/ai-transformation/john-ellison-workshop-vertical.jpg"
             alt="John presenting"
+            fill
             className="w-full h-full object-cover"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Bottom Left - Collaboration */}
         <div className="hero-image-desktop absolute bottom-[15%] left-[10%] w-[22vw] max-w-[340px] aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[2deg]">
           <div className="absolute inset-0 bg-blue-900/10 mix-blend-overlay z-10" />
-          <img
+          <Image
             src="/images/ai-transformation/john-and-fatma-at-workshop.jpg"
             alt="Workshop collaboration"
+            fill
             className="w-full h-full object-cover"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Top Right - Strategy */}
         <div className="hero-image-desktop absolute top-[12%] right-[8%] w-[20vw] max-w-[300px] aspect-square rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[3deg]">
           <div className="absolute inset-0 bg-emerald-900/10 mix-blend-overlay z-10" />
-          <img
+          <Image
             src="/images/ai-transformation/john-white-board-ai-square.jpg"
             alt="AI Strategy Board"
+            fill
             className="w-full h-full object-cover"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Bottom Right - Outcomes/Vibe */}
         <div className="hero-image-desktop absolute bottom-[18%] right-[5%] w-[18vw] max-w-[280px] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[-2deg]">
           <div className="absolute inset-0 bg-indigo-900/10 mix-blend-overlay z-10" />
-          <img
+          <Image
             src="/images/ai-transformation/john-ai-sprint-session.jpg"
             alt="Sprint Session"
+            fill
             className="w-full h-full object-cover"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Far Left Edge Element */}
         <div className="hero-image-desktop absolute top-[45%] -left-[2%] w-[12vw] max-w-[200px] aspect-square rounded-full overflow-hidden shadow-2xl border border-white/5 blur-sm opacity-60">
-          <img
+          <Image
             src="/images/ai-transformation/john-and-osho-square.jpg"
             alt="Connection"
+            fill
             className="w-full h-full object-cover grayscale opacity-50"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Far Right Edge Element (New) */}
         <div className="hero-image-desktop absolute top-[50%] -right-[2%] w-[14vw] max-w-[220px] aspect-square rounded-full overflow-hidden shadow-2xl border border-white/5 blur-sm opacity-60 rotate-[5deg]">
-          <img
+          <Image
             src="/images/ai-transformation/fatma-workshop-circle.webp"
             alt="Fatma Workshop"
+            fill
             className="w-full h-full object-cover grayscale opacity-50"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Inner Top Left (New Filler) */}
         <div className="hero-image-desktop absolute top-[25%] left-[20%] w-[12vw] max-w-[180px] aspect-video rounded-xl overflow-hidden shadow-xl border border-white/5 rotate-[6deg] opacity-40 blur-[1px] -z-10">
           <div className="absolute inset-0 bg-purple-900/20 mix-blend-overlay z-10" />
-          <img
+          <Image
             src="/images/ai-transformation/case-study-knowledge-hub.jpg"
             alt="Knowledge Hub"
+            fill
             className="w-full h-full object-cover"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
         {/* Inner Bottom Right (New Filler) */}
         <div className="hero-image-desktop absolute bottom-[30%] right-[22%] w-[10vw] max-w-[160px] aspect-square rounded-xl overflow-hidden shadow-xl border border-white/5 rotate-[-4deg] opacity-40 blur-[1px] -z-10">
           <div className="absolute inset-0 bg-fuchsia-900/20 mix-blend-overlay z-10" />
-          <img
+          <Image
             src="/images/ai-transformation/case-study-call-center.jpg"
             alt="Call Center"
+            fill
             className="w-full h-full object-cover"
+            sizes="(min-width: 1024px) 25vw, 100vw"
           />
         </div>
 
