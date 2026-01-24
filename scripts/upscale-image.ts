@@ -32,7 +32,9 @@ async function uploadImage(filePath: string): Promise<string> {
         // Fal client handles storage upload if you pass a file
         // However, the docs often suggest submitting a URL. 
         // We will try using the storage upload utility from the client.
-        const url = await fal.storage.upload(fs.readFileSync(filePath));
+        const fileBuffer = fs.readFileSync(filePath);
+        const blob = new Blob([fileBuffer]);
+        const url = await fal.storage.upload(blob);
         console.log(`Uploaded to: ${url}`);
         return url;
     } catch (error) {

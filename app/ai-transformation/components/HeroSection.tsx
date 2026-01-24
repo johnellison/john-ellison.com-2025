@@ -101,6 +101,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -113,6 +114,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -125,6 +127,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -137,6 +140,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -148,6 +152,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover grayscale opacity-50"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -159,6 +164,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover grayscale opacity-50"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -171,6 +177,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 
@@ -183,6 +190,7 @@ export function HeroSection() {
             fill
             className="w-full h-full object-cover"
             sizes="(min-width: 1024px) 25vw, 100vw"
+            priority
           />
         </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 
 export function useGSAP(
@@ -9,12 +9,10 @@ export function useGSAP(
 ) {
   const scopeRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    if (!scopeRef.current) return;
-
+  useLayoutEffect(() => {
     const ctx = gsap.context((context) => {
       callback(context);
-    }, scopeRef.current);
+    }, scopeRef.current || undefined);
 
     return () => ctx.revert();
   }, deps);
