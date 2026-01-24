@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useEffect, useRef } from 'react';
 import { gsap, ScrollTrigger } from '@/lib/gsap';
 
 export function useGSAP(
