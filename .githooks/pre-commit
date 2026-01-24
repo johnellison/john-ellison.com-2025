@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+if [ -f "scripts/scan-staged-secrets.js" ]; then
+  node scripts/scan-staged-secrets.js
+else
+  echo "Missing scripts/scan-staged-secrets.js; skipping secret scan." >&2
+fi
