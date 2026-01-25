@@ -109,7 +109,7 @@ export function FAQSection() {
     <section
       ref={sectionRef as React.RefObject<HTMLElement>}
       id="faq"
-      className="py-24 px-6 bg-[#050507]"
+      className="relative overflow-hidden py-24 px-6 bg-[#050507]"
     >
       {/* Background gradient */}
       <div
