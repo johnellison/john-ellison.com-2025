@@ -90,53 +90,49 @@ export function ProblemSection() {
       ease: 'power2.out',
     });
 
-    gsap.from('.problem-card', {
-      scrollTrigger: {
-        trigger: '.problem-grid',
-        start: 'top 75%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.problem-card',
+      { y: 40, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.problem-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+      }
+    );
 
     const icpTl = gsap.timeline({
       scrollTrigger: {
         trigger: '.icp-card',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse',
+        start: 'top 85%',
+        toggleActions: 'play none none none',
       }
     });
 
-    icpTl.from('.icp-card', {
-      y: 50,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out'
-    })
-      .from('.icp-title', {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        ease: 'power2.out'
-      }, '-=0.5')
-      .from('.icp-column', {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.2,
-        ease: 'power2.out'
-      }, '-=0.4')
-      .from('.icp-item', {
-        x: -10,
-        opacity: 0,
-        duration: 0.4,
-        stagger: 0.03,
-        ease: 'power1.out'
-      }, '-=0.4');
+    icpTl.fromTo('.icp-card',
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: 'power3.out' }
+    )
+      .fromTo('.icp-title',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
+        '-=0.5'
+      )
+      .fromTo('.icp-column',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.2, ease: 'power2.out' },
+        '-=0.4'
+      )
+      .fromTo('.icp-item',
+        { x: -10, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.4, stagger: 0.03, ease: 'power1.out' },
+        '-=0.4'
+      );
   }, []);
 
   return (

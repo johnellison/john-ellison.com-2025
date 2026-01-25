@@ -12,6 +12,8 @@ import { generateAssessmentPDF } from '@/lib/pdf-generator';
 
 interface ResultsDashboardProps {
   result: AssessmentResult;
+  assessmentId?: string;
+  analysisGenerating?: boolean;
 }
 
 // Helper function to categorize maturity signals
@@ -102,12 +104,14 @@ function calculateTransformationOpportunity(overallScore: number): number {
   }
 }
 
-export default function ResultsDashboard({ result }: ResultsDashboardProps) {
-  const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData, companyInsights, industryAnalysis } = result;
+export default function ResultsDashboard({ result, assessmentId, analysisGenerating }: ResultsDashboardProps) {
+  const { archetype, axisScores, dimensionScores, blockers, overallScore, recommendations, companyData, companyInsights, industryAnalysis: initialAnalysis } = result;
   const [showEmailSent, setShowEmailSent] = useState(true);
   const [logoError, setLogoError] = useState(false);
   const [whitepaperSending, setWhitepaperSending] = useState(false);
   const [whitepaperSent, setWhitepaperSent] = useState(false);
+  const [industryAnalysis, setIndustryAnalysis] = useState<string | null>(initialAnalysis || null);
+  const [analysisLoading, setAnalysisLoading] = useState(analysisGenerating && !initialAnalysis);
   const chartRef = useRef<HTMLDivElement>(null);
 
   const transformationOpportunity = calculateTransformationOpportunity(overallScore);
@@ -119,6 +123,53 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
       document.documentElement.style.scrollBehavior = '';
     };
   }, []);
+
+  // Poll for industry analysis if it's being generated
+  useEffect(() => {
+    if (!assessmentId || industryAnalysis || !analysisGenerating) {
+      return;
+    }
+
+    let mounted = true;
+    let attempts = 0;
+    const maxAttempts = 12; // 12 attempts * 5 seconds = 60 seconds max
+    const pollInterval = 5000; // 5 seconds
+
+    const pollForAnalysis = async () => {
+      try {
+        const response = await fetch(`/api/assessments/${assessmentId}/analysis`);
+        if (!response.ok) return;
+
+        const data = await response.json();
+        if (data.hasAnalysis && data.industryAnalysis && mounted) {
+          setIndustryAnalysis(data.industryAnalysis);
+          setAnalysisLoading(false);
+        } else if (mounted && attempts < maxAttempts) {
+          attempts++;
+          setTimeout(pollForAnalysis, pollInterval);
+        } else if (mounted) {
+          // Stop loading after max attempts
+          setAnalysisLoading(false);
+        }
+      } catch (error) {
+        console.error('Error polling for analysis:', error);
+        if (mounted && attempts < maxAttempts) {
+          attempts++;
+          setTimeout(pollForAnalysis, pollInterval);
+        } else if (mounted) {
+          setAnalysisLoading(false);
+        }
+      }
+    };
+
+    // Start polling after a short delay to give the background process time to start
+    const initialDelay = setTimeout(pollForAnalysis, 2000);
+
+    return () => {
+      mounted = false;
+      clearTimeout(initialDelay);
+    };
+  }, [assessmentId, analysisGenerating, industryAnalysis]);
 
   const handleShare = async () => {
     const shareText = `I'm a ${archetype.name} - AI Readiness Assessment. Score: ${overallScore}/100.`;
@@ -655,7 +706,7 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
         )}
 
         {/* Industry-Specific Insights Section */}
-        {industryAnalysis && (
+        {(industryAnalysis || analysisLoading) && (
           <section className="mb-12">
             <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-2xl border border-indigo-500/20 p-6 md:p-8">
               <h2 className="heading-subsection mb-6 flex items-center gap-3">
@@ -664,22 +715,35 @@ export default function ResultsDashboard({ result }: ResultsDashboardProps) {
                 </svg>
                 Industry-Specific Insights
               </h2>
-              <div className="prose prose-invert prose-sm md:prose-base max-w-none">
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    h2: ({children}) => <h2 className="text-xl font-bold text-white mb-4 mt-6">{children}</h2>,
-                    h3: ({children}) => <h3 className="text-lg font-semibold text-white/90 mb-3 mt-4">{children}</h3>,
-                    p: ({children}) => <p className="text-gray-300 leading-relaxed mb-4">{children}</p>,
-                    strong: ({children}) => <strong className="text-white font-semibold">{children}</strong>,
-                    ul: ({children}) => <ul className="list-disc list-inside space-y-2 mb-4">{children}</ul>,
-                    ol: ({children}) => <ol className="list-decimal list-inside space-y-2 mb-4">{children}</ol>,
-                    li: ({children}) => <li className="text-gray-300">{children}</li>,
-                  }}
-                >
-                  {industryAnalysis}
-                </ReactMarkdown>
-              </div>
+              {analysisLoading ? (
+                <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                  <div className="relative">
+                    <div className="w-12 h-12 border-4 border-indigo-500/20 rounded-full" />
+                    <div className="absolute top-0 left-0 w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm text-indigo-300 font-medium">Generating personalized insights...</p>
+                    <p className="text-xs text-white/50 mt-1">Analyzing your company profile and assessment results</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="prose prose-invert prose-sm md:prose-base max-w-none">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h2: ({children}) => <h2 className="text-xl font-bold text-white mb-4 mt-6">{children}</h2>,
+                      h3: ({children}) => <h3 className="text-lg font-semibold text-white/90 mb-3 mt-4">{children}</h3>,
+                      p: ({children}) => <p className="text-gray-300 leading-relaxed mb-4">{children}</p>,
+                      strong: ({children}) => <strong className="text-white font-semibold">{children}</strong>,
+                      ul: ({children}) => <ul className="list-disc list-inside space-y-2 mb-4">{children}</ul>,
+                      ol: ({children}) => <ol className="list-decimal list-inside space-y-2 mb-4">{children}</ol>,
+                      li: ({children}) => <li className="text-gray-300">{children}</li>,
+                    }}
+                  >
+                    {industryAnalysis}
+                  </ReactMarkdown>
+                </div>
+              )}
             </div>
           </section>
         )}

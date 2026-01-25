@@ -120,6 +120,26 @@ export async function getAssessment(id: string) {
   }
 }
 
+export async function updateAssessmentAnalysis(id: string, industryAnalysis: string) {
+  try {
+    const supabase = getSupabaseClient();
+    const { error } = await supabase
+      .from('assessments')
+      .update({ industry_analysis: industryAnalysis })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating assessment analysis:', error);
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    console.error('Exception updating assessment analysis:', err);
+    return { success: false, error: String(err) };
+  }
+}
+
 export interface WhitepaperLead {
   id: string;
   created_at: string;

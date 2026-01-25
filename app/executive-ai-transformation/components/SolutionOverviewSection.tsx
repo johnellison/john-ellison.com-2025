@@ -102,18 +102,21 @@ export function SolutionOverviewSection() {
       ease: 'power2.out',
     });
 
-    gsap.from('.solution-card', {
-      scrollTrigger: {
-        trigger: '.solution-grid',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.solution-card',
+      { y: 50, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.solution-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+      }
+    );
   }, []);
 
   return (

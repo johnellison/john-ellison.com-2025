@@ -87,30 +87,36 @@ export function WorkflowTransformationSection() {
       ease: 'power2.out',
     });
 
-    gsap.from('.workflow-card', {
-      scrollTrigger: {
-        trigger: '.workflow-grid',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 40,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.workflow-card',
+      { y: 40, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.workflow-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+      }
+    );
 
-    gsap.from('.total-card', {
-      scrollTrigger: {
-        trigger: '.total-card',
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-      },
-      scale: 0.95,
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.total-card',
+      { scale: 0.95, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.total-card',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        scale: 1,
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out',
+      }
+    );
   }, []);
 
   return (

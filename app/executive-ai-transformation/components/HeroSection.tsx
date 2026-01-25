@@ -161,7 +161,7 @@ export function HeroSection() {
             <div className="type-xs text-white/50 uppercase tracking-wider">Time spent<br/>coordinating</div>
           </div>
           <div className="hero-stat text-center">
-            <div className="type-2xl font-bold text-white">5-12</div>
+            <div className="type-2xl font-bold text-white">25-40</div>
             <div className="type-xs text-white/50 uppercase tracking-wider">Hours saved<br/>weekly with AI</div>
           </div>
         </div>

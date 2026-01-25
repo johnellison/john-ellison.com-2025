@@ -235,20 +235,20 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
     }
   }, [isComplete, isSubmitting]);
 
-  const handleAnswer = useCallback((questionId: string, score: number) => {
-    if (isComplete || isProcessingRef.current) return;
-    isProcessingRef.current = true;
+  const handleComplete = useCallback(async () => {
+    if (hasCompletedRef.current) return;
+    hasCompletedRef.current = true;
+    setIsSubmitting(true);
 
-    setAnswers((prev) => ({ ...prev, [questionId]: score }));
-
-    // Auto-advance after short delay
-    setTimeout(() => {
-      advance();
-      setTimeout(() => {
-        isProcessingRef.current = false;
-      }, 250);
-    }, 300);
-  }, [isComplete]);
+    try {
+      // In a real implementation, this would call an API
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setIsSubmitting(false);
+    } catch (error) {
+      console.error('Assessment submission error:', error);
+      setIsSubmitting(false);
+    }
+  }, []);
 
   const advance = useCallback(() => {
     if (isComplete) return;
@@ -271,7 +271,22 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
 
       setTimeout(() => setIsTransitioning(false), 50);
     }, 200);
-  }, [currentDimension, currentQuestion, isComplete]);
+  }, [currentDimension, currentQuestion, isComplete, handleComplete]);
+
+  const handleAnswer = useCallback((questionId: string, score: number) => {
+    if (isComplete || isProcessingRef.current) return;
+    isProcessingRef.current = true;
+
+    setAnswers((prev) => ({ ...prev, [questionId]: score }));
+
+    // Auto-advance after short delay
+    setTimeout(() => {
+      advance();
+      setTimeout(() => {
+        isProcessingRef.current = false;
+      }, 250);
+    }, 300);
+  }, [isComplete, advance]);
 
   const goBack = useCallback(() => {
     if (isComplete) {
@@ -337,22 +352,6 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isComplete, isSubmitting, currentStep, currentDimension, currentQuestion, handleAnswer, advance, goBack]);
-
-  const handleComplete = useCallback(async () => {
-    if (hasCompletedRef.current) return;
-    hasCompletedRef.current = true;
-    setIsSubmitting(true);
-
-    try {
-      // In a real implementation, this would call an API
-      // For now, we'll just set the result locally
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setIsSubmitting(false);
-    } catch (error) {
-      console.error('Assessment submission error:', error);
-      setIsSubmitting(false);
-    }
-  }, []);
 
   const handleStart = () => {
     setCurrentStep(1);

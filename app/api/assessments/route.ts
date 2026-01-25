@@ -54,87 +54,8 @@ export async function POST(request: NextRequest) {
     const axisScores = calculateAxisScores(dimensionScores);
     const archetype = determineArchetype(axisScores);
 
-    // Generate industry-specific AI analysis if we have company insights
-    let industryAnalysis = '';
-    if (ANTHROPIC_API_KEY && companyInsights?.company_summary) {
-      try {
-        const strengthDimensions = dimensionScores
-          .filter(d => d.score >= 70)
-          .map(d => d.dimension)
-          .join(', ');
-        const gapDimensions = blockers.map(b => b.dimension).join(', ');
-
-        const analysisPrompt = `You are analyzing an AI readiness assessment for ${companyData.name}.
-
-COMPANY CONTEXT (from website analysis):
-${companyInsights.company_summary}
-
-${companyInsights.ai_maturity?.signals ? `Website signals detected:\n${companyInsights.ai_maturity.signals.join('\n')}` : ''}
-
-ASSESSMENT RESULTS:
-- Overall AI Readiness: ${overallScore}/100
-- AI Archetype: ${archetype.name} - "${archetype.hook}"
-- Strategic Vision Score: ${axisScores.vision}/100
-- Operational Capability Score: ${axisScores.ops}/100
-
-Key Strengths: ${strengthDimensions || 'Building foundational capabilities'}
-Critical Gaps: ${gapDimensions || 'No critical blockers identified'}
-
-TASK: Generate a highly personalized 3-paragraph analysis that:
-
-**Paragraph 1 - Industry Context & Opportunities:**
-- Reference specific details from their website/business
-- Identify 2-3 AI opportunities tailored to their industry and current state
-- Show you understand their market positioning
-
-**Paragraph 2 - Realistic Challenges:**
-- Based on their ${archetype.name} profile, what friction points will they face?
-- What gaps need addressing before scaling AI?
-- Be specific to their dimension scores and detected signals
-
-**Paragraph 3 - Actionable Starting Point:**
-- Given their ${axisScores.vision} vision and ${axisScores.ops} ops scores, where should they start?
-- Recommend 1-2 specific first initiatives
-- Connect back to their identified strengths
-
-Tone: Professional consultant speaking directly to the company ("you", "your organization")
-Length: 2-3 sentences per paragraph
-Style: Conversational but authoritative - show domain expertise
-
-Format as clean markdown:
-- Use **bold** for emphasis on key terms
-- No headers (just 3 paragraphs)
-- No bullet points in the main text`;
-
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: {
-            'x-api-key': ANTHROPIC_API_KEY,
-            'Content-Type': 'application/json',
-            'anthropic-version': '2023-06-01',
-          },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-5-20250929',
-            max_tokens: 800,
-            messages: [{
-              role: 'user',
-              content: analysisPrompt,
-            }],
-          }),
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          const aiContent = data?.content?.[0]?.text;
-          if (typeof aiContent === 'string' && aiContent.trim()) {
-            industryAnalysis = aiContent.trim();
-          }
-        }
-      } catch (error) {
-        console.error('Error generating industry analysis:', error);
-        // Continue without industry analysis if it fails
-      }
-    }
+    // NOTE: Industry analysis is now generated asynchronously after the response
+    // to improve user experience (they see results immediately)
 
     const assessmentData = {
       company_name: companyData.name,
@@ -149,7 +70,7 @@ Format as clean markdown:
       company_insights: companyInsights || null,
       archetype,
       axis_scores: axisScores,
-      industry_analysis: industryAnalysis || undefined, // AI-generated industry insights
+      // industry_analysis is generated asynchronously - not included here
     };
 
     const { success, data } = await saveAssessment(assessmentData);
@@ -158,6 +79,16 @@ Format as clean markdown:
       return NextResponse.json(
         { error: 'Failed to save assessment' },
         { status: 500 }
+      );
+    }
+
+    const assessmentId = data?.[0]?.id;
+
+    // Trigger background analysis generation (fire-and-forget)
+    // This runs async so the user gets their results immediately
+    if (assessmentId && ANTHROPIC_API_KEY && companyInsights?.company_summary) {
+      generateIndustryAnalysisBackground(assessmentId).catch(err =>
+        console.error('Background analysis generation error:', err)
       );
     }
 
@@ -181,7 +112,7 @@ Format as clean markdown:
 
     return NextResponse.json({
       success: true,
-      assessmentId: data?.[0]?.id,
+      assessmentId,
       report: {
         overallScore,
         readiness,
@@ -192,7 +123,8 @@ Format as clean markdown:
         axisScores,
         companyData, // Pass back for dashboard
         companyInsights: companyInsights || null, // Include company insights
-        industryAnalysis: industryAnalysis || null, // Include AI-generated analysis
+        industryAnalysis: null, // Will be fetched async by client
+        analysisGenerating: !!(ANTHROPIC_API_KEY && companyInsights?.company_summary), // Tell client if analysis is being generated
       },
     });
   } catch (error) {
@@ -201,6 +133,30 @@ Format as clean markdown:
       { error: 'Internal server error' },
       { status: 500 }
     );
+  }
+}
+
+// Fire-and-forget function to generate industry analysis in background
+async function generateIndustryAnalysisBackground(assessmentId: string) {
+  try {
+    // Use internal API call to generate analysis
+    // This leverages the existing analysis endpoint logic
+    const baseUrl = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+    const response = await fetch(`${baseUrl}/api/assessments/${assessmentId}/analysis`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.ok) {
+      console.error('Background analysis generation failed:', await response.text());
+    } else {
+      console.log(`Industry analysis generated for assessment ${assessmentId}`);
+    }
+  } catch (error) {
+    console.error('Error in background analysis generation:', error);
   }
 }
 

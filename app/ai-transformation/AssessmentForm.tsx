@@ -540,7 +540,13 @@ export default function AITransformationPage({ onAssessmentStart }: AssessmentFo
       }
 
       // Store report in localStorage for the results page
-      localStorage.setItem('assessmentReport', JSON.stringify(result.report));
+      // Include assessmentId and analysisGenerating flag for async analysis polling
+      const reportWithMeta = {
+        ...result.report,
+        _assessmentId: result.assessmentId,
+        _analysisGenerating: result.report.analysisGenerating,
+      };
+      localStorage.setItem('assessmentReport', JSON.stringify(reportWithMeta));
       setReport(result.report);
     } catch (error) {
       console.error('Assessment submission error:', error);

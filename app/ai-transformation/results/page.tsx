@@ -8,6 +8,8 @@ import { AssessmentResult } from '@/types/assessment';
 
 export default function ResultsPage() {
   const [report, setReport] = useState<AssessmentResult | null>(null);
+  const [assessmentId, setAssessmentId] = useState<string | undefined>(undefined);
+  const [analysisGenerating, setAnalysisGenerating] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -16,7 +18,12 @@ export default function ResultsPage() {
     const stored = localStorage.getItem('assessmentReport');
     if (stored) {
       try {
-        setReport(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        // Extract meta fields and clean report
+        const { _assessmentId, _analysisGenerating, ...cleanReport } = parsed;
+        setReport(cleanReport);
+        setAssessmentId(_assessmentId);
+        setAnalysisGenerating(_analysisGenerating || false);
       } catch (e) {
         console.error('Failed to parse report:', e);
       }
@@ -58,7 +65,11 @@ export default function ResultsPage() {
   return (
     <>
       <Navigation />
-      <ResultsDashboard result={report} />
+      <ResultsDashboard
+        result={report}
+        assessmentId={assessmentId}
+        analysisGenerating={analysisGenerating}
+      />
     </>
   );
 }
