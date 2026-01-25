@@ -256,6 +256,7 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
     setDirection('forward');
     setIsTransitioning(true);
 
+    // Faster transition timing for snappier mobile experience
     setTimeout(() => {
       const dim = DIMENSIONS[currentDimension];
 
@@ -269,8 +270,8 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
         handleComplete();
       }
 
-      setTimeout(() => setIsTransitioning(false), 50);
-    }, 200);
+      setTimeout(() => setIsTransitioning(false), 30);
+    }, 100);
   }, [currentDimension, currentQuestion, isComplete, handleComplete]);
 
   const handleAnswer = useCallback((questionId: string, score: number) => {
@@ -279,13 +280,13 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
 
     setAnswers((prev) => ({ ...prev, [questionId]: score }));
 
-    // Auto-advance after short delay
+    // Auto-advance after short delay - faster for mobile responsiveness
     setTimeout(() => {
       advance();
       setTimeout(() => {
         isProcessingRef.current = false;
-      }, 250);
-    }, 300);
+      }, 150);
+    }, 200);
   }, [isComplete, advance]);
 
   const goBack = useCallback(() => {
@@ -300,6 +301,7 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
     setDirection('backward');
     setIsTransitioning(true);
 
+    // Faster transition timing for snappier mobile experience
     setTimeout(() => {
       if (currentQuestion > 0) {
         setCurrentQuestion((prev) => prev - 1);
@@ -311,8 +313,8 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
         setCurrentStep(0);
       }
 
-      setTimeout(() => setIsTransitioning(false), 50);
-    }, 200);
+      setTimeout(() => setIsTransitioning(false), 30);
+    }, 100);
   }, [currentDimension, currentQuestion, currentStep, isComplete]);
 
   // Keyboard navigation
@@ -359,10 +361,9 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
   };
 
   const getAnimationClass = () => {
-    if (!isTransitioning) return 'opacity-100 translate-y-0';
-    return direction === 'forward'
-      ? 'opacity-0 translate-y-4'
-      : 'opacity-0 -translate-y-4';
+    if (!isTransitioning) return 'opacity-100';
+    // Use opacity-only transitions to prevent mobile scroll bouncing
+    return 'opacity-0';
   };
 
   // Intro step
@@ -668,7 +669,7 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
 
           {/* Question */}
           {question && (
-            <div className={`transition-all duration-300 ease-out ${getAnimationClass()}`}>
+            <div className={`transition-opacity duration-150 ease-out ${getAnimationClass()}`}>
               <div className="py-4">
                 <div className="mb-6">
                   <span className="type-xs text-white/40 uppercase tracking-wider">
