@@ -109,18 +109,21 @@ export function OutcomesSection() {
     });
 
     // Animate outcome cards
-    gsap.from('.outcome-card', {
-      scrollTrigger: {
-        trigger: '.outcomes-grid',
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.outcome-card',
+      { y: 50, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.outcomes-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+      }
+    );
   }, []);
 
   return (

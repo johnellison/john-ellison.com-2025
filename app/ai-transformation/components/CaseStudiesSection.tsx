@@ -144,18 +144,21 @@ export function CaseStudiesSection() {
     });
 
     // Animate case study cards with rainbow gradient on metrics
-    gsap.from('.case-study-card', {
-      scrollTrigger: {
-        trigger: '.case-studies-grid',
-        start: 'top 85%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.case-study-card',
+      { y: 60, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.case-studies-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+      }
+    );
 
     // Animate metric cards with rainbow gradient background
     const colors = [

@@ -101,18 +101,21 @@ export function LandscapeSection() {
     });
 
     // Animate cards with stagger
-    gsap.from('.landscape-card', {
-      scrollTrigger: {
-        trigger: '.landscape-grid',
-        start: 'top 75%', // Trigger easier
-        toggleActions: 'play none none reverse',
-      },
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.landscape-card',
+      { y: 60, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.landscape-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+      }
+    );
   }, []);
 
   return (

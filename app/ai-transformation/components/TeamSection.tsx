@@ -53,18 +53,21 @@ export function TeamSection() {
     });
 
     // Animate cards with stagger
-    gsap.from('.team-card', {
-      scrollTrigger: {
-        trigger: '.team-grid',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.2,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.team-card',
+      { y: 60, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.team-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out',
+      }
+    );
   }, []);
 
   return (

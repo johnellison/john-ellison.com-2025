@@ -106,3 +106,57 @@ export interface Recommendation {
   actions: string[];
   timeframe: string;
 }
+
+// Individual Executive Assessment Types
+export type IndividualArchetypeType =
+  | 'AI Power User'
+  | 'Strategic Delegator'
+  | 'Curious Optimizer'
+  | 'Cautious Observer';
+
+export interface IndividualArchetype {
+  name: IndividualArchetypeType;
+  title: string;
+  description: string;
+  hook: string;
+  color: string;
+  recommended: string;
+}
+
+export interface IndividualAxisScores {
+  readiness: number;  // Y-Axis: Personal AI Fluency + Implementation Readiness
+  opportunity: number; // X-Axis: Workflow Complexity + Strategic Leverage
+}
+
+export interface IndividualDimensionScore {
+  dimension: string;
+  score: number;
+  weight: number;
+}
+
+export interface IndividualAssessmentResult {
+  userData: {
+    name: string;
+    email: string;
+    title?: string;
+    company?: string;
+  };
+  dimensionScores: IndividualDimensionScore[];
+  overallScore: number;
+  archetype: IndividualArchetype;
+  axisScores: IndividualAxisScores;
+  timeSavings: {
+    weekly: number;
+    monthly: number;
+    annual: number;
+  };
+  recommendations: IndividualRecommendation[];
+}
+
+export interface IndividualRecommendation {
+  tier: string;
+  title: string;
+  description: string;
+  benefits: string[];
+  price: string;
+}

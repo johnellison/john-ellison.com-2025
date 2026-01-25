@@ -97,18 +97,21 @@ export function ApproachSection() {
     });
 
     // Animate cards with stagger
-    gsap.from('.diff-card', {
-      scrollTrigger: {
-        trigger: '.diff-grid',
-        start: 'top 80%',
-        toggleActions: 'play none none reverse',
-      },
-      y: 60,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: 'power2.out',
-    });
+    gsap.fromTo('.diff-card',
+      { y: 60, opacity: 0 },
+      {
+        scrollTrigger: {
+          trigger: '.diff-grid',
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+        },
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'power2.out',
+      }
+    );
   }, []);
 
   const getLayoutClasses = (index: number) => {
