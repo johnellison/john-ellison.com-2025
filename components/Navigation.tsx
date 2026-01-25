@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = usePathname();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
@@ -15,6 +18,40 @@ export default function Navigation() {
   const isActive = (path: string) => {
     if (path === '/') return pathname === '/';
     return pathname?.startsWith(path);
+  };
+
+  // Check if services dropdown should be highlighted
+  const isServicesActive = () => {
+    return pathname?.startsWith('/ai-transformation') ||
+           pathname?.startsWith('/executive-ai-transformation') ||
+           pathname?.startsWith('/services');
+  };
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Handle mouse enter/leave for dropdown
+  const handleMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setServicesOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setServicesOpen(false);
+    }, 150);
   };
 
   return (
@@ -35,7 +72,103 @@ export default function Navigation() {
 
         {/* Desktop Navigation */}
         <nav className="nav-links" id="desktopNav" aria-label="Desktop navigation">
-          <Link href="/ai-transformation" className={isActive('/ai-transformation') ? 'active' : ''}>AI Transformation</Link>
+          {/* Services Dropdown */}
+          <div
+            ref={dropdownRef}
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button
+              className={`nav-link-dropdown flex items-center gap-1 ${isServicesActive() ? 'active' : ''}`}
+              onClick={() => setServicesOpen(!servicesOpen)}
+              aria-expanded={servicesOpen}
+              aria-haspopup="true"
+            >
+              Services
+              <svg
+                className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+
+            {/* Dropdown Menu */}
+            <div
+              className={`absolute top-full left-1/2 -translate-x-1/2 pt-2 transition-all duration-200 ${
+                servicesOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-2'
+              }`}
+            >
+              <div className="w-72 bg-[#0B0B0F]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+                <div className="p-2">
+                  <Link
+                    href="/services"
+                    className="block px-4 py-3 rounded-lg hover:bg-white/5 transition-colors"
+                    onClick={() => setServicesOpen(false)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4 text-violet-400">
+                          <path d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-white">All Services</div>
+                        <div className="text-xs text-white/50">Compare offerings</div>
+                      </div>
+                    </div>
+                  </Link>
+
+                  <div className="h-px bg-white/10 my-2" />
+
+                  <Link
+                    href="/executive-ai-transformation"
+                    className={`block px-4 py-3 rounded-lg hover:bg-white/5 transition-colors ${
+                      isActive('/executive-ai-transformation') ? 'bg-white/5' : ''
+                    }`}
+                    onClick={() => setServicesOpen(false)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4 text-violet-400">
+                          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-white">For Executives</div>
+                        <div className="text-xs text-white/50">Personal AI transformation</div>
+                      </div>
+                    </div>
+                  </Link>
+
+                  <Link
+                    href="/ai-transformation"
+                    className={`block px-4 py-3 rounded-lg hover:bg-white/5 transition-colors ${
+                      isActive('/ai-transformation') ? 'bg-white/5' : ''
+                    }`}
+                    onClick={() => setServicesOpen(false)}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center shrink-0">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-4 h-4 text-blue-400">
+                          <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium text-white">For Organizations</div>
+                        <div className="text-xs text-white/50">Team & company AI</div>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <Link href="/about" className={isActive('/about') ? 'active' : ''}>About</Link>
           <Link href="/writing" className={isActive('/writing') ? 'active' : ''}>Writing</Link>
           <Link href="/work" className={isActive('/work') ? 'active' : ''}>Work</Link>
@@ -92,7 +225,34 @@ export default function Navigation() {
       >
         <div className="nav-mobile-content">
           <div className="nav-mobile-links">
-            <Link href="/ai-transformation" onClick={closeMenu} className={isActive('/ai-transformation') ? 'active' : ''}>AI Transformation</Link>
+            {/* Services Group */}
+            <div className="mb-2">
+              <span className="block px-4 py-2 type-xs text-white/40 uppercase tracking-wider">Services</span>
+              <Link
+                href="/services"
+                onClick={closeMenu}
+                className={`pl-8 ${isActive('/services') && pathname === '/services' ? 'active' : ''}`}
+              >
+                All Services
+              </Link>
+              <Link
+                href="/executive-ai-transformation"
+                onClick={closeMenu}
+                className={`pl-8 ${isActive('/executive-ai-transformation') ? 'active' : ''}`}
+              >
+                For Executives
+              </Link>
+              <Link
+                href="/ai-transformation"
+                onClick={closeMenu}
+                className={`pl-8 ${isActive('/ai-transformation') ? 'active' : ''}`}
+              >
+                For Organizations
+              </Link>
+            </div>
+
+            <div className="h-px bg-white/10 my-4" />
+
             <Link href="/about" onClick={closeMenu} className={isActive('/about') ? 'active' : ''}>About</Link>
             <Link href="/writing" onClick={closeMenu} className={isActive('/writing') ? 'active' : ''}>Writing</Link>
             <Link href="/work" onClick={closeMenu} className={isActive('/work') ? 'active' : ''}>Work</Link>

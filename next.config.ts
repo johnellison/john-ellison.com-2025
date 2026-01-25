@@ -14,12 +14,6 @@ const nextConfig: NextConfig = {
   // 301 Redirects for deprecated routes
   async redirects() {
     return [
-      // Home page redirects to AI Transformation
-      {
-        source: '/',
-        destination: '/ai-transformation',
-        permanent: false, // Use temporary redirect so we can change later if needed
-      },
       // Sprint page redirects to AI Transformation
       {
         source: '/sprint',

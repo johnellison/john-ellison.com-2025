@@ -3,16 +3,10 @@ import { readFile, stat } from 'fs/promises';
 import path from 'path';
 
 // Map clean URLs to HTML file paths
+// Note: homepage (/) is now handled by app/page.tsx
+// Most routes are also handled by rewrites in next.config.ts
 const routeMap: Record<string, string> = {
-  '': 'index.html',
-  'sprint': 'sprint.html',
-  'contact': 'contact.html',
   'splash': 'splash.html',
-  'case-studies/toucan': 'case-studies/toucan.html',
-  'case-studies/interbeing': 'case-studies/interbeing-case-study.html',
-  'case-studies/interbeing-claude-4.5': 'case-studies/interbeing-claude-4.5.html',
-  'podcast': 'podcast/index.html',
-  'podcast/guest': 'podcast/guest/index.html',
 };
 
 // MIME types for static files
@@ -32,10 +26,10 @@ const mimeTypes: Record<string, string> = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ path?: string[] }> }
+  { params }: { params: Promise<{ path: string[] }> }
 ) {
   const { path: pathSegments } = await params;
-  const routePath = pathSegments?.join('/') || '';
+  const routePath = pathSegments.join('/');
 
   // Check route map first (before checking for extensions)
   const htmlFile = routeMap[routePath];

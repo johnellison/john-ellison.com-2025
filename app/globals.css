@@ -428,7 +428,8 @@
     gap: 2.5rem;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links .nav-link-dropdown {
     font-size: 0.7rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.55);
@@ -439,6 +440,20 @@
     position: relative;
     padding-bottom: 4px;
     transition: color 0.2s ease;
+}
+
+.nav-links .nav-link-dropdown {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-links .nav-link-dropdown:hover,
+.nav-links .nav-link-dropdown.active {
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /* Rainbow underline for regular nav links (not CTA) */
