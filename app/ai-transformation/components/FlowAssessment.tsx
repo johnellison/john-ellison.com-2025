@@ -133,17 +133,17 @@ export default function FlowAssessment({
 
     onAnswer(info.question.id, score);
 
-    // Auto-advance after short delay
+    // Auto-advance after short delay - faster for mobile responsiveness
     setTimeout(() => {
       advance();
       // Unlock after advance completes
       setTimeout(() => {
         isProcessingRef.current = false;
-      }, 250);
-    }, 300);
+      }, 150);
+    }, 200);
   }, [isComplete, getCurrentInfo, onAnswer]);
 
-  // Advance to next question
+  // Advance to next question - faster timing for snappy mobile experience
   const advance = useCallback(() => {
     if (isComplete) return;
 
@@ -165,11 +165,11 @@ export default function FlowAssessment({
         setIsComplete(true);
       }
 
-      setTimeout(() => setIsTransitioning(false), 50);
-    }, 200);
+      setTimeout(() => setIsTransitioning(false), 30);
+    }, 100);
   }, [currentDimension, currentQuestion, dimensions, isComplete]);
 
-  // Go back to previous question
+  // Go back to previous question - faster timing for snappy mobile experience
   const goBack = useCallback(() => {
     if (isComplete) {
       // Go back from complete state
@@ -192,8 +192,8 @@ export default function FlowAssessment({
         setCurrentQuestion(prevDim.questions.length - 1);
       }
 
-      setTimeout(() => setIsTransitioning(false), 50);
-    }, 200);
+      setTimeout(() => setIsTransitioning(false), 30);
+    }, 100);
   }, [currentDimension, currentQuestion, dimensions, isComplete]);
 
   // Skip current question (press 9)
@@ -254,12 +254,10 @@ export default function FlowAssessment({
   const progress = getTotalProgress();
   const currentInfo = getCurrentInfo();
 
-  // Animation classes
+  // Animation classes - opacity only to prevent mobile scroll bounce
   const getAnimationClass = () => {
-    if (!isTransitioning) return 'opacity-100 translate-y-0';
-    return direction === 'forward'
-      ? 'opacity-0 translate-y-4'
-      : 'opacity-0 -translate-y-4';
+    if (!isTransitioning) return 'opacity-100';
+    return 'opacity-0';
   };
 
   // Check if we have valid company insights to display
@@ -336,7 +334,7 @@ export default function FlowAssessment({
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
-        <div className={`transition-all duration-300 ease-out ${getAnimationClass()}`}>
+        <div className={`transition-opacity duration-150 ease-out ${getAnimationClass()}`}>
 
           {/* Question */}
           {currentInfo && (
@@ -360,11 +358,11 @@ export default function FlowAssessment({
                       key={option.label}
                       onClick={() => handleAnswer(option.score)}
                       className={`
-                        w-full text-left px-4 py-3 rounded-lg border transition-all duration-200
-                        flex items-center gap-3 group
+                        w-full text-left px-4 py-4 rounded-lg border transition-all duration-200
+                        flex items-center gap-3 group min-h-[56px]
                         ${isSelected
                           ? 'border-opacity-50 ring-1 ring-opacity-30'
-                          : 'bg-white/[0.03] border-white/[0.08] hover:bg-white/[0.06] hover:border-white/20'
+                          : 'bg-white/[0.03] border-white/[0.08] hover:bg-white/[0.06] hover:border-white/20 active:bg-white/[0.08]'
                         }
                       `}
                       style={isSelected ? {
@@ -375,7 +373,7 @@ export default function FlowAssessment({
                     >
                       <span
                         className={`
-                          w-6 h-6 rounded flex items-center justify-center type-xs font-medium
+                          w-7 h-7 rounded flex items-center justify-center type-sm font-medium
                           transition-colors shrink-0
                         `}
                         style={isSelected ? {
@@ -393,7 +391,7 @@ export default function FlowAssessment({
                       </span>
                       {isSelected && (
                         <svg
-                          className="w-4 h-4 shrink-0"
+                          className="w-5 h-5 shrink-0"
                           style={{ color: currentColor.color }}
                           fill="none"
                           viewBox="0 0 24 24"
@@ -407,7 +405,8 @@ export default function FlowAssessment({
                 })}
               </div>
 
-              <p className="type-xs text-white/40 mt-6 text-center">
+              {/* Keyboard hints - hidden on mobile */}
+              <p className="hidden md:block type-xs text-white/40 mt-6 text-center">
                 Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">1</kbd>-<kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">4</kbd> to select
                 <span className="mx-2 text-white/20">·</span>
                 <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">9</kbd> to skip
@@ -418,15 +417,15 @@ export default function FlowAssessment({
         </div>
       </div>
 
-      {/* Navigation Footer */}
+      {/* Navigation Footer - larger touch targets for mobile */}
       {currentInfo && (
         <div className="flex justify-between items-center pt-6 border-t border-white/10 mt-auto">
           <button
             onClick={goBack}
             disabled={currentDimension === 0 && currentQuestion === 0}
-            className="type-sm text-white/60 hover:text-white transition-colors flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+            className="type-sm text-white/60 hover:text-white active:text-white transition-colors flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed py-2 px-3 -ml-3 rounded-lg"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
             Back
@@ -435,11 +434,11 @@ export default function FlowAssessment({
           {answers[currentInfo.question.id] !== undefined && (
             <button
               onClick={advance}
-              className="type-sm hover:opacity-80 transition-colors flex items-center gap-2"
+              className="type-sm hover:opacity-80 active:opacity-70 transition-colors flex items-center gap-2 py-2 px-3 -mr-3 rounded-lg"
               style={{ color: currentColor.color }}
             >
               Next
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -447,10 +446,10 @@ export default function FlowAssessment({
         </div>
       )}
 
-      {/* Company Insights Mini-Panel (shows during questions when valid insights exist) */}
+      {/* Company Insights Mini-Panel - hidden on mobile to reduce scroll */}
       {currentInfo && hasValidInsights && (
         <div
-          className="mt-6 p-4 rounded-xl border border-white/5"
+          className="hidden md:block mt-6 p-4 rounded-xl border border-white/5"
           style={{ backgroundColor: `${currentColor.color}08` }}
         >
           <div className="flex items-center gap-3">

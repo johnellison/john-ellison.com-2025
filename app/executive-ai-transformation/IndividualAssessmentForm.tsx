@@ -690,11 +690,11 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
                         key={option.label}
                         onClick={() => handleAnswer(question.id, option.score)}
                         className={`
-                          w-full text-left px-4 py-3 rounded-lg border transition-all duration-200
-                          flex items-center gap-3 group
+                          w-full text-left px-4 py-4 rounded-lg border transition-all duration-200
+                          flex items-center gap-3 group min-h-[56px]
                           ${isSelected
                             ? 'border-opacity-50 ring-1 ring-opacity-30'
-                            : 'bg-white/[0.03] border-white/[0.08] hover:bg-white/[0.06] hover:border-white/20'
+                            : 'bg-white/[0.03] border-white/[0.08] hover:bg-white/[0.06] hover:border-white/20 active:bg-white/[0.08]'
                           }
                         `}
                         style={isSelected ? {
@@ -704,7 +704,7 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
                         } : {}}
                       >
                         <span
-                          className="w-6 h-6 rounded flex items-center justify-center type-xs font-medium transition-colors shrink-0"
+                          className="w-7 h-7 rounded flex items-center justify-center type-sm font-medium transition-colors shrink-0"
                           style={isSelected ? {
                             backgroundColor: currentColor.color,
                             color: 'white',
@@ -720,7 +720,7 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
                         </span>
                         {isSelected && (
                           <svg
-                            className="w-4 h-4 shrink-0"
+                            className="w-5 h-5 shrink-0"
                             style={{ color: currentColor.color }}
                             fill="none"
                             viewBox="0 0 24 24"
@@ -734,7 +734,8 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
                   })}
                 </div>
 
-                <p className="type-xs text-white/40 mt-6 text-center">
+                {/* Keyboard hints - hidden on mobile */}
+                <p className="hidden md:block type-xs text-white/40 mt-6 text-center">
                   Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">1</kbd>-<kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">4</kbd> to select
                   <span className="mx-2 text-white/20">·</span>
                   <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-white/60">9</kbd> to skip
@@ -743,14 +744,14 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
             </div>
           )}
 
-          {/* Navigation Footer */}
+          {/* Navigation Footer - larger touch targets for mobile */}
           <div className="flex justify-between items-center pt-6 border-t border-white/10 mt-auto">
             <button
               onClick={goBack}
               disabled={currentDimension === 0 && currentQuestion === 0}
-              className="type-sm text-white/60 hover:text-white transition-colors flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="type-sm text-white/60 hover:text-white active:text-white transition-colors flex items-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed py-2 px-3 -ml-3 rounded-lg"
             >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
               Back
@@ -759,11 +760,11 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
             {question && answers[question.id] !== undefined && (
               <button
                 onClick={advance}
-                className="type-sm hover:opacity-80 transition-colors flex items-center gap-2"
+                className="type-sm hover:opacity-80 active:opacity-70 transition-colors flex items-center gap-2 py-2 px-3 -mr-3 rounded-lg"
                 style={{ color: currentColor.color }}
               >
                 Next
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
