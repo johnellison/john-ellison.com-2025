@@ -16,6 +16,8 @@ export const metadata: Metadata = {
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,6 +29,7 @@ export default function RootLayout({
         <Navigation />
         {children}
         <Footer />
+        <SpeedInsights />
       </body>
     </html>
   );
