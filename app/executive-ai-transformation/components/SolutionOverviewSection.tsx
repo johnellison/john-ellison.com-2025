@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
 import { Zap, Bot, ClipboardCheck, Check } from 'lucide-react';
+import Image from 'next/image';
 
 const tiers = [
   {
@@ -26,7 +27,7 @@ const tiers = [
     cta: 'Book Discovery Call',
     ctaLink: 'https://calendar.app.google/wirgV6a4Vcz7cZAcA',
     gradient: 'from-violet-500 to-purple-500',
-    highlight: true,
+    image: '/images/ai-transformation/solution-transformation.png',
   },
   {
     icon: Bot,
@@ -48,6 +49,7 @@ const tiers = [
     ctaLink: 'https://calendar.app.google/wirgV6a4Vcz7cZAcA',
     gradient: 'from-blue-500 to-cyan-500',
     highlight: false,
+    image: '/images/ai-transformation/solution-assistant.png',
   },
   {
     icon: ClipboardCheck,
@@ -68,6 +70,7 @@ const tiers = [
     ctaLink: '#assessment',
     gradient: 'from-emerald-500 to-teal-500',
     highlight: false,
+    image: '/images/ai-transformation/solution-assessment.png',
   },
 ];
 
@@ -146,8 +149,20 @@ export function SolutionOverviewSection() {
                   }`}
               >
                 {tier.highlight && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 to-purple-500" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 to-purple-500 z-20" />
                 )}
+
+                {/* Card Top Image */}
+                <div className="relative h-48 w-full overflow-hidden">
+                  <div className={`absolute inset-0 bg-gradient-to-t from-[#050507] via-transparent to-transparent z-10 opacity-90`} />
+                  <div className={`absolute inset-0 bg-${tier.highlight ? 'violet' : 'blue'}-900/20 mix-blend-overlay z-10`} />
+                  <Image
+                    src={tier.image}
+                    alt={tier.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
 
                 <div className="p-8 flex-1 flex flex-col">
                   {/* Header */}

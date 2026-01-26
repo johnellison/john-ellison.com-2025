@@ -3,7 +3,8 @@
 import { useRef } from 'react';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
-import { Mail, Calendar, FileText, Users, BarChart3, MessageSquare } from 'lucide-react';
+import { Zap, Bot, ClipboardCheck, Check, Mail, Calendar, FileText, Users, BarChart3, MessageSquare } from 'lucide-react';
+import Image from 'next/image';
 
 // Research-backed workflow data with citations
 // Ordered by potential savings (highest first for featured display)
@@ -19,6 +20,7 @@ const workflows = [
     sourceDetail: '28% of workweek spent on email',
     before: 'Manually scanning hundreds of emails, drafting responses from scratch, missing important messages.',
     after: 'AI triages and prioritizes, drafts replies in your voice, extracts action items automatically.',
+    image: '/images/ai-transformation/workflow-email.png',
     color: '#3b82f6',
   },
   {
@@ -31,6 +33,7 @@ const workflows = [
     sourceDetail: '72% of CEO time in meetings',
     before: 'Taking notes during calls, documenting decisions, action items falling through cracks.',
     after: 'Auto-transcription, AI summaries, action items extracted and assigned automatically.',
+    image: '/images/ai-transformation/workflow-meeting.png',
     color: '#06b6d4',
   },
   // Secondary workflows
@@ -44,6 +47,7 @@ const workflows = [
     sourceDetail: 'Executives average 37 meetings/week',
     before: 'Endless back-and-forth scheduling, no buffer time, unprepared for calls.',
     after: 'Smart scheduling with preferences enforced, automatic meeting prep briefs.',
+    image: '/images/ai-transformation/workflow-calendar.png',
     color: '#8b5cf6',
   },
   {
@@ -56,6 +60,7 @@ const workflows = [
     sourceDetail: '60% of time on coordination vs 13% strategy',
     before: 'Manually pulling reports, missing patterns in data, reactive decisions.',
     after: 'Unified dashboard, anomaly alerts, auto-generated insights.',
+    image: '/images/ai-transformation/workflow-info-processing.png',
     color: '#10b981',
   },
   {
@@ -68,6 +73,7 @@ const workflows = [
     sourceDetail: 'GenAI saves 5+ hrs/week on knowledge work',
     before: 'Starting from blank pages, multiple revision cycles, inconsistent tone.',
     after: 'AI drafts from bullet points in your voice, templates adapted to context.',
+    image: '/images/ai-transformation/workflow-document.png',
     color: '#f59e0b',
   },
   {
@@ -80,6 +86,7 @@ const workflows = [
     sourceDetail: 'Communication remains top productivity challenge',
     before: 'Context-switching between channels, missing updates, notification overload.',
     after: 'Channel summaries, async response drafts, smart notification filtering.',
+    image: '/images/ai-transformation/workflow-team-comm.png',
     color: '#ec4899',
   },
 ];
@@ -270,56 +277,69 @@ export function WorkflowTransformationSection() {
               return (
                 <div
                   key={index}
-                  className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 md:p-8 overflow-hidden transition-all duration-300 hover:border-white/20"
+                  className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20"
                 >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-5">
-                    <div className="flex items-center gap-4">
-                      <div
-                        className="w-14 h-14 rounded-xl flex items-center justify-center"
-                        style={{ backgroundColor: `${workflow.color}20` }}
-                      >
-                        <Icon className="w-7 h-7" style={{ color: workflow.color }} />
-                      </div>
-                      <div>
-                        <h3 className="type-xl font-bold text-white">
-                          {workflow.title}
-                        </h3>
-                        <p className="type-xs text-white/40 italic">
-                          {workflow.sourceDetail} — {workflow.source}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <span
-                        className="block px-3 py-1 rounded-lg text-sm font-bold mb-1"
-                        style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
-                      >
-                        {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
-                      </span>
-                      <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
-                    </div>
+                  {/* Card Image Background */}
+                  <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-[#0B0B0F]/90 z-10" />
+                    <Image
+                      src={workflow.image}
+                      alt={workflow.title}
+                      fill
+                      className="object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
+                    />
                   </div>
 
-                  {/* Before/After - Side by Side */}
-                  <div className="flex gap-4 md:gap-6">
-                    <div className="flex-1 p-4 bg-red-500/5 border border-red-500/10 rounded-xl">
-                      <span className="type-xs uppercase tracking-wider text-red-400 font-semibold flex items-center gap-2 mb-2">
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M18 6L6 18M6 6l12 12" />
-                        </svg>
-                        Before
-                      </span>
-                      <p className="type-sm text-white/50 leading-relaxed">{workflow.before}</p>
+                  <div className="relative z-10 p-6 md:p-8">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-5">
+                      <div className="flex items-center gap-4">
+                        <div
+                          className="w-14 h-14 rounded-xl flex items-center justify-center"
+                          style={{ backgroundColor: `${workflow.color}20` }}
+                        >
+                          <Icon className="w-7 h-7" style={{ color: workflow.color }} />
+                        </div>
+                        <div>
+                          <h3 className="type-xl font-bold text-white">
+                            {workflow.title}
+                          </h3>
+                          <p className="type-xs text-white/40 italic">
+                            {workflow.sourceDetail} — {workflow.source}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span
+                          className="block px-3 py-1 rounded-lg text-sm font-bold mb-1"
+                          style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
+                        >
+                          {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
+                        </span>
+                        <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
+                      </div>
                     </div>
-                    <div className="flex-1 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl">
-                      <span className="type-xs uppercase tracking-wider text-emerald-400 font-semibold flex items-center gap-2 mb-2">
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M5 13l4 4L19 7" />
-                        </svg>
-                        After
-                      </span>
-                      <p className="type-sm text-white/70 leading-relaxed">{workflow.after}</p>
+
+                    {/* Before/After - Side by Side */}
+                    <div className="flex gap-4 md:gap-6">
+                      <div className="flex-1 p-4 bg-red-500/5 border border-red-500/10 rounded-xl">
+                        <span className="type-xs uppercase tracking-wider text-red-400 font-semibold flex items-center gap-2 mb-2">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                          </svg>
+                          Before
+                        </span>
+                        <p className="type-sm text-white/50 leading-relaxed">{workflow.before}</p>
+                      </div>
+                      <div className="flex-1 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl">
+                        <span className="type-xs uppercase tracking-wider text-emerald-400 font-semibold flex items-center gap-2 mb-2">
+                          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M5 13l4 4L19 7" />
+                          </svg>
+                          After
+                        </span>
+                        <p className="type-sm text-white/70 leading-relaxed">{workflow.after}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -334,45 +354,58 @@ export function WorkflowTransformationSection() {
               return (
                 <div
                   key={index + 2}
-                  className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 overflow-hidden transition-all duration-300 hover:border-white/20"
+                  className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl overflow-hidden transition-all duration-300 hover:border-white/20"
                 >
-                  {/* Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: `${workflow.color}20` }}
-                    >
-                      <Icon className="w-6 h-6" style={{ color: workflow.color }} />
-                    </div>
-                    <div className="text-right">
-                      <span
-                        className="block px-2 py-0.5 rounded text-xs font-semibold mb-1"
-                        style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
-                      >
-                        {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
-                      </span>
-                      <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
-                    </div>
+                  {/* Card Image Background */}
+                  <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-[#0B0B0F]/90 z-10" />
+                    <Image
+                      src={workflow.image}
+                      alt={workflow.title}
+                      fill
+                      className="object-cover opacity-50 group-hover:scale-105 transition-transform duration-700"
+                    />
                   </div>
 
-                  <h3 className="heading-card text-white mb-2">
-                    {workflow.title}
-                  </h3>
-
-                  {/* Source citation */}
-                  <p className="type-xs text-white/40 mb-4 italic">
-                    {workflow.sourceDetail} — {workflow.source}
-                  </p>
-
-                  {/* Before/After - Side by Side Compact */}
-                  <div className="flex gap-3">
-                    <div className="flex-1 p-3 bg-red-500/5 border border-red-500/10 rounded-lg">
-                      <span className="type-xs uppercase tracking-wider text-red-400/80 font-medium block mb-1">Before</span>
-                      <p className="type-xs text-white/50 leading-relaxed">{workflow.before}</p>
+                  <div className="relative z-10 p-6">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: `${workflow.color}20` }}
+                      >
+                        <Icon className="w-6 h-6" style={{ color: workflow.color }} />
+                      </div>
+                      <div className="text-right">
+                        <span
+                          className="block px-2 py-0.5 rounded text-xs font-semibold mb-1"
+                          style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
+                        >
+                          {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
+                        </span>
+                        <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
+                      </div>
                     </div>
-                    <div className="flex-1 p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-lg">
-                      <span className="type-xs uppercase tracking-wider text-emerald-400/80 font-medium block mb-1">After</span>
-                      <p className="type-xs text-white/70 leading-relaxed">{workflow.after}</p>
+
+                    <h3 className="heading-card text-white mb-2">
+                      {workflow.title}
+                    </h3>
+
+                    {/* Source citation */}
+                    <p className="type-xs text-white/40 mb-4 italic">
+                      {workflow.sourceDetail} — {workflow.source}
+                    </p>
+
+                    {/* Before/After - Side by Side Compact */}
+                    <div className="flex gap-3">
+                      <div className="flex-1 p-3 bg-red-500/5 border border-red-500/10 rounded-lg">
+                        <span className="type-xs uppercase tracking-wider text-red-400/80 font-medium block mb-1">Before</span>
+                        <p className="type-xs text-white/50 leading-relaxed">{workflow.before}</p>
+                      </div>
+                      <div className="flex-1 p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-lg">
+                        <span className="type-xs uppercase tracking-wider text-emerald-400/80 font-medium block mb-1">After</span>
+                        <p className="type-xs text-white/70 leading-relaxed">{workflow.after}</p>
+                      </div>
                     </div>
                   </div>
                 </div>

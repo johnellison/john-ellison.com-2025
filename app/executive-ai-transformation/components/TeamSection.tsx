@@ -64,7 +64,7 @@ export function TeamSection() {
           </span>
 
           <h2 className="team-title heading-section mb-6 text-white">
-            Part-time <span className="text-gradient-prism">CTO + AI Exec</span> for Hire
+            Fractional <span className="text-gradient-prism">Chief AI Officer</span> at your service
           </h2>
         </div>
 
@@ -87,7 +87,7 @@ export function TeamSection() {
             <div className="flex-1">
               <h3 className="heading-card text-white mb-1">John Ellison</h3>
               <span className="inline-block type-sm font-medium text-violet-400 mb-4">
-                Product Strategy, AI & Behavior Design
+                AI, Productivity & Behavior Design
               </span>
 
               <p className="text-white/70 type-base leading-relaxed mb-6">
@@ -98,19 +98,19 @@ export function TeamSection() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center p-3 bg-white/[0.03] rounded-lg border border-white/5">
                   <div className="type-lg font-bold text-white">16+</div>
-                  <div className="type-xs text-white/50">Years Building</div>
+                  <div className="type-xs text-white/50">Years Building, Investing and Growing Startups</div>
                 </div>
                 <div className="text-center p-3 bg-white/[0.03] rounded-lg border border-white/5">
                   <div className="type-lg font-bold text-white">300+</div>
-                  <div className="type-xs text-white/50">Founders Helped</div>
+                  <div className="type-xs text-white/50">Founders Supported</div>
                 </div>
                 <div className="text-center p-3 bg-white/[0.03] rounded-lg border border-white/5">
                   <div className="type-lg font-bold text-white">$18M+</div>
-                  <div className="type-xs text-white/50">Raised</div>
+                  <div className="type-xs text-white/50">Raised in angel, venture and grant capital</div>
                 </div>
                 <div className="text-center p-3 bg-white/[0.03] rounded-lg border border-white/5">
-                  <div className="type-lg font-bold text-white">Stanford</div>
-                  <div className="type-xs text-white/50">BJ Fogg Certified</div>
+                  <div className="type-lg font-bold text-white">Certified</div>
+                  <div className="type-xs text-white/50">Stanford University's Dr. BJ Fogg Teaching Team</div>
                 </div>
               </div>
             </div>
