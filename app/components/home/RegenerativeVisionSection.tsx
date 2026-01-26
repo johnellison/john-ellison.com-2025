@@ -166,7 +166,7 @@ export function RegenerativeVisionSection() {
               <div className="vision-text-item flex flex-wrap gap-4 pt-4">
                 <Link
                   href="/writing"
-                  className="btn-secondary inline-flex items-center gap-2"
+                  className="btn-primary inline-flex items-center gap-2"
                 >
                   Read My Writing
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -194,7 +194,7 @@ export function RegenerativeVisionSection() {
             <div className="vision-visual relative">
               <div className="relative aspect-[4/3] max-w-md mx-auto rounded-2xl overflow-hidden border border-white/10">
                 <Image
-                  src="/images/regen-community-planting.jpg"
+                  src="/images/je-planting-trees-hair-back-1280.jpeg"
                   alt="Community tree planting at regenerative village"
                   fill
                   className="object-cover"

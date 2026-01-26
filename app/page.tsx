@@ -62,8 +62,8 @@ export default function HomePage() {
               The Challenge
             </span>
             <h2 className="heading-section text-white">
-              AI Is Everywhere.<br />
-              <span className="text-white/60">Results Are Rare.</span>
+              <span className="text-gradient-prism">AI</span> Is Everywhere.<br />
+              <span className="text-white">Results Are <span className="text-gradient-warm">Rare.</span></span>
             </h2>
           </div>
 
@@ -120,17 +120,17 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </div >
+      </section >
 
       {/* Regenerative Vision Section */}
-      <RegenerativeVisionSection />
+      < RegenerativeVisionSection />
 
       {/* Stats Section */}
-      <StatsSection />
+      < StatsSection />
 
       {/* Services Section */}
-      <section className="services-section py-24 px-6">
+      < section className="services-section py-24 px-6" >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <span className="inline-block type-xs font-medium tracking-[0.2em] uppercase text-violet-400 mb-4">
@@ -159,7 +159,7 @@ export default function HomePage() {
                   <span className="type-xs font-medium text-violet-400 uppercase tracking-wider">For Executives</span>
                 </div>
 
-                <h3 className="type-2xl font-bold text-white mb-4">
+                <h3 className="type-xl font-bold text-white mb-4">
                   Executive AI Transformation
                 </h3>
 
@@ -208,7 +208,7 @@ export default function HomePage() {
                   <span className="type-xs font-medium text-blue-400 uppercase tracking-wider">For Organizations</span>
                 </div>
 
-                <h3 className="type-2xl font-bold text-white mb-4">
+                <h3 className="type-xl font-bold text-white mb-4">
                   Organizational AI Transformation
                 </h3>
 
@@ -256,24 +256,24 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Featured Work Section */}
-      <FeaturedWorkSection />
+      < FeaturedWorkSection />
 
       {/* Writings Section */}
-      <WritingsSection />
+      < WritingsSection />
 
       {/* Podcast Section */}
-      <PodcastSection />
+      < PodcastSection />
 
       {/* About Section */}
-      <AboutSection />
+      < AboutSection />
 
       {/* CTA Section - Enhanced with floating imagery */}
-      <section className="cta-section min-h-[75vh] py-32 px-6 relative overflow-hidden flex items-center bg-[#050507]">
+      < section className="cta-section min-h-[75vh] py-32 px-6 relative overflow-hidden flex items-center bg-[#050507]" >
         {/* Prismatic Grid Pattern */}
-        <div
+        < div
           className="absolute inset-0 pointer-events-none opacity-30"
           style={{
             backgroundImage: `
@@ -281,7 +281,8 @@ export default function HomePage() {
               linear-gradient(180deg, rgba(59,130,246,0.1) 1px, transparent 1px)
             `,
             backgroundSize: '40px 40px'
-          }}
+          }
+          }
         />
 
         {/* Background gradient */}
@@ -334,10 +335,10 @@ export default function HomePage() {
 
         <div className="cta-content relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="font-display type-4xl text-white leading-tight mb-6">
-            Ready to <span className="text-gradient-prism">Transform</span>?
+            Ready to make the <span className="text-gradient-prism">AI Transition</span>?
           </h2>
           <p className="type-lg text-white/60 mb-10 max-w-[45ch] mx-auto">
-            Start with a free consultation to explore how AI can multiply your productivity and liberate you to fulfill your purpose as an individual and an organization.
+            Book a call or take a free AI Readiness Assessment to explore how AI can multiply your productivity and liberate you to fulfill your purpose as an individual and an organization.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -360,7 +361,7 @@ export default function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }

@@ -214,23 +214,23 @@ export function HeroSection() {
       {/* --- CENTERED HERO CONTENT --- */}
       <div className="relative z-10 max-w-5xl mx-auto">
         <span className="hero-label inline-block font-sans type-sm font-medium tracking-widest uppercase text-violet-400 mb-6 px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 backdrop-blur-md">
-          AI-Powered Productivity
+          AI for Regeneration
         </span>
 
         <h1 className="hero-headline font-display type-5xl tracking-wide uppercase font-bold text-white leading-[1.05] mb-8 max-w-5xl mx-auto">
-          Transform How You Work{' '}
-          <span className="text-gradient-prism">With AI</span>
+          <span className="text-gradient-prism">Transform</span> How You Work{' '}
+          With <span className="text-gradient-warm">AI</span>
         </h1>
 
-        <p className="hero-subheadline type-xl text-white/70 max-w-[55ch] mx-auto mb-12 leading-relaxed">
-          I help executives and organizations leverage AI to multiply productivity,
-          automate workflows, and build intelligent systems that actually work.
+        <p className="hero-subheadline type-xl font-light text-white/70 max-w-[50ch] mx-auto mb-10 leading-relaxed drop-shadow-lg">
+          I leverage AI to multiply productivity,
+          automate workflows, and build intelligent systems that work in <em className="text-gradient-regenerative">service of life.</em>
         </p>
 
         <div className="hero-cta-group flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/services"
-            className="btn-primary uppercase tracking-wide px-8 py-4 text-sm md:text-base shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_45px_rgba(124,58,237,0.5)] transition-shadow duration-300"
+            className="btn-primary uppercase tracking-wide px-10 py-5 text-sm md:text-base shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_45px_rgba(124,58,237,0.5)] transition-shadow duration-300"
           >
             Explore Services
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-[18px] h-[18px] ml-2">
@@ -241,7 +241,7 @@ export function HeroSection() {
             href="https://calendar.app.google/wirgV6a4Vcz7cZAcA"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary uppercase tracking-wide px-8 py-4 text-sm md:text-base"
+            className="btn-secondary uppercase tracking-wide px-10 py-5 text-sm md:text-base"
           >
             Book a Call
           </Link>
