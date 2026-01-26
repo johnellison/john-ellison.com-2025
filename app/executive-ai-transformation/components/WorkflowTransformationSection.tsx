@@ -191,7 +191,7 @@ export function WorkflowTransformationSection() {
           <div className="space-y-4">
             {workflows.map((workflow, index) => {
               const Icon = workflow.icon;
-              const maxWidth = 40; // Max hours for scale
+              const maxWidth = 14; // Max hours for scale (slightly above highest value of 11)
               const currentWidth = (workflow.currentTime / maxWidth) * 100;
               const savingsWidth = (workflow.potentialSavings / maxWidth) * 100;
 
