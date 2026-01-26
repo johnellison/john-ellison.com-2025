@@ -98,7 +98,7 @@ export function HeroSection() {
         <div className="hero-image-desktop absolute top-[12%] left-[5%] w-[16vw] max-w-[240px] aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[-4deg]">
           <div className="absolute inset-0 bg-indigo-900/15 mix-blend-overlay z-10" />
           <Image
-            src="/images/ai-transformation/john-ellison-workshop-vertical.jpg"
+            src="/images/ai-transformation/john-ai-closeup.png"
             alt="Executive Workshop"
             fill
             className="object-cover"
@@ -111,7 +111,7 @@ export function HeroSection() {
         <div className="hero-image-desktop absolute top-[10%] right-[6%] w-[18vw] max-w-[280px] aspect-square rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[3deg]">
           <div className="absolute inset-0 bg-violet-900/15 mix-blend-overlay z-10" />
           <Image
-            src="/images/ai-transformation/john-white-board-ai-square.jpg"
+            src="/images/ai-transformation/john-strategy-session.png"
             alt="AI Strategy"
             fill
             className="object-cover"
@@ -124,7 +124,7 @@ export function HeroSection() {
         <div className="hero-image-desktop absolute bottom-[15%] left-[8%] w-[20vw] max-w-[300px] aspect-video rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[2deg]">
           <div className="absolute inset-0 bg-emerald-900/10 mix-blend-overlay z-10" />
           <Image
-            src="/images/ai-transformation/john-and-fatma-at-workshop.jpg"
+            src="/images/ai-transformation/john-executive-coaching.png"
             alt="Collaboration"
             fill
             className="object-cover"
@@ -137,7 +137,7 @@ export function HeroSection() {
         <div className="hero-image-desktop absolute bottom-[18%] right-[5%] w-[18vw] max-w-[280px] aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border border-white/5 rotate-[-3deg]">
           <div className="absolute inset-0 bg-blue-900/15 mix-blend-overlay z-10" />
           <Image
-            src="/images/ai-transformation/john-ai-sprint-session.jpg"
+            src="/images/ai-transformation/john-ai-tools.png"
             alt="Sprint Session"
             fill
             className="object-cover"
@@ -184,12 +184,12 @@ export function HeroSection() {
           {/* Column 1 */}
           <div className="hero-image-mobile space-y-2 mt-8">
             <img
-              src="/images/ai-transformation/john-ellison-workshop-vertical.jpg"
+              src="/images/ai-transformation/john-ai-closeup.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
             <img
-              src="/images/ai-transformation/john-ai-sprint-session.jpg"
+              src="/images/ai-transformation/john-ai-tools.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
@@ -202,12 +202,12 @@ export function HeroSection() {
           {/* Column 2 */}
           <div className="hero-image-mobile space-y-2 mt-16">
             <img
-              src="/images/ai-transformation/john-white-board-ai-square.jpg"
+              src="/images/ai-transformation/john-strategy-session.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
             <img
-              src="/images/ai-transformation/john-and-fatma-at-workshop.jpg"
+              src="/images/ai-transformation/john-executive-coaching.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
@@ -220,17 +220,17 @@ export function HeroSection() {
           {/* Column 3 - Tablet only */}
           <div className="hero-image-mobile space-y-2 mt-4 hidden md:block">
             <img
-              src="/images/ai-transformation/john-ai-sprint-session.jpg"
+              src="/images/ai-transformation/john-ai-tools.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
             <img
-              src="/images/ai-transformation/john-ellison-workshop-vertical.jpg"
+              src="/images/ai-transformation/john-ai-closeup.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
             <img
-              src="/images/ai-transformation/john-white-board-ai-square.jpg"
+              src="/images/ai-transformation/john-strategy-session.png"
               className="w-full rounded-lg grayscale-[15%]"
               alt=""
             />
@@ -245,23 +245,23 @@ export function HeroSection() {
         </span>
 
         <h1 className="hero-headline font-display type-4xl tracking-wide uppercase font-bold text-white leading-[1.1] mb-8 max-w-4xl mx-auto drop-shadow-2xl">
-          Reclaim <span className="text-gradient-prism">25+ Hours</span> Per Week{' '}
+          Save <span className="text-gradient-prism">5+ Hours</span> Every Week{' '}
           <span className="text-gradient-warm block md:inline">With AI</span>
         </h1>
 
-        {/* Stats Row */}
+        {/* Stats Row - Research-backed */}
         <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-8">
           <div className="hero-stat text-center">
-            <div className="type-2xl font-bold text-white">42%</div>
-            <div className="type-xs text-white/50 uppercase tracking-wider">Executives blocked<br />by admin tasks</div>
+            <div className="type-2xl font-bold text-white">28%</div>
+            <div className="type-xs text-white/50 uppercase tracking-wider">Of workweek<br />spent on email</div>
           </div>
           <div className="hero-stat text-center">
-            <div className="type-2xl font-bold text-white">60%</div>
-            <div className="type-xs text-white/50 uppercase tracking-wider">Time spent<br />coordinating</div>
+            <div className="type-2xl font-bold text-white">23 hrs</div>
+            <div className="type-xs text-white/50 uppercase tracking-wider">Weekly exec<br />meeting time</div>
           </div>
           <div className="hero-stat text-center">
-            <div className="type-2xl font-bold text-white">25-40</div>
-            <div className="type-xs text-white/50 uppercase tracking-wider">Hours saved<br />weekly with AI</div>
+            <div className="type-2xl font-bold text-white">5+ hrs</div>
+            <div className="type-xs text-white/50 uppercase tracking-wider">Saved weekly<br />with AI*</div>
           </div>
         </div>
 
