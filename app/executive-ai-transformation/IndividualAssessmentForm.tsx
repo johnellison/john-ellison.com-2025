@@ -188,9 +188,10 @@ const DIMENSION_COLORS = [
 
 interface IndividualAssessmentFormProps {
   onAssessmentStart?: () => void;
+  hideSidebar?: boolean;
 }
 
-export default function IndividualAssessmentForm({ onAssessmentStart }: IndividualAssessmentFormProps = {}) {
+export default function IndividualAssessmentForm({ onAssessmentStart, hideSidebar = false }: IndividualAssessmentFormProps = {}) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0); // 0 = intro, 1+ = questions
   const [currentDimension, setCurrentDimension] = useState(0);
@@ -477,15 +478,17 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
           </div>
 
           {/* Two-column layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 lg:gap-8">
+          <div className={`grid grid-cols-1 ${!hideSidebar ? 'lg:grid-cols-[340px_1fr]' : ''} gap-6 lg:gap-8`}>
             {/* LEFT: Quadrant (desktop only) */}
-            <div className="hidden lg:block results-reveal">
-              <IndividualArchetypeQuadrant
-                axisScores={axisScores}
-                predictedArchetype={predictedArchetype}
-                totalAnswered={999}
-              />
-            </div>
+            {!hideSidebar && (
+              <div className="hidden lg:block results-reveal">
+                <IndividualArchetypeQuadrant
+                  axisScores={axisScores}
+                  predictedArchetype={predictedArchetype}
+                  totalAnswered={999}
+                />
+              </div>
+            )}
 
             {/* RIGHT: Results Summary */}
             <div className="results-reveal bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
@@ -585,17 +588,19 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
 
   return (
     <div className="assessment-form-container max-w-6xl mx-auto px-4">
-      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 lg:gap-8">
+      <div className={`grid grid-cols-1 ${!hideSidebar ? 'lg:grid-cols-[340px_1fr]' : ''} gap-6 lg:gap-8`}>
         {/* LEFT: Quadrant (desktop only) */}
-        <div className="hidden lg:block">
-          <div className="sticky top-24">
-            <IndividualArchetypeQuadrant
-              axisScores={axisScores}
-              predictedArchetype={predictedArchetype}
-              totalAnswered={totalAnswered}
-            />
+        {!hideSidebar && (
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <IndividualArchetypeQuadrant
+                axisScores={axisScores}
+                predictedArchetype={predictedArchetype}
+                totalAnswered={totalAnswered}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* RIGHT: Question Form */}
         <div className="assessment-form bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8">
@@ -646,9 +651,8 @@ export default function IndividualAssessmentForm({ onAssessmentStart }: Individu
                 return (
                   <div
                     key={d.id}
-                    className={`flex-1 h-1.5 rounded-full overflow-hidden transition-all duration-300 ${
-                      isActive ? 'ring-1 ring-offset-1 ring-offset-transparent' : ''
-                    }`}
+                    className={`flex-1 h-1.5 rounded-full overflow-hidden transition-all duration-300 ${isActive ? 'ring-1 ring-offset-1 ring-offset-transparent' : ''
+                      }`}
                     style={{
                       backgroundColor: 'rgba(255,255,255,0.1)',
                       ['--tw-ring-color' as string]: isActive ? color.color : 'transparent',

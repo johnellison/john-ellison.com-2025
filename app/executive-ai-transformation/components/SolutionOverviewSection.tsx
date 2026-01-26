@@ -27,7 +27,7 @@ const tiers = [
     cta: 'Book Discovery Call',
     ctaLink: 'https://calendar.app.google/wirgV6a4Vcz7cZAcA',
     gradient: 'from-violet-500 to-purple-500',
-    image: '/images/ai-transformation/solution-transformation.png',
+    image: '/images/ai-transformation/solution-transformation-v2.png',
   },
   {
     icon: Bot,
@@ -49,7 +49,7 @@ const tiers = [
     ctaLink: 'https://calendar.app.google/wirgV6a4Vcz7cZAcA',
     gradient: 'from-blue-500 to-cyan-500',
     highlight: false,
-    image: '/images/ai-transformation/solution-assistant.png',
+    image: '/images/ai-transformation/solution-assistant-v2.png',
   },
   {
     icon: ClipboardCheck,
@@ -70,7 +70,7 @@ const tiers = [
     ctaLink: '#assessment',
     gradient: 'from-emerald-500 to-teal-500',
     highlight: false,
-    image: '/images/ai-transformation/solution-assessment.png',
+    image: '/images/ai-transformation/solution-assessment-v2.png',
   },
 ];
 
@@ -171,7 +171,7 @@ export function SolutionOverviewSection() {
                       <Icon className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="heading-card text-white">{tier.name}</h3>
+                      <h3 className="heading-subsection text-white">{tier.name}</h3>
                       <p className="type-sm text-white/50">{tier.subtitle}</p>
                     </div>
                   </div>

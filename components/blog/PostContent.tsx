@@ -58,10 +58,12 @@ function injectSignupCallout(content: string): string {
 }
 
 import { SignupCallout } from './SignupCallout';
+import { EmbeddedAssessment } from './EmbeddedAssessment';
 
 // Custom components passed to MDX
 const components: MDXComponents = {
     SignupCallout,
+    EmbeddedAssessment,
     Image: (props: any) => (
         <div className="my-8 rounded-lg overflow-hidden border border-white/10 bg-white/5">
             <Image

@@ -5,6 +5,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useGSAP } from '@/components/gsap/use-gsap';
 import { gsap } from '@/lib/gsap';
+import {
+  HeroSection,
+  StatsSection,
+  FeaturedWorkSection,
+  WritingsSection,
+  PodcastSection,
+  RegenerativeVisionSection,
+  AboutSection,
+} from './components/home';
 
 export default function HomePage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -12,38 +21,12 @@ export default function HomePage() {
   useGSAP(() => {
     if (!containerRef.current) return;
 
-    // Hero animations
-    const heroTl = gsap.timeline();
-    heroTl
-      .from('.hero-label', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' })
-      .from('.hero-headline', { y: 40, opacity: 0, duration: 1, ease: 'power2.out' }, '-=0.5')
-      .from('.hero-subheadline', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.6')
-      .from('.hero-cta-group', { y: 30, opacity: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5');
-
     // Problem section
     gsap.fromTo('.problem-card',
       { y: 50, opacity: 0 },
       {
         scrollTrigger: { trigger: '.problem-section', start: 'top 80%', toggleActions: 'play none none none' },
         y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power2.out'
-      }
-    );
-
-    // Transition section
-    gsap.fromTo('.transition-content',
-      { y: 40, opacity: 0 },
-      {
-        scrollTrigger: { trigger: '.transition-section', start: 'top 75%', toggleActions: 'play none none none' },
-        y: 0, opacity: 1, duration: 1, ease: 'power2.out'
-      }
-    );
-
-    // Stats section
-    gsap.fromTo('.stat-item',
-      { y: 40, opacity: 0 },
-      {
-        scrollTrigger: { trigger: '.stats-section', start: 'top 80%', toggleActions: 'play none none none' },
-        y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power2.out'
       }
     );
 
@@ -69,57 +52,7 @@ export default function HomePage() {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#0B0B0F]">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 py-24 overflow-hidden">
-        {/* Background gradient */}
-        <div
-          className="absolute inset-0 pointer-events-none z-0"
-          style={{
-            background: 'radial-gradient(ellipse at 50% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 60%)'
-          }}
-        />
-
-        <div className="relative z-10 max-w-5xl mx-auto">
-          <span className="hero-label inline-block font-sans type-sm font-medium tracking-widest uppercase text-violet-400 mb-6 px-4 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 backdrop-blur-md">
-            AI-Powered Productivity
-          </span>
-
-          <h1 className="hero-headline font-display type-5xl tracking-wide uppercase font-bold text-white leading-[1.05] mb-8 max-w-5xl mx-auto">
-            Transform How You Work{' '}
-            <span className="text-gradient-prism">With AI</span>
-          </h1>
-
-          <p className="hero-subheadline type-xl text-white/70 max-w-[55ch] mx-auto mb-12 leading-relaxed">
-            I help executives and organizations leverage AI to multiply productivity,
-            automate workflows, and build intelligent systems that actually work.
-          </p>
-
-          <div className="hero-cta-group flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/services"
-              className="btn-primary uppercase tracking-wide px-8 py-4 text-sm md:text-base shadow-[0_0_30px_rgba(124,58,237,0.3)] hover:shadow-[0_0_45px_rgba(124,58,237,0.5)] transition-shadow duration-300"
-            >
-              Explore Services
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-[18px] h-[18px] ml-2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
-            <Link
-              href="https://calendar.app.google/wirgV6a4Vcz7cZAcA"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary uppercase tracking-wide px-8 py-4 text-sm md:text-base"
-            >
-              Book a Call
-            </Link>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40">
-          <span className="type-xs uppercase tracking-widest">Scroll</span>
-          <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Problem Section */}
       <section className="problem-section py-24 px-6 bg-[#050507]">
@@ -190,49 +123,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Transition Section */}
-      <section className="transition-section py-32 px-6 relative overflow-hidden">
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'radial-gradient(ellipse at 50% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 60%)'
-          }}
-        />
-        <div className="transition-content relative z-10 max-w-4xl mx-auto text-center">
-          <span className="inline-block type-xs font-medium tracking-[0.2em] uppercase text-emerald-400 mb-6">
-            The Shift
-          </span>
-          <h2 className="font-display type-4xl text-white leading-tight mb-8">
-            AI <span className="text-gradient-prism">amplifies</span> your intentions.
-          </h2>
-          <p className="type-xl text-white/60 max-w-[50ch] mx-auto leading-relaxed">
-            The right AI implementation doesn&apos;t just save time&mdash;it multiplies your impact.
-            When technology aligns with your workflow, hours become minutes.
-          </p>
-        </div>
-      </section>
+      {/* Regenerative Vision Section */}
+      <RegenerativeVisionSection />
 
       {/* Stats Section */}
-      <section className="stats-section py-24 px-6 bg-[#050507]">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[
-              { value: '300+', label: 'Founders Supported' },
-              { value: '16+', label: 'Years Building Products' },
-              { value: '$18M+', label: 'Raised by Clients' },
-              { value: '14+', label: 'Hours Saved Weekly*' }
-            ].map((stat, index) => (
-              <div key={index} className="stat-item text-center">
-                <div className="type-3xl font-bold text-white mb-2">{stat.value}</div>
-                <div className="type-sm text-white/50 uppercase tracking-wider">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-          <p className="type-xs text-white/30 text-center mt-6">
-            * Based on workflow analysis: email (4-7 hrs), meetings (3-5 hrs), documents (2-4 hrs), calendar (2-3 hrs). Sources: McKinsey, BCG, Harvard Business Review.
-          </p>
-        </div>
-      </section>
+      <StatsSection />
 
       {/* Services Section */}
       <section className="services-section py-24 px-6">
@@ -363,46 +258,33 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Featured Work Section */}
+      <FeaturedWorkSection />
+
+      {/* Writings Section */}
+      <WritingsSection />
+
+      {/* Podcast Section */}
+      <PodcastSection />
+
       {/* About Section */}
-      <section className="py-24 px-6 bg-[#050507]">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col md:flex-row gap-12 items-center">
-            <div className="shrink-0">
-              <div className="relative w-40 h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border-2 border-violet-500/30">
-                <Image
-                  src="/john-e-wedding-headshot.webp"
-                  alt="John Ellison"
-                  fill
-                  className="object-cover"
-                  sizes="200px"
-                />
-              </div>
-            </div>
+      <AboutSection />
 
-            <div>
-              <span className="inline-block type-xs font-medium tracking-[0.2em] uppercase text-violet-400 mb-4">
-                Your Guide
-              </span>
-              <h2 className="heading-card text-white mb-4">John Ellison</h2>
-              <p className="type-base text-white/70 leading-relaxed mb-6">
-                16 years building products. 300+ founders supported. I&apos;ve led growth at Toucan Protocol,
-                managed product at OpenGov, and now focus exclusively on helping leaders leverage AI
-                to multiply their productivity and transform their organizations.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {['Stanford BJ Fogg Certified', 'Claude MCP Expert', 'Product Strategy'].map((tag, i) => (
-                  <span key={i} className="px-3 py-1 bg-violet-500/10 border border-violet-500/20 rounded-full type-xs text-violet-300">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* CTA Section - Enhanced with floating imagery */}
+      <section className="cta-section min-h-[75vh] py-32 px-6 relative overflow-hidden flex items-center bg-[#050507]">
+        {/* Prismatic Grid Pattern */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-30"
+          style={{
+            backgroundImage: `
+              linear-gradient(90deg, rgba(124,58,237,0.1) 1px, transparent 1px),
+              linear-gradient(180deg, rgba(59,130,246,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '40px 40px'
+          }}
+        />
 
-      {/* CTA Section */}
-      <section className="cta-section py-32 px-6 relative overflow-hidden">
+        {/* Background gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -410,12 +292,52 @@ export default function HomePage() {
           }}
         />
 
+        {/* Floating Images - Desktop only */}
+        <div className="hidden lg:block absolute inset-0 pointer-events-none">
+          {/* Top Left */}
+          <div className="absolute top-[15%] left-[8%] w-[14vw] max-w-[200px] aspect-video rounded-xl overflow-hidden border border-white/10 opacity-40 rotate-[-3deg]">
+            <Image
+              src="/images/john-ai-sprint-session.webp"
+              alt=""
+              fill
+              className="object-cover"
+            />
+          </div>
+          {/* Top Right */}
+          <div className="absolute top-[20%] right-[6%] w-[12vw] max-w-[180px] aspect-square rounded-full overflow-hidden border border-white/10 opacity-40">
+            <Image
+              src="/images/ai-transformation/john-ai-closeup.png"
+              alt=""
+              fill
+              className="object-cover"
+            />
+          </div>
+          {/* Bottom Left */}
+          <div className="absolute bottom-[20%] left-[5%] w-[10vw] max-w-[150px] aspect-square rounded-full overflow-hidden border border-white/10 opacity-30">
+            <Image
+              src="/images/refi-dao-cover-image.jpg"
+              alt=""
+              fill
+              className="object-cover"
+            />
+          </div>
+          {/* Bottom Right */}
+          <div className="absolute bottom-[15%] right-[10%] w-[13vw] max-w-[190px] aspect-video rounded-xl overflow-hidden border border-white/10 opacity-40 rotate-[2deg]">
+            <Image
+              src="/images/ai-transformation/john-strategy-session.png"
+              alt=""
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
         <div className="cta-content relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="font-display type-4xl text-white leading-tight mb-6">
             Ready to <span className="text-gradient-prism">Transform</span>?
           </h2>
           <p className="type-lg text-white/60 mb-10 max-w-[45ch] mx-auto">
-            Start with a free consultation to explore how AI can multiply your productivity.
+            Start with a free consultation to explore how AI can multiply your productivity and liberate you to fulfill your purpose as an individual and an organization.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

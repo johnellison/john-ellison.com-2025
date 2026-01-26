@@ -163,7 +163,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
             <div className="max-w-7xl mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
                     {/* Sidebar TOC (Desktop) */}
-                    <div className="hidden lg:block lg:col-span-3">
+                    <div id="blog-sidebar" className="hidden lg:block lg:col-span-3 transition-opacity duration-500">
                         <div className="sticky top-8">
                             <TableOfContents content={post.content} sidebar />
                         </div>
@@ -196,10 +196,9 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                             />
                         </div>
 
-                        {/* CTA Section (Rich Card) */}
-                        <div className="mt-20 rounded-2xl bg-[#0f0f12] border border-white/10 overflow-hidden group hover:border-purple-500/30 transition-all shadow-2xl">
+                        {/* CTA Section (Rich Card) - Commented out to allow per-post embedding via MDX */}
+                        {/* <div className="mt-20 rounded-2xl bg-[#0f0f12] border border-white/10 overflow-hidden group hover:border-purple-500/30 transition-all shadow-2xl">
                             <div className="flex flex-col md:flex-row h-full">
-                                {/* Image Side */}
                                 <div className="relative w-full md:w-2/5 min-h-[300px] md:min-h-auto">
                                     <Image
                                         src="/images/ai-transformation/john-and-osho-square-large.jpeg"
@@ -210,9 +209,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                                     <div className="absolute inset-0 bg-purple-500/10 mix-blend-overlay" />
                                 </div>
 
-                                {/* Content Side */}
                                 <div className="flex-1 p-8 md:p-12 flex flex-col justify-center text-left bg-gradient-to-br from-[#1a1a2e] to-[#0f0f12] relative">
-                                    {/* Subtle background glow */}
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
 
                                     <div className="relative z-10">
@@ -230,7 +227,7 @@ export default async function BlogPostPage(props: { params: Promise<{ slug: stri
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
                         {/* Related Posts */}
                         <RelatedPosts currentSlug={post.slug} />

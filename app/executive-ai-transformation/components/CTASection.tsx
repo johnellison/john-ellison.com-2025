@@ -67,25 +67,25 @@ export function CTASection() {
 
       {/* Floating Background Images - Similar to Hero */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Left Image - Code/Nodes */}
-        <div className="absolute top-[10%] -left-[5%] md:left-[5%] w-[40vw] md:w-[25vw] max-w-[400px] aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/5 opacity-40 rotate-[-6deg] blur-[1px]">
+        {/* Left Image - Fatma Circle */}
+        <div className="absolute top-[10%] -left-[5%] md:left-[5%] w-[40vw] md:w-[25vw] max-w-[400px] aspect-square rounded-full overflow-hidden shadow-2xl border border-white/5 opacity-40 blur-[1px]">
           <div className="absolute inset-0 bg-blue-900/20 mix-blend-overlay z-10" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/ai-transformation/cta-tooling-1.png"
-            alt=""
-            className="w-full h-full object-cover"
+            src="/images/ai-transformation/fatma-workshop-circle.webp"
+            alt="Facilitation Circle"
+            className="w-full h-full object-cover grayscale-[30%]"
           />
         </div>
 
-        {/* Right Image - Dashboard/Desk */}
-        <div className="absolute bottom-[10%] -right-[5%] md:right-[5%] w-[40vw] md:w-[25vw] max-w-[400px] aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/5 opacity-40 rotate-[6deg] blur-[1px]">
+        {/* Right Image - John & Fatma Workshop */}
+        <div className="absolute bottom-[10%] -right-[5%] md:right-[5%] w-[40vw] md:w-[25vw] max-w-[400px] aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/5 opacity-40 rotate-[3deg] blur-[1px]">
           <div className="absolute inset-0 bg-violet-900/20 mix-blend-overlay z-10" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/ai-transformation/cta-tooling-2.png"
-            alt=""
-            className="w-full h-full object-cover"
+            src="/images/ai-transformation/john-and-fatma-at-workshop.jpg"
+            alt="Workshop Collaboration"
+            className="w-full h-full object-cover grayscale-[30%]"
           />
         </div>
       </div>
