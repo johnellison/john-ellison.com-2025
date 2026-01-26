@@ -6,7 +6,9 @@ import { gsap } from '@/lib/gsap';
 import { Mail, Calendar, FileText, Users, BarChart3, MessageSquare } from 'lucide-react';
 
 // Research-backed workflow data with citations
+// Ordered by potential savings (highest first for featured display)
 const workflows = [
+  // Featured workflows (highest savings) - displayed prominently
   {
     icon: Mail,
     title: 'Email Management',
@@ -20,6 +22,19 @@ const workflows = [
     color: '#3b82f6',
   },
   {
+    icon: FileText,
+    title: 'Meeting Follow-up',
+    currentTime: 6, // Post-meeting documentation, action tracking
+    potentialSavings: 3,
+    maxSavings: 5,
+    source: 'Harvard Business School',
+    sourceDetail: '72% of CEO time in meetings',
+    before: 'Taking notes during calls, documenting decisions, action items falling through cracks.',
+    after: 'Auto-transcription, AI summaries, action items extracted and assigned automatically.',
+    color: '#06b6d4',
+  },
+  // Secondary workflows
+  {
     icon: Calendar,
     title: 'Calendar & Scheduling',
     currentTime: 5, // Estimated from meeting coordination research
@@ -32,16 +47,16 @@ const workflows = [
     color: '#8b5cf6',
   },
   {
-    icon: FileText,
-    title: 'Meeting Follow-up',
-    currentTime: 6, // Post-meeting documentation, action tracking
-    potentialSavings: 3,
-    maxSavings: 5,
-    source: 'Harvard Business School',
-    sourceDetail: '72% of CEO time in meetings',
-    before: 'Taking notes during calls, documenting decisions, action items falling through cracks.',
-    after: 'Auto-transcription, AI summaries, action items extracted and assigned automatically.',
-    color: '#06b6d4',
+    icon: BarChart3,
+    title: 'Information Processing',
+    currentTime: 5,
+    potentialSavings: 2,
+    maxSavings: 4,
+    source: 'McKinsey',
+    sourceDetail: '60% of time on coordination vs 13% strategy',
+    before: 'Manually pulling reports, missing patterns in data, reactive decisions.',
+    after: 'Unified dashboard, anomaly alerts, auto-generated insights.',
+    color: '#10b981',
   },
   {
     icon: Users,
@@ -54,18 +69,6 @@ const workflows = [
     before: 'Starting from blank pages, multiple revision cycles, inconsistent tone.',
     after: 'AI drafts from bullet points in your voice, templates adapted to context.',
     color: '#f59e0b',
-  },
-  {
-    icon: BarChart3,
-    title: 'Information Processing',
-    currentTime: 5,
-    potentialSavings: 2,
-    maxSavings: 4,
-    source: 'McKinsey',
-    sourceDetail: '60% of time on coordination vs 13% strategy',
-    before: 'Manually pulling reports, missing patterns in data, reactive decisions.',
-    after: 'Unified dashboard, anomaly alerts, auto-generated insights.',
-    color: '#10b981',
   },
   {
     icon: MessageSquare,
@@ -258,57 +261,124 @@ export function WorkflowTransformationSection() {
           </div>
         </div>
 
-        {/* Workflow Cards */}
-        <div className="workflow-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {workflows.map((workflow, index) => {
-            const Icon = workflow.icon;
-            return (
-              <div
-                key={index}
-                className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 overflow-hidden transition-all duration-300 hover:border-white/20"
-              >
-                {/* Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center"
-                    style={{ backgroundColor: `${workflow.color}20` }}
-                  >
-                    <Icon className="w-6 h-6" style={{ color: workflow.color }} />
+        {/* Workflow Cards - Masonry Layout */}
+        <div className="workflow-grid mb-12">
+          {/* Featured workflows (highest savings) - Full width cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            {workflows.slice(0, 2).map((workflow, index) => {
+              const Icon = workflow.icon;
+              return (
+                <div
+                  key={index}
+                  className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 md:p-8 overflow-hidden transition-all duration-300 hover:border-white/20"
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-14 h-14 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: `${workflow.color}20` }}
+                      >
+                        <Icon className="w-7 h-7" style={{ color: workflow.color }} />
+                      </div>
+                      <div>
+                        <h3 className="type-xl font-bold text-white">
+                          {workflow.title}
+                        </h3>
+                        <p className="type-xs text-white/40 italic">
+                          {workflow.sourceDetail} — {workflow.source}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span
+                        className="block px-3 py-1 rounded-lg text-sm font-bold mb-1"
+                        style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
+                      >
+                        {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
+                      </span>
+                      <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span
-                      className="block px-2 py-0.5 rounded text-xs font-semibold mb-1"
-                      style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
+
+                  {/* Before/After - Side by Side */}
+                  <div className="flex gap-4 md:gap-6">
+                    <div className="flex-1 p-4 bg-red-500/5 border border-red-500/10 rounded-xl">
+                      <span className="type-xs uppercase tracking-wider text-red-400 font-semibold flex items-center gap-2 mb-2">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>
+                        Before
+                      </span>
+                      <p className="type-sm text-white/50 leading-relaxed">{workflow.before}</p>
+                    </div>
+                    <div className="flex-1 p-4 bg-emerald-500/5 border border-emerald-500/10 rounded-xl">
+                      <span className="type-xs uppercase tracking-wider text-emerald-400 font-semibold flex items-center gap-2 mb-2">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M5 13l4 4L19 7" />
+                        </svg>
+                        After
+                      </span>
+                      <p className="type-sm text-white/70 leading-relaxed">{workflow.after}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Secondary workflows - 2x2 grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {workflows.slice(2).map((workflow, index) => {
+              const Icon = workflow.icon;
+              return (
+                <div
+                  key={index + 2}
+                  className="workflow-card group relative bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 overflow-hidden transition-all duration-300 hover:border-white/20"
+                >
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center"
+                      style={{ backgroundColor: `${workflow.color}20` }}
                     >
-                      {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
-                    </span>
-                    <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
+                      <Icon className="w-6 h-6" style={{ color: workflow.color }} />
+                    </div>
+                    <div className="text-right">
+                      <span
+                        className="block px-2 py-0.5 rounded text-xs font-semibold mb-1"
+                        style={{ backgroundColor: `${workflow.color}20`, color: workflow.color }}
+                      >
+                        {workflow.potentialSavings}-{workflow.maxSavings} hrs saved
+                      </span>
+                      <span className="type-xs text-white/30">of {workflow.currentTime} hrs/week</span>
+                    </div>
+                  </div>
+
+                  <h3 className="heading-card text-white mb-2">
+                    {workflow.title}
+                  </h3>
+
+                  {/* Source citation */}
+                  <p className="type-xs text-white/40 mb-4 italic">
+                    {workflow.sourceDetail} — {workflow.source}
+                  </p>
+
+                  {/* Before/After - Side by Side Compact */}
+                  <div className="flex gap-3">
+                    <div className="flex-1 p-3 bg-red-500/5 border border-red-500/10 rounded-lg">
+                      <span className="type-xs uppercase tracking-wider text-red-400/80 font-medium block mb-1">Before</span>
+                      <p className="type-xs text-white/50 leading-relaxed">{workflow.before}</p>
+                    </div>
+                    <div className="flex-1 p-3 bg-emerald-500/5 border border-emerald-500/10 rounded-lg">
+                      <span className="type-xs uppercase tracking-wider text-emerald-400/80 font-medium block mb-1">After</span>
+                      <p className="type-xs text-white/70 leading-relaxed">{workflow.after}</p>
+                    </div>
                   </div>
                 </div>
-
-                <h3 className="heading-card text-white mb-3">
-                  {workflow.title}
-                </h3>
-
-                {/* Source citation */}
-                <p className="type-xs text-white/40 mb-4 italic">
-                  {workflow.sourceDetail} — {workflow.source}
-                </p>
-
-                {/* Before/After */}
-                <div className="space-y-3">
-                  <div>
-                    <span className="type-xs uppercase tracking-wider text-red-400/80 font-medium">Before</span>
-                    <p className="type-sm text-white/50 mt-1 leading-relaxed">{workflow.before}</p>
-                  </div>
-                  <div>
-                    <span className="type-xs uppercase tracking-wider text-green-400/80 font-medium">After</span>
-                    <p className="type-sm text-white/70 mt-1 leading-relaxed">{workflow.after}</p>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Summary Card */}

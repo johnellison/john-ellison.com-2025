@@ -220,7 +220,7 @@ export default function HomePage() {
               { value: '300+', label: 'Founders Supported' },
               { value: '16+', label: 'Years Building Products' },
               { value: '$18M+', label: 'Raised by Clients' },
-              { value: '5+', label: 'Hours Saved Weekly*' }
+              { value: '14+', label: 'Hours Saved Weekly*' }
             ].map((stat, index) => (
               <div key={index} className="stat-item text-center">
                 <div className="type-3xl font-bold text-white mb-2">{stat.value}</div>
@@ -229,7 +229,7 @@ export default function HomePage() {
             ))}
           </div>
           <p className="type-xs text-white/30 text-center mt-6">
-            * BCG 2024: GenAI users save at least 5 hours per week. Up to 14-26 hours with full workflow transformation.
+            * Based on workflow analysis: email (4-7 hrs), meetings (3-5 hrs), documents (2-4 hrs), calendar (2-3 hrs). Sources: McKinsey, BCG, Harvard Business Review.
           </p>
         </div>
       </section>

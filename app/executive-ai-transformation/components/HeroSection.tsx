@@ -245,7 +245,7 @@ export function HeroSection() {
         </span>
 
         <h1 className="hero-headline font-display type-4xl tracking-wide uppercase font-bold text-white leading-[1.1] mb-8 max-w-4xl mx-auto drop-shadow-2xl">
-          Save <span className="text-gradient-prism">5+ Hours</span> Every Week{' '}
+          Save <span className="text-gradient-prism">14+ Hours</span> Every Week{' '}
           <span className="text-gradient-warm block md:inline">With AI</span>
         </h1>
 
@@ -260,7 +260,7 @@ export function HeroSection() {
             <div className="type-xs text-white/50 uppercase tracking-wider">Weekly exec<br />meeting time</div>
           </div>
           <div className="hero-stat text-center">
-            <div className="type-2xl font-bold text-white">5+ hrs</div>
+            <div className="type-2xl font-bold text-white">14+ hrs</div>
             <div className="type-xs text-white/50 uppercase tracking-wider">Saved weekly<br />with AI*</div>
           </div>
         </div>

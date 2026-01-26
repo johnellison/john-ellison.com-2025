@@ -10,8 +10,8 @@ const tiers = [
     icon: Zap,
     name: 'Executive AI Transformation',
     subtitle: 'Full-Service Package',
-    price: '$10,000-$25,000',
-    priceNote: 'one-time',
+    price: '$10k',
+    priceNote: ' (starting at)',
     description: 'We rebuild your personal operating system with AI. Custom workflows, integrations, training, and 30-day hypercare.',
     features: [
       'Email triage & smart replies',
@@ -140,11 +140,10 @@ export function SolutionOverviewSection() {
             return (
               <div
                 key={index}
-                className={`solution-card relative flex flex-col bg-white/[0.03] border rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.05] ${
-                  tier.highlight
-                    ? 'border-violet-500/50 shadow-lg shadow-violet-500/10'
-                    : 'border-white/[0.08] hover:border-white/20'
-                }`}
+                className={`solution-card relative flex flex-col bg-white/[0.03] border rounded-2xl overflow-hidden transition-all duration-300 hover:bg-white/[0.05] ${tier.highlight
+                  ? 'border-violet-500/50 shadow-lg shadow-violet-500/10'
+                  : 'border-white/[0.08] hover:border-white/20'
+                  }`}
               >
                 {tier.highlight && (
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-violet-500 to-purple-500" />
@@ -194,11 +193,10 @@ export function SolutionOverviewSection() {
                     href={tier.ctaLink}
                     target={tier.ctaLink.startsWith('http') ? '_blank' : undefined}
                     rel={tier.ctaLink.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className={`block w-full py-4 px-6 text-center rounded-lg text-sm font-medium uppercase tracking-wider transition-all ${
-                      tier.highlight
-                        ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:shadow-lg hover:shadow-violet-500/30'
-                        : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
-                    }`}
+                    className={`block w-full py-4 px-6 text-center rounded-lg text-sm font-medium uppercase tracking-wider transition-all ${tier.highlight
+                      ? 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:shadow-lg hover:shadow-violet-500/30'
+                      : 'bg-white/5 border border-white/10 text-white hover:bg-white/10'
+                      }`}
                   >
                     {tier.cta}
                   </a>

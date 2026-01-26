@@ -149,7 +149,7 @@ export default function ServicesPage() {
               {/* Stats */}
               <div className="flex gap-6 mb-8 pb-8 border-b border-white/10">
                 <div>
-                  <div className="type-xl font-bold text-white">5-14+</div>
+                  <div className="type-xl font-bold text-white">14+</div>
                   <div className="type-xs text-white/40">Hours saved/week*</div>
                 </div>
                 <div>
